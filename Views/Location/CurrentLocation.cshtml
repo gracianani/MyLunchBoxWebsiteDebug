@@ -1,0 +1,53 @@
+﻿@model MyLunchBox.Models.MyLocationViewModel
+@if (!string.IsNullOrEmpty(Model.SelectedUniversity))
+{ 
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <span id="universityName">@Model.SelectedUniversity</span>
+        <b class="caret"></b>
+    </a>
+} 
+else {
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <span id="universityName">Select your university</span>
+        <b class="caret"></b>
+    </a>
+}
+
+<ul class="dropdown-menu">
+    
+    @foreach (var university in Model.Universities)
+    {
+    	<li><a class="changeUniversity" data-id="@university.Value" href="">
+    	@if(university.Text == @Model.SelectedUniversity) {
+    		<i class="icon-ok icon-orange"></i>
+    	}
+    	@university.Text</a></li>
+    }
+    
+</ul>
+
+<script type="text/javascript">
+    function applyLocationChange(e) {
+    	e.preventDefault();
+		console.log('touched');
+        var universityId = $(this).attr("data-id");
+        var postdata = {};
+        if (universityId != null) {
+            postdata = { "universityId": universityId };
+        }
+        $.post("/Location/CurrentLocation/", postdata,
+            function (data) {
+                if (data.SelectedUniversity != '') {
+                	//todo: change to $('#currentLocation').html($(data).html());
+                	window.location.href="/";
+                }
+            });
+        
+    }
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".changeUniversity").bind('click',applyLocationChange);
+		// Fixes sub-nav not working as expected on IOS
+		$('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation();alert('touched'); })
+    });
+</script>

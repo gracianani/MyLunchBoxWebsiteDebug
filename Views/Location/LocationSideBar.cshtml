@@ -1,0 +1,92 @@
+﻿@model MyLunchBox.Models.MyLocationViewModel
+<ul id="orderInfo" class="lightBox">
+    <li>
+     	<span class="info-type">Location:</span>
+        @if ( !string.IsNullOrEmpty(Model.SelectedUniversity))
+        {     
+            <span>@Model.SelectedUniversity</span>
+        }else {
+        	<div class="modal hide fade" id="chooseLocationModel" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-header">
+			    
+			    <h2>Universities</h2>
+			  </div>
+			  <div class="modal-body">
+              	<select id="#university">
+                @foreach (var university in universities)
+                {
+                    <option value=">@university.Value">@university.Text</option>
+                }
+                </select>	    
+			  </div>
+			  <div class="modal-footer">
+			    <input type="button" value="Apply" id="selectUniversity" class="btn btn-primary" />
+			  </div>
+			</div>            
+        }
+    </li>
+	<li>
+        <span class="info-type">Deliver Location&amp;Time:</span> 
+        @if( !string.IsNullOrEmpty( Model.SelectedLocation ))
+        { 
+            @Model.SelectedLocation <text>(</text><a href="javascript:void(0)" class='editDeliveryLocationAndTime'>Edit</a> <text>)</text>
+        }
+        else
+        {
+            @Html.DropDownList("locations", Model.Locations, "select your location");
+            <a id="selectLocationAndTime"  class="btn">Apply</a>
+        }
+    </li>
+    
+      @if (!string.IsNullOrEmpty(Model.SelectedRestaurant))
+      { 
+      <li>
+        	<span class="info-type">Restaurant:</span> 
+            <span id="restaurantName">@Model.SelectedRestaurant</span>
+            <text>(</text><a href="/CustomBentoBox/ChooseRestaurant/" class="editRestaurant">Edit</a><text>)</text>
+      </li>
+      }
+        
+    
+</ul>
+<script type="text/javascript">
+    function applyUniversityChange() {
+        var universityId = $("#university").val();
+        if (universityId != '') {
+            $.post("/Location/ChangeUniversity/", { "changeToUniversityId": universityId },
+                function (data) {
+                    window.location.href="/";
+                    
+                });
+        }
+    }
+    function applyDeliveryLocationChange() {
+		if(confirm("All lunchboxes in your shopping cart will be delivered to:\n"+$("#locations").find('option:selected').text())) {
+        var locationId = $("#locations").val();
+        var deliveryTime = $("#times").val();
+        if (locationId != '') {
+            $.post("/Location/ChangeLocationAndTime/", { "changeToLocationId": locationId, "deliveryTime": deliveryTime },
+                function (data) {
+                    $("#orderInfo").html($(data).html());
+                    bindEvents();
+                });
+        }
+		}
+    }
+
+    function bindEvents() {
+        $("#selectUniversity").click(applyUniversityChange);
+        $("#selectLocationAndTime").click(applyDeliveryLocationChange);
+        $('.editUniversity').click(function () {
+            $.post("/Location/ResetUniversity/", function (data) { $("#orderInfo").html($(data).html()); bindEvents(); });
+        });
+        
+        $(".editDeliveryLocationAndTime").click(function () {
+            $.post("/Location/ResetDeliveryLocationAndTime/", function (data) { $("#orderInfo").html($(data).html()); bindEvents(); });
+        });
+    }
+    $(function () {
+        bindEvents();
+        $('#chooseLocationModel').modal();
+    });
+</script>
