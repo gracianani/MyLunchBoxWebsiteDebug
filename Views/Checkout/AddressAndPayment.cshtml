@@ -233,7 +233,7 @@ function checkUniversity(orderUniversity, profileUniversity) {
                   </td>
                   <td>
                    @Html.TextBoxFor(m => m.rewardPoints, new Dictionary<string, object> { { "type", "hidden" }, { "class", "input-mini" }, { "data-max", ViewBag.totalRewardPoints } }) 
-                  <input id="isUseRewardPoints" type="checkbox" />
+                  <input id="isUseRewardPoints" type="checkbox" name="isUseRewardPoints" />
                   </td><td class="cart-subtotalPrice"> - $<span id="Savings">@Html.DisplayTextFor(m => m.Savings)</span> </td>
                   </tr>
                   <tr class="notEnoughRewardPointLine">

@@ -90,12 +90,17 @@
                 @Html.ValidationMessageFor(m => m.ConfirmPassword)
             </div>
     </div>
+    <hr />
+    <legend>Security Info</legend>
     <div class="control-group">
+    		<p>
+            For your protection, these questions will help us verify your identity in the future.
+            </p>
             <div class="control-label">
                 @Html.LabelFor(m => m.PasswordQuestion)
             </div>
             <div class="controls">
-                @Html.TextBoxFor(m => m.PasswordQuestion)
+                @Html.DropDownListFor(m=>m.PasswordQuestion, Model.PasswordQuestions)
                 @Html.ValidationMessageFor(m => m.PasswordQuestion)
             </div>
     </div>
@@ -108,9 +113,13 @@
                 @Html.ValidationMessageFor(m => m.PasswordAnswer)
             </div>
     </div>
+    <hr />
            <div class="form-actions">
-                <input type="submit" value="Register" class="btn btn-primary" />
+                <input type="submit" value="Register" class="btn btn-primary" /> 
+                 <span style="display:inline-block;padding-left:10px">@Html.ActionLink("Already have an account? Log In", "LogOn")</span>
+                
             </div>
+           
         </fieldset>
     </div>
 }

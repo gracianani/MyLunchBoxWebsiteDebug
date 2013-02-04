@@ -121,7 +121,9 @@
                 </td>
                 <td>   
                     @item.DeliveryLocation.BusinessName <br />
-                    @item.DeliveryTime.ToString("yyyy-MM-dd HH:mm")
+                    @if(item.DeliveryTime.HasValue) {
+                        item.DeliveryTime.Value.ToString("yyyy-MM-dd HH:mm");
+                    }
                 </td>
                 <td>
                 $@item.FinalAmount

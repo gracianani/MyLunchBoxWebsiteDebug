@@ -33,6 +33,7 @@
             <div class="editor-field">
                 @Html.PasswordFor(m => m.Password)
                 @Html.ValidationMessageFor(m => m.Password)
+                @Html.ActionLink("forget your password?", "ForgetPasswordSetEmail")
             </div>
 
             <div class="editor-label inline">
@@ -40,9 +41,9 @@
                 @Html.LabelFor(m => m.RememberMe)
             </div>
 
-            @Html.ActionLink("forget your password?", "ForgetPasswordSetEmail")
+            
             <div class="form-actions">
-                <input type="submit" value="Log On" class="btn btn-primary" style="margin-right:20px" />  @Html.ActionLink("Register", "Register", new { returnUrl = HttpContext.Current.Request.QueryString["ReturnUrl"]})
+                <input type="submit" value="Log In" class="btn btn-primary" style="margin-right:20px" />  @Html.ActionLink("Register", "Register", new { returnUrl = HttpContext.Current.Request.QueryString["ReturnUrl"]})
             </div>
         </fieldset>
     </div>
