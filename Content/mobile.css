@@ -24,5 +24,72 @@
 	box-shadow:none;
 }
 .ui-li-thumb {
-	margin:1em 0 0;
+}
+.createBentoProgress {
+	clear:both;
+	float:none;
+	height:60px;
+	margin:0 0 10px;
+	padding-left:0;
+}
+.createBentoProgress li{
+	float:left;
+	list-style:none;
+	margin-right:2px;
+	position:relative;
+}
+.createBentoProgress li a {
+	width:60px;
+	height:34px;
+	padding:26px 0 0;
+	border-radius:30px;
+	display:inline-block;
+	text-align:center;
+	font-size:0.7em;
+	text-decoration:none;
+	color:#fff!important;
+	text-shadow:none;
+	background:url(Images/texture-brown.jpg);
+	font-weight:normal!important;
+}
+.createBentoProgress li .current {
+	background:url(Images/texture-darkgreen.jpg);
+	-moz-box-shadow:2px 2px 0 #495013;
+	-webkit-box-shadow:2px 2px 0 #495013;
+	box-shadow:2px 2px 0 #495013;
+	
+}
+.createBentoProgress li .prev {
+	background:url(Images/texture-orange.png);
+	-moz-box-shadow:2px 2px 0 #6e2804;
+	-webkit-box-shadow:2px 2px 0 #6e2804;
+	box-shadow:2px 2px 0 #6e2804;
+	color:#fff1d5!important;
+	text-shadow:2px 1px 0 #813005;
+	font-style:italic;
+}
+.createBentoProgress .ui-icon {
+	display:block;
+	position:absolute;
+	left:22px;
+	top:7px;
+}
+h3 {
+	font-family:Georgia, "Times New Roman", Times, serif;
+	color:#3d281e;
+	font-style:italic;
+}
+.createBentoProgress .ui-icon-edit {
+	background:url(Images/icons-18-white.png) -824px 0;
+}
+.createBentoProgress .ui-icon-check {
+	background:url(Images/icons-18-white.png) -252px 50%;
+}
+.price {
+	background:#5c7e04;
+	border-radius:5px;
+	color:#FFF;
+	text-shadow:none;
+	padding:2px 5px;
+	display:inline-block;
 }

@@ -2,38 +2,31 @@
            
 @{
     ViewBag.Title = "ChooseBentoBox";
-    Layout = "~/Views/Shared/_MobileMaster.cshtml";
+    Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
 }
 
-<h2>ChooseBentoBox</h2>
 
-<ul id="steps" class="container clearfix">
-    <li class="step-past"><i class="ic-number">1</i>@Html.ActionLink("choose a restaurant", "ChooseRestaurant")</li>
-    <li class="step-current"><i class="ic-number">2</i> choose a lunchbox</li>
-    <li><i class="ic-number">3</i> fill my lunchbox</li>
-    <li><i class="ic-number">4</i> check out</li>
+<div data-role="content">
+<ul class="createBentoProgress">
+		<li>
+        <span class="ui-icon ui-icon-check">&nbsp;</span>
+        <a class="prev" href="/CustomBentoBox/ChooseRestaurant/">Restaurant</a>  &raquo; </li>
+		<li>
+        <span class="ui-icon ui-icon-edit">&nbsp;</span>
+        <a  class="current">LunchBox</a> &raquo; </li>
+        <li><a>Dishes</a> &raquo;</li>
+        <li><a>CheckOut</a></li>
 </ul>
-<div class="container">
-    <div class="row">
-    <div class="span9">
-    <div class="lightBox">
-    <h2>Choose a Lunchbox</h2>
-    <ul id="lunchboxList" data-role="listview"  class="clearfix">
+
+    <h3>Choose a BentoBox</h3>
+    <ul id="lunchboxList" data-role="listview">
         @foreach (var bentoBox in Model)
         {
-            <li class="lunchboxItem">
-                
-                <div class="ic-lunchbox entree-@bentoBox.NumOfEntree" >
-                    <div class="lunchbox-entreeName">@bentoBox.BentoBoxName</div>
-                </div>
-                <div class="lunchbox-Price">$@bentoBox.UnitPrice.ToString("F02").Substring(0, bentoBox.UnitPrice.ToString("F02").IndexOf("."))<small>@bentoBox.UnitPrice.ToString("F02").Substring(bentoBox.UnitPrice.ToString("F02").IndexOf("."))</small></div>
-                @Html.ActionLink("Select", "Create", new { bentoBoxId = bentoBox.BentoBoxId})
+            <li>
+            @Html.ActionLink(@bentoBox.BentoBoxName, "Create", new { bentoBoxId = bentoBox.BentoBoxId}) 
+            <div class="ui-li-count">$@bentoBox.UnitPrice</div>
+            
             </li>
         }
     </ul>
-    
-    </div>
-    </div>
-</div>
-
-</div>
+   </div>
