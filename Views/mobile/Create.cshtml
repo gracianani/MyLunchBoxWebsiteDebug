@@ -1,11 +1,23 @@
 ﻿@model MyLunchBox.Models.CustomBentoBoxViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Fill Your Lunchbox";
     Layout = "~/Views/Shared/_MobileMaster.cshtml";
 }
-
-<h2>Create</h2>
+<div data-role="content">
+<ul class="createBentoProgress">
+		<li>
+        <span class="ui-icon ui-icon-check">&nbsp;</span>
+        <a class="prev" href="/CustomBentoBox/ChooseRestaurant/">Restaurant</a>  &raquo; </li>
+		<li>
+        <span class="ui-icon ui-icon-check">&nbsp;</span>
+        <a class="prev">LunchBox</a> &raquo; </li>
+        <li>
+        <span class="ui-icon ui-icon-edit">&nbsp;</span>
+        <a class="current">Dishes</a> &raquo;</li>
+        <li><a>CheckOut</a></li>
+</ul>
+<h3>Fill Your Lunchbox</h3>
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
@@ -218,101 +230,50 @@
 @using (Html.BeginForm("AddToCart", "Mobile", FormMethod.Post, new { id="lunchBox" } ))
 {
     @Html.ValidationSummary(true)
-    <ul id="steps" class="container clearfix">
-        <li class="step-past"><a href="/CustomBentoBox/ChooseRestaurant/"><i class="ic-number">1</i> choose a restaurant</a></li>
-        <li class="step-past"><i class="ic-number">2</i> @Html.ActionLink("choose a lunchbox", "ChooseBentoBox", new {@RestaurantId=Model.CurrentCustomBentoBox.BentoBox.RestaurantId})</li>
-        <li class="step-current"><i class="ic-number">3</i> fill my lunchbox</li>
-        <li><i class="ic-number">4</i> check out</li>
-    </ul>
+
     <ul id="warningMsg" class="alert alert-block fade in " style="display:none"><button type="button" class="close" data-dismiss="alert">&times;</button></ul>
 
     <div class="row">
         
 
         <div id="restaurant_dishes" class="span8">
-            <ul class="nav nav-tabs" id="fillLunchboxTab">
-                @{
-                    
-                    foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys )
-                    {
-                        
-                        <li class="@if((int)dishType == (int)Model.AvailableDishes.Keys.First()){<text>active</text>}"><a href="#@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)" data-activeClass="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)" data-toggle="tab">
-                        @Extension.ExtensionMethods.GetDescription(dishType)</a></li>
-                    }
-                }
-			</ul>
-            <div class="tab-content lightBox">
+            
+            <ul data-role="listview">
                 @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
                 {
                     var dishes = Model.AvailableDishes[dishType];
                     
-                    <div class="tab-pane @if ((int)dishType == (int)Model.AvailableDishes.Keys.First())
-                                         { <text>active</text> } @Enum.Parse(typeof(MyLunchBox.Models.DishType), dishType.ToString())" id="@Enum.Parse(typeof(MyLunchBox.Models.DishType), dishType.ToString())">
-                    <ul id="@Enum.Parse(typeof(MyLunchBox.Models.DishType), dishType.ToString())List" class="courseList clearfix">
-                    @foreach (var dish in dishes)
+                    <li  data-role="list-divider" data-theme="b">
+                    @Extension.ExtensionMethods.GetDescription(dishType)
+                    <span class="ui-li-count">0 / @Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType)</span></li>
+                    foreach (var dish in dishes)
                     {
                         if (dish.DishStatusId == (int)MyLunchBox.Models.DishStatusLevel.Available)
                         {
-                        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" >
+                        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" data-icon="check">
+                        <a href="javascript:void(0)">
                         <img src="../../@dish.DishImageUrl" />
-                        <p>@dish.DishName </p>
+                        <h4>@dish.DishName </h4>
                         
 
                         @if (dish.DishIncrementalPrice > 0)
                         {
-                        	<div class="price">+ $ @dish.DishIncrementalPrice </div>
+                        	<p class="ui-li-desc"><span class="price">+ $ @dish.DishIncrementalPrice</span> </p>
                         }
-                        <i></i>
+                          </a>
                         </li>
                         }
                     }
-                    </ul>
-                    </div>
                 }
-            </div>
+             </ul>
         </div>
 
-        <div class="span4">
-            <input id="customBentoBoxId" type="hidden" name="customBentoBoxId" value="@Model.CurrentCustomBentoBox.CustomBentoBoxId" />
-            <input id="recipe" type="hidden" name="recipe" value="@Model.CurrentCustomBentoBox.EncodedRecipe"/>
-            
-		    <div id="lunchbox" class="lunchBoxContaienr">
-		        <div class="lunchboxTop"><input id="customBentoBoxName" type="text" name="customBentoBoxName" value="My Lunchbox" /></div>
-                <div class="lunchboxBody">
-                    @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
-                    {
-                        <ul id="lunchbox-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">
-                        <p class="lunchbox-title">@Extension.ExtensionMethods.GetDescription(dishType) </p>
-                        @{var count = 0;}
-                        @foreach (var customBentoBoxItem in @Model.CurrentCustomBentoBox.CustomBentoBoxItems.Where(i => i.Dish.DishTypeId == (int)dishType))
-                        {
-                            count += 1;
-                            <li class="lunchbox-filledItem" data-id="@customBentoBoxItem.DishId" data-customBentoBoxId='@customBentoBoxItem.CustomBentoBoxId'><i class="icon-remove icon-brown"  rel="tooltip" data-original-title="Remove"></i> <img src="../../@customBentoBoxItem.Dish.DishImageUrl"> 
-                                @customBentoBoxItem.Dish.DishName 
-                                @if (customBentoBoxItem.Dish.DishTypeId == (int)MyLunchBox.Models.DishType.Drink)
-                                {
-                                    <span class="lunchbox-filledNum">X <input type="text" value="1" class="input-mini"/></span> <text>=</text> <span class="lunchbox-filledPrice">$@customBentoBoxItem.Dish.DishIncrementalPrice</span>
-                                }
-                            </li> 
-                        }
-                        @while (count < Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType))
-                        {
-                            count = count + 1;
-                            <li class="lunchbox-emptyItem"></li>
-                        }
-                        </ul>
-                        <div class="lunchboxDiv"></div>
-                    }
-                </div>
-		        <div class="lunchboxBottom"></div>
-		        <div id="lunchboxPrice" class="lunchbox-priceBig" data-price='@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("N2")'>$@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("F02").Substring(0, Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("F02").IndexOf("."))<small>@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("N2").Substring(Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString().IndexOf("."))</small></div>
-		    </div>
-		    <div class="clearfix" style="padding-left:100px;"><a id="btnAddToCart"  class="btn btn-primary btn-big"><i class="icon-white icon-shopping-cart"></i> Add To Cart</a></div>
-	    </div>
+
 
     </div>
     
 }
 
 <div>
+</div>
 </div>

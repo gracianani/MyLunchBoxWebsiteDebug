@@ -4,15 +4,15 @@
     Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
 }
 <div data-role="content">
-<div data-role="navbar" data-iconpos="right">
-	<ul>
-		<li><a href="a.html" data-icon="edit" class="ui-btn-active ui-state-persist">Restaurant</a></li>
-		<li><a href="" data-theme="d" data-icon="arrow-r" >Lunchbox</a></li>
-        <li><a href="" data-theme="d" data-icon="arrow-r" >Dishes</a></li>
-        <li><a href="" data-theme="d" data-icon="arrow-r" >Check Out</a></li>
+	<ul class="createBentoProgress">
+		<li>
+        <span class="ui-icon ui-icon-edit">&nbsp;</span>
+        <a class="current">Restaurant</a>  &raquo; </li>
+		<li><a>LunchBox</a> &raquo; </li>
+        <li><a>Dishes</a> &raquo;</li>
+        <li><a>CheckOut</a></li>
 	</ul>
-</div><!-- /navbar -->
-<h3>ChooseRestaurant</h3>
+<h3>Please Choose a Restaurant</h3>
 	<ul data-role="listview">
             @foreach (var restaurant in Model)
             {
@@ -25,7 +25,7 @@
                         } else {
                         <img src="@restaurant.RestaurantImageUrl" />
                         }
-                        <h3>@restaurant.RestaurantName</h3>
+                        <h4>@restaurant.RestaurantName</h4>
 		                <p class="restaurant-time">@restaurant.RestaurantHoursString <span>|</span> Monday - Friday</p>
                         <p>@restaurant.RestaurantShortDescription</p>
                     </a>
