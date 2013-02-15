@@ -42,6 +42,7 @@
         });
     });
     function onAddToBoxClicked() {
+        
         var $this = $(this);
         var dish = $this.attr("data-dishId");
         var dishImg = $this.find("img");
@@ -55,7 +56,7 @@
             $.post("/CustomBentoBox/AddToCurrentBox/", { "dishId": dish, "encodedRecipe": recipe.val() },
                     function (data) {
                         if (data.isValid) {
-                            flyto(dishImg, desc, selectCourse, dishJSON);
+                            //flyto(dishImg, desc, selectCourse, dishJSON);
                             setWarningMsgType('success');
                             displayWarningMsg(data.warningMsg, "<strong>Well done!</strong> You successfully added a dish.");
                             showTotalPrice(data.unitPrice);
@@ -218,7 +219,7 @@
         if (title == undefined && warningMsgs.length < 1) {
             warningMsg.alert('close');
         } else {
-           // warningMsg.slideDown().alert();
+           //warningMsg.slideDown().alert();
         }
     }
     function setWarningMsgType(type) {
@@ -271,7 +272,8 @@
 
 
     </div>
-    
+   <input id="customBentoBoxId" type="hidden" name="customBentoBoxId" value="@Model.CurrentCustomBentoBox.CustomBentoBoxId" />
+   <input id="recipe" type="hidden" name="recipe" value="@Model.CurrentCustomBentoBox.EncodedRecipe"/> 
 }
 
 <div>
