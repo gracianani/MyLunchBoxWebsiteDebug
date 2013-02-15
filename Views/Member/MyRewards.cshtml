@@ -50,7 +50,7 @@ $(function(){
 		    <td>Balance</td><td><em>@Model.Sum(i => i.Amount).ToString()</em></td>
 	    </tr>
 	    <tr>
-		    <td>Awarded</td><td>@Model.Where(i => i.RewardTypeId == (int)MyLunchBox.Models.RewardType.LuckySpin).Sum(i => i.Amount).ToString("+#;-#;0")</td>
+		    <td>Awarded</td><td>@Model.Where(i => i.RewardTypeId == (int)MyLunchBox.Models.RewardType.LuckySpin || i.RewardTypeId == (int)MyLunchBox.Models.RewardType.Registor || i.RewardTypeId == (int)MyLunchBox.Models.RewardType.Voting).Sum(i => i.Amount).ToString("+#;-#;0")</td>
 	    </tr>
 	    <tr>
 		    <td>Bought</td><td>@Model.Where(i => i.RewardTypeId == (int)MyLunchBox.Models.RewardType.RewardCard).Sum(i => i.Amount).ToString("+#;-#;0")</td>
