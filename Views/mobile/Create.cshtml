@@ -64,10 +64,11 @@
     @Html.ValidationSummary(true)
     <input id="customBentoBoxId" type="hidden" name="customBentoBoxId" value="@Model.CurrentCustomBentoBox.CustomBentoBoxId" />
             <input id="recipe" type="hidden" name="recipe" value="@Model.CurrentCustomBentoBox.EncodedRecipe"/>
-            <input id="customBentoBoxName" type="text" name="customBentoBoxName" value="My Lunchbox" />
+            <input id="customBentoBoxName" type="hidden" name="customBentoBoxName" value="My Lunchbox" />
 
-    <ul id="warningMsg" class="alert alert-block fade in " style="display:none"><button type="button" class="close" data-dismiss="alert">&times;</button></ul>
-
+    
+	<div id="warningMsg">
+    </div>
             
             <ul data-role="listview">
                 @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
@@ -76,7 +77,7 @@
                     
                     <li  data-role="list-divider" data-theme="a">
                     @Extension.ExtensionMethods.GetDescription(dishType)
-                    <span class="ui-li-count">0 / @Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType)</span></li>
+                    <span class="ui-li-count"><span id="dishCount-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">0</span> / @Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType)</span></li>
                     foreach (var dish in dishes)
                     {
                         if (dish.DishStatusId == (int)MyLunchBox.Models.DishStatusLevel.Available)
@@ -116,6 +117,8 @@
     $(document).bind('pageinit',function(){
         // Document.ready -> link up remove event handler
         $(".course").click(onCourseClicked);
+		
+		$("#warningMsg").popup( {positionTo:"window",corners:true,shadow:true});
 
         //$(".lunchboxBody").on('click', '.icon-remove', onRemoveFromBoxClicked);
         //$(".lunchboxBody").on('change', '.lunchbox-filledNum input', onChangeDishNum);
@@ -145,12 +148,8 @@
 
         var $this = $(this);
         var dish = $this.attr("data-dishId");
-        var dishImg = $this.find("img");
-        var dishType = $this.attr("data-type");
-        var dishName = $this.find('.dishName').text();
-        var dishJSON = { "id": dish, "type": dishType, "name": dishName, "img": dishImg.attr("src") };
+        var dishJSON = { "id": dish, "type": $this.attr("data-type"), "name": $this.find('.dishName').text(), "img": $this.find("img").attr("src") };
 
-        var desc = $("#lunchboxSummary");
         var recipe = $("#recipe");
         if (dish != '') {
             $.post("/CustomBentoBox/AddToCurrentBox/", { "dishId": dish, "encodedRecipe": recipe.val() },
@@ -166,8 +165,6 @@
                             displayWarningMsg(data.warningMsg, "<strong>Sorry!</strong>");
                         }
                         recipe.val(data.encodedRecipe);
-
-
                     });
         }
     }
@@ -229,9 +226,11 @@
     }
     var selectCourse = function (course, courseJSON) {
 		course.addClass('selected');
-		
+		var dishCount = $('#dishCount-' + courseJSON.type);
+		console.log('#dishCount-' + courseJSON.type);
+		dishCount.text(parseInt(dishCount.text()) + 1);
         var list = $('.lunchbox-' + courseJSON.type);
-		console.log(list);
+
         if (courseJSON.type == 'Drink') {
             price = parseFloat(course.attr('data-price'));
             list.append('<li class="lunchbox-filledItem" data-id="' + courseJSON.id + '" data-price="' + price + '"><i class="icon-remove icon-brown" title="Remove" rel="tooltip"></i> <img src="' + courseJSON.img + '" />' + courseJSON.name + '<span class="lunchbox-filledNum">X <input type="text" value="' + '1' + '" class="input-mini"/></span> = <span class="lunchbox-filledPrice">$ ' + price + '</span>' + '</li>').removeClass('lunchbox-emptyItem').addClass('lunchbox-filledItem');
@@ -287,17 +286,17 @@
         var warningMsg = $("#warningMsg");
         warningMsg.html('');
         if (title != undefined) {
-            warningMsg.append("<li>" + title + "</li>");
+            warningMsg.append("<p><strong>" + title + "</strong></p>");
         }
 
         $.each(warningMsgs, function (index, item) {
             console.log(item);
-            warningMsg.append("<li>" + item + "</li>");
+            warningMsg.append("<p>" + item + "</p>");
         });
         if (title == undefined && warningMsgs.length < 1) {
-            warningMsg.alert('close');
+           warningMsg.alert('close');
         } else {
-           //warningMsg.slideDown().alert();
+           warningMsg.popup( "open");
         }
     }
     function setWarningMsgType(type) {
