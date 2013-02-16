@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyLunchBox.Models.University>
+﻿@model IEnumerable<SelectListItem>
 
 @{
     ViewBag.Title = "Select University";
@@ -9,12 +9,7 @@
 @using (Html.BeginForm("ChooseRestaurant", "Mobile", FormMethod.Get, new { id = "chooseRestaurant" }))
 {
     <label for="universityId" class="select">Your University:</label>
-    <select name="universityId" id="universityId">
-        @foreach (var university in Model)
-        {
-        <option value="@university.UniversityId">@university.UniversityName</option>
-        }
-    </select>
+    @Html.DropDownList("universityId", @Model)
     <input type="submit" value="Next" data-role="button" data-ajax="false" data-theme="b" data-icon="arrow-r" data-iconpos = "right"/>
 }
 </div>

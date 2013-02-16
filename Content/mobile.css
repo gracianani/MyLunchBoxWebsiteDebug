@@ -130,10 +130,8 @@ h3 {
 .lunchbox-emptyItem {
 	color:#999;
 }
-
 .lunchbox-dishimg {
 	width:30px;
 	height:30px;
 	border-radius:6px;
-	vertical-align:top;
 }

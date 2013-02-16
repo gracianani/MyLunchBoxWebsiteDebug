@@ -9,8 +9,8 @@
   <div style="text-align:center">
   	<img class="responsiveImg" src="/Content/Images/home.png">
   </div>
-
-    <form action="SelectUniversity/" method="post" data-theme="c">
+    @using (Html.BeginForm("Index", "Mobile", FormMethod.Post, new { @data_theme="c"}))
+    {   
     <fieldset>
         <label for="username" class="ui-hidden-accessible">Email:</label>
         <input type="text" name="username" id="username" value="" placeholder="Email"/>
@@ -21,12 +21,11 @@
             <input type="submit" value="Log In" data-theme="b" />
             </div>
             <div class="ui-block-b">
-            <a href="SelectUniversity/" data-ajax="false" data-role="button" data-theme="d">Regiest</a>
+            <a href="SelectUniversity/" data-ajax="false" data-role="button" data-theme="d">Registor</a>
             </div>
         </div>
     </fieldset>
-    </form>
-     
+    }
   </div>
   <!-- /content -->
 
