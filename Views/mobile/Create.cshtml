@@ -104,7 +104,7 @@
 <div data-role="footer" data-position="fixed">
 	<div data-role="navbar" data-iconpos="top">
 		<ul>
-            <li id="lunchboxSummary"><a href="#dishSummary" data-theme="b" data-icon="grid"><big>$6.99</big> <small>view summary</small></a></li>
+            <li id="lunchboxSummary"><a href="#dishSummary" data-theme="b" data-icon="grid"><big id="lunchboxPrice" data-price='@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("N2")'>$@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("N2")</big> <small>view summary</small></a></li>
 			<li><a href="a.html" data-theme="b" data-icon="arrow-r">Add To Cart</a></li>
 		</ul>
 	</div><!-- /navbar -->
@@ -139,13 +139,12 @@
     });
 	function onCourseClicked(){
 		if ( $(this).hasClass('selected')){
-			
+			onRemoveFromBox.apply(this);
 		} else {
 			onAddToBox.apply(this);
 		}
 	}
     function onAddToBox() {
-
         var $this = $(this);
         var dish = $this.attr("data-dishId");
         var dishJSON = { "id": dish, "type": $this.attr("data-type"), "name": $this.find('.dishName').text(), "img": $this.find("img").attr("src") };
@@ -168,7 +167,23 @@
                     });
         }
     }
-
+	function onRemoveFromBox(){
+		var $this = $(this);
+        var dish = $this.attr("data-dishId");
+        var dishJSON = { "id": dish, "type": $this.attr("data-type")};
+		var recipe = $("#recipe");
+		if (dish != '') {
+            $.post("/CustomBentoBox/RemoveFromCurrentBox/", { "dishId": dish, "encodedRecipe": recipe.val() },
+                function (data) {
+                    setWarningMsgType('success');
+                    displayWarningMsg(data.warningMsg, "<strong>Well Done!</strong> You successfully removed a dish.");
+                    unselectCourse(dishJSON);
+                    recipe.val(data.encodedRecipe);
+                    showTotalPrice(data.unitPrice);
+                });
+        }
+		
+	}
     function onRemoveFromBoxClicked() {
         var dish = $(this).parent().attr("data-id");
 
@@ -180,7 +195,7 @@
                     displayWarningMsg(data.warningMsg, "<strong>Well Done!</strong> You successfully removed a dish.");
                     unselectCourse({ id: dish });
                     recipe.val(data.encodedRecipe);
-                    setTotalPrice(data.unitPrice);
+                    showTotalPrice(data.unitPrice);
                 });
         }
     }
@@ -215,6 +230,10 @@
 
     var unselectCourse = function (courseJSON) {
         var course = $('.course[data-dishId="' + courseJSON.id + '"]');
+		course.removeClass('selected');
+		var dishCount = $('#dishCount-' + courseJSON.type);
+		dishCount.text(parseInt(dishCount.text()) - 1);
+		
         var li = $('.lunchbox-filledItem[data-id="' + courseJSON.id + '"]');
         var type = course.attr('data-type');
         if (type == 'Drink') {
@@ -222,12 +241,11 @@
         } else {
             li.html('').removeClass('lunchbox-filledItem').addClass('lunchbox-emptyItem');
         }
-        course.removeClass('selected');
+       
     }
     var selectCourse = function (course, courseJSON) {
 		course.addClass('selected');
 		var dishCount = $('#dishCount-' + courseJSON.type);
-		console.log('#dishCount-' + courseJSON.type);
 		dishCount.text(parseInt(dishCount.text()) + 1);
         var list = $('.lunchbox-' + courseJSON.type);
 
@@ -248,7 +266,7 @@
     function showTotalPrice(totalPrice) {
         var price = $('#lunchboxPrice');
         price.attr('data-price', totalPrice);
-        price.html('$' + totalPrice.toString().slice(0, -3) + '.<small>' + totalPrice.toString().slice(-2) + '</small>');
+        price.html('$' + totalPrice);
     }
 
     function onChangeDishNum() {
