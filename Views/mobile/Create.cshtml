@@ -8,7 +8,7 @@
 <div data-role="panel" id="dishSummary">
         <!-- panel content goes here -->
        <a href="#dishSummary" data-rel="close">Close panel</a>
-	<table data-role="table" id="my-table" data-mode="columntoggle" class="table-stroke">
+	<table data-role="table" id="lunchbox" data-mode="columntoggle" class="table-stroke">
   <thead>
     <tr>
       <th>Dish</th>
@@ -62,10 +62,12 @@
 @using (Html.BeginForm("AddToCart", "Mobile", FormMethod.Post, new { id="lunchBox" } ))
 {
     @Html.ValidationSummary(true)
+    <input id="customBentoBoxId" type="hidden" name="customBentoBoxId" value="@Model.CurrentCustomBentoBox.CustomBentoBoxId" />
+            <input id="recipe" type="hidden" name="recipe" value="@Model.CurrentCustomBentoBox.EncodedRecipe"/>
+            <input id="customBentoBoxName" type="text" name="customBentoBoxName" value="My Lunchbox" />
 
     <ul id="warningMsg" class="alert alert-block fade in " style="display:none"><button type="button" class="close" data-dismiss="alert">&times;</button></ul>
 
-        <a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true">Delete</a>
             
             <ul data-role="listview">
                 @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
@@ -151,11 +153,10 @@
         var desc = $("#lunchboxSummary");
         var recipe = $("#recipe");
         if (dish != '') {
-			selectCourse.call(this,$this,dishJSON);
             $.post("/CustomBentoBox/AddToCurrentBox/", { "dishId": dish, "encodedRecipe": recipe.val() },
                     function (data) {
                         if (data.isValid) {
-                            selectCourse.call(this,dishJSON);
+                            selectCourse.call(this,$this,dishJSON);
 
                             setWarningMsgType('success');
                             displayWarningMsg(data.warningMsg, "<strong>Well done!</strong> You successfully added a dish.");
@@ -236,7 +237,7 @@
             list.append('<li class="lunchbox-filledItem" data-id="' + courseJSON.id + '" data-price="' + price + '"><i class="icon-remove icon-brown" title="Remove" rel="tooltip"></i> <img src="' + courseJSON.img + '" />' + courseJSON.name + '<span class="lunchbox-filledNum">X <input type="text" value="' + '1' + '" class="input-mini"/></span> = <span class="lunchbox-filledPrice">$ ' + price + '</span>' + '</li>').removeClass('lunchbox-emptyItem').addClass('lunchbox-filledItem');
         } else {
             var emptyItem = list.filter(".lunchbox-emptyItem");
-            $(emptyItem[0]).html('<td><a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" title="Delete" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-icon-notext ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">Delete</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a><img class="lunchbox-dishimg" src="' + courseJSON.img + '"> ' + courseJSON.name + '</td>').removeClass('lunchbox-emptyItem').addClass('lunchbox-filledItem').attr('data-id', courseJSON.id);
+            $(emptyItem[0]).html('<td colspan="2"><a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" title="Delete" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-icon-notext ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">Delete</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a><img class="lunchbox-dishimg" src="' + courseJSON.img + '"> ' + courseJSON.name + '</td>').removeClass('lunchbox-emptyItem').addClass('lunchbox-filledItem').attr('data-id', courseJSON.id);
 
         }
     }
