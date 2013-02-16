@@ -93,3 +93,45 @@ h3 {
 	padding:2px 5px;
 	display:inline-block;
 }
+.course .ui-icon-check {
+}
+.course.selected .ui-icon-check {
+	background-color:#5c7e04;
+}
+.course.selected h4 {
+	color:#5c7e04;
+}
+.selected {
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #ddd /*{a-bup-background-start}*/), to( #efefef /*{a-bup-background-end}*/));
+	background-image: -webkit-linear-gradient( #ddd /*{a-bup-background-start}*/, #efefef /*{a-bup-background-end}*/);
+	background-image: -moz-linear-gradient( #ddd /*{a-bup-background-start}*/, #efefef /*{a-bup-background-end}*/);
+	background-image: -ms-linear-gradient( #ddd /*{a-bup-background-start}*/, #efefef /*{a-bup-background-end}*/);
+	background-image: -o-linear-gradient( #ddd /*{a-bup-background-start}*/, #efefef /*{a-bup-background-end}*/);
+	background-image: linear-gradient( #ddd /*{a-bup-background-start}*/, #efefef /*{a-bup-background-end}*/);
+}
+.ui-listview .ui-bar-a {
+	background:url(Images/texture-orange.png);
+	border:none;
+}
+.courseTyepTd {
+	font-weight:bold;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	color:#ab3306;
+	font-style:italic;
+	border-bottom: 1px solid rgba(0, 0, 0, .3);
+}
+.table-stroke thead th {
+  border-bottom: 1px solid rgba(0, 0, 0, .5);
+  color:#3d281e;
+}
+.table-stroke tbody td {
+  border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+.lunchbox-emptyItem {
+	color:#999;
+}
+.lunchbox-dishimg {
+	width:30px;
+	height:30px;
+	border-radius:6px;
+}
