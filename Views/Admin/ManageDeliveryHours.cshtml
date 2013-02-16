@@ -31,6 +31,7 @@
                             <li> 
                             <strong>@delivery.Location.BusinessName</strong> 
                                - @delivery.DeliveryTime.ToString("hh:mm tt") 
+                               - $@delivery.DeliverySurcharge
                                @Html.ActionLink("( Delete )", "DeleteDeliveryLocation", new { @UniversityDeliveryId = @delivery.UniversityDeliveryId })</li>
                         }
                         </ul>
@@ -50,6 +51,13 @@
                         <div class="controls">
                             @Html.TextBoxFor(m=>m.DeliveryTime,new { @class = "input-mini" })
                             @Html.ValidationMessageFor(m => m.DeliveryTime)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="deliveryTime">DeliverySurcharge</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.DeliverySurcharge, new { @class = "input-mini" })
+                            @Html.ValidationMessageFor(m => m.DeliverySurcharge)
                         </div>
                     </div>
                     <div class="control-group">

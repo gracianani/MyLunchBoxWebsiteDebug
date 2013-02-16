@@ -6,8 +6,8 @@
     if(selectedUniversity != null)
     {
         locations = db.University_Delivery.Where(i => i.UniversityId == selectedUniversity.UniversityId)
-                        .Select(i => new { i.UniversityDeliveryId, i.Location.LocationName, i.DeliveryTime })
-                        .AsEnumerable().Select(i => new SelectListItem() { Text = i.LocationName + " " + i.DeliveryTime.ToString("hh:mm tt"), Value = i.UniversityDeliveryId.ToString() }).ToList();
+                        .Select(i => new { i.UniversityDeliveryId, i.Location.LocationName, i.DeliveryTime, i.DeliverySurcharge })
+                        .AsEnumerable().Select(i => new SelectListItem() { Text = string.Format("{0} {1:hh:mm tt} {2}", i.LocationName, i.DeliveryTime, i.DeliverySurcharge > 0.01m ? "$"+i.DeliverySurcharge.ToString()+"per box" : "FREE"), Value = i.UniversityDeliveryId.ToString() }).ToList();
     }
    var universities = db.Universities.Select(i=>new {i.UniversityName, i.UniversityId}).AsEnumerable().Select(i=>new SelectListItem() { Text = i.UniversityName, Value = i.UniversityId.ToString()}).ToList();
 
@@ -50,6 +50,16 @@
         else if (selectedDeliveryLocation != null)
         { 
             @selectedDeliveryLocation.Location.BusinessName<text>&nbsp;</text>@selectedDeliveryLocation.DeliveryTime.ToString("hh:mm tt")
+            <span>
+            @if (selectedDeliveryLocation.DeliverySurcharge < 0.01m)
+            {
+                <text>FREE</text> 
+            }
+            else
+            {
+                <text>$</text>@selectedDeliveryLocation.DeliverySurcharge<text>per box</text>  
+            }
+            </span> 
             <text>(</text><a href="javascript:void(0)" class='editDeliveryLocationAndTime'>edit</a><text>)</text>
         }
     </li>

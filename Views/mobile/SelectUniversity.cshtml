@@ -6,13 +6,16 @@
 }
 
 <div data-role="content">
-    <label for="universitySelect" class="select">Your University:</label>
-    <select name="universitySelect" id="universitySelect">
-        @foreach(var university in Model) 
+@using (Html.BeginForm("ChooseRestaurant", "Mobile", FormMethod.Get, new { id = "chooseRestaurant" }))
+{
+    <label for="universityId" class="select">Your University:</label>
+    <select name="universityId" id="universityId">
+        @foreach (var university in Model)
         {
         <option value="@university.UniversityId">@university.UniversityName</option>
         }
     </select>
-    @Html.ActionLink("Next", "ChooseRestaurant", new { universityId = "1"},new { data_role = "button", data_ajax="false", data_theme="b",data_icon="arrow-r",data_iconpos="right"} )
+    <input type="submit" value="Next" data-role="button" data-ajax="false" data-theme="b" data-icon="arrow-r" data-iconpos = "right"/>
+}
 </div>
 

@@ -144,7 +144,8 @@
                     
                         </tr>
                 }
-                            <tr><td colspan="5" class="cart-subtotal"><div class="pull-right">Subtotal</div></td><td class="cart-subtotalPrice big"> $@Model.Gross</td><td></td></tr>
+                        <tr><td colspan="5"><div class="pull-right"><strong>Delivery Fee : </strong>$@Model.DeliveryChargePerBox * @Model.DeliveryBoxCount</div></td><td class="cart-subtotalPrice"> $@Model.Shipping</td><td></td></tr>
+                        <tr><td colspan="5" class="cart-subtotal"><div class="pull-right">Total</div></td><td class="cart-subtotalPrice big"> $@Model.Gross</td><td></td></tr>
             }
 
         </table>
@@ -156,10 +157,11 @@
 }
 
 <div class="clearfix">
-@if (Model.ShoppingCartItems.Count > 0) {
-    @Html.ActionLink("Continue Shopping", "ChooseRestaurant", "CustomBentoBox",new object { },
-new { @class = "btn pull-left"})
+@if (Model.ShoppingCartItems.Count > 0)
+{
+    @Html.ActionLink("Continue Shopping", "ChooseRestaurant", "CustomBentoBox", new object { },
+new { @class = "btn pull-left" })
     @Html.ActionLink("Checkout »", "AddressAndPayment", "Checkout", new object { },
-new { @class = "btn btn-primary pull-right btn-big btn-submit"})
+new { @class = "btn btn-primary pull-right btn-big btn-submit" })
 }
 </div>
