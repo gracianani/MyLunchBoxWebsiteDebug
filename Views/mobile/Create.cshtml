@@ -7,7 +7,7 @@
 
 <div data-role="panel" id="dishSummary">
         <!-- panel content goes here -->
-       
+       <a href="#dishSummary" data-rel="close">Close panel</a>
 	<ul id="lunchbox" data-mode="columntoggle" class="table-stroke">
 
     @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
@@ -16,9 +16,8 @@
         var count = 0;
         foreach (var customBentoBoxItem in @Model.CurrentCustomBentoBox.CustomBentoBoxItems.Where(i => i.Dish.DishTypeId == (int)dishType))
         {
-        count += 1;
-        <li class="lunchbox-filledItem lunchbox-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)" data-id="@customBentoBoxItem.DishId" data-customBentoBoxId='@customBentoBoxItem.CustomBentoBoxId' data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">
-
+            count += 1;
+        <li class="lunchbox-filledItem lunchbox-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)" data-id="@customBentoBoxItem.DishId" data-customBentoBoxId='@customBentoBoxItem.CustomBentoBoxId'>
         <a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true">Delete</a> <img src="../../@customBentoBoxItem.Dish.DishImageUrl"> @customBentoBoxItem.Dish.DishName 
                                 @if (customBentoBoxItem.Dish.DishTypeId == (int)MyLunchBox.Models.DishType.Drink)
                                 {
@@ -37,7 +36,6 @@
         }
     }
     </ul>
-    <a data-role="button" data-inline="true" href="#dishSummary" data-rel="close">Close panel</a>
 </div><!-- /panel -->
 
 <div data-role="content">
@@ -71,7 +69,7 @@
                 {
                     var dishes = Model.AvailableDishes[dishType];
                     
-                    <li  data-role="list-divider" data-theme="d">
+                    <li  data-role="list-divider" data-theme="b">
                     @Extension.ExtensionMethods.GetDescription(dishType)
                     <span class="ui-li-count"><span id="dishCount-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">0</span> / @Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType)</span></li>
                     foreach (var dish in dishes)
@@ -118,16 +116,11 @@
 		$("#warningMsg").popup( {positionTo:"window",corners:true,shadow:true});
 		
 		$("#lunchbox").on('tap',".lunchbox-filledItem a",onDeleteDishClicked);
-        $("#lunchbox").on('change', '.lunchbox-filledNum input', onChangeDishNum);
+		$("#lunchbox").on('change', '.lunchbox-filledNum input', onChangeDishNum);
 
-        
 		$("#btnAddToCart").click(function () {
-		    // isBentoBoxErrorFree({ "success": function () { $("#lunchBox").submit(); } });
-		    $("#lunchBox").submit();
-	    });
-        
-		
-
+		    isBentoBoxErrorFree({ "success": function () { $("#lunchBox").submit(); } });
+		});
 		
     });
 	function onCourseClicked(){
@@ -178,15 +171,15 @@
 		
 	}
     function onDeleteDishClicked() {
+		console.log('here');
         var dish = $(this).parent().attr("data-id");
-		var type = $(this).parent().attr("data-type");
+		var type = $(this).parent().attr("data-type")
         var recipe = $("#recipe");
         if (dish != '') {
             $.post("/CustomBentoBox/RemoveFromCurrentBox/", { "dishId": dish, "encodedRecipe": recipe.val() },
                 function (data) {
                     setWarningMsgType('success');
                     displayWarningMsg(data.warningMsg, "<strong>Well Done!</strong> You successfully removed a dish.");
-					
                     unselectCourse({ id: dish,type:type });
                     recipe.val(data.encodedRecipe);
                     showTotalPrice(data.unitPrice);
@@ -233,7 +226,7 @@
         if (type == 'Drink') {
             li.remove();
         } else {
-            li.html('Empty').removeClass('lunchbox-filledItem').addClass('lunchbox-emptyItem').removeAttr('data-id');
+            li.html('').removeClass('lunchbox-filledItem').addClass('lunchbox-emptyItem');
         }
        
     }
@@ -245,10 +238,10 @@
 
         if (courseJSON.type == 'Drink') {
             price = parseFloat(course.attr('data-price'));
-            $('<li class="lunchbox-filledItem" data-id="' + courseJSON.id +'" data-type="'+ courseJSON.type +'" data-price="' + price + '"><a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" title="Delete" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-icon-notext ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">Delete</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a> <img class="lunchbox-dishimg" src="' + courseJSON.img + '" />' + courseJSON.name + '<span class="lunchbox-filledNum">X <input type="text" value="' + '1' + '" class="input-mini"/></span> = <span class="lunchbox-filledPrice">$ ' + price + '</span>' + '</li>').insertAfter(list);
+            $('<li class="lunchbox-filledItem" data-id="' + courseJSON.id + '" data-price="' + price + '"><a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" title="Delete" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-icon-notext ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">Delete</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a> <img class="lunchbox-dishimg" src="' + courseJSON.img + '" />' + courseJSON.name + '<span class="lunchbox-filledNum">X <input type="text" value="' + '1' + '" class="input-mini"/></span> = <span class="lunchbox-filledPrice">$ ' + price + '</span>' + '</li>').insertAfter(list);
         } else {
             var emptyItem = list.filter(".lunchbox-emptyItem");
-            $(emptyItem[0]).html('<a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" title="Delete" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-icon-notext ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">Delete</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a><img class="lunchbox-dishimg" src="' + courseJSON.img + '"> ' + courseJSON.name).removeClass('lunchbox-emptyItem').addClass('lunchbox-filledItem').attr('data-id', courseJSON.id).attr('data-type',courseJSON.type);
+            $(emptyItem[0]).html('<a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" title="Delete" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-icon-notext ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">Delete</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a><img class="lunchbox-dishimg" src="' + courseJSON.img + '"> ' + courseJSON.name).removeClass('lunchbox-emptyItem').addClass('lunchbox-filledItem').attr('data-id', courseJSON.id);
 
         }
     }
