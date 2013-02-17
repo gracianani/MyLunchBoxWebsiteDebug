@@ -60,18 +60,6 @@
             }
         });
 
-
-        $('#whatscsv').popover({
-            'title': "What's CSV",
-            'html': true,
-            'content': "<p><strong>Visa - MasterCard -  Discover</strong></p>" +
-				"<p>On Visa, MasterCard and Discover cards, the CVS Code is a 3 digit number located on the back of the card such as shown below:</p>" +
-				"<img src='../../Content/Images/EchoCvCardBig.gif' />" +
-				"<p><strong>American Express</strong></p>" +
-				"<p>On American Express cards, the CVS Code is a 4 digit number located on the front of the card such as shown below:</p>" +
-				"<img src='../../Content/Images/EchoCvAmexCardBig.gif' />"
-        });
-
         checkUniversity('UCLA', 'PUWL');
 
     });
@@ -315,7 +303,7 @@
 		            </div>
 		            <div class="control-group">
 		            <label class="control-label">CSV</label>
-		             <div class="controls"> @Html.TextBoxFor(m => m.CSV)@Html.ValidationMessageFor(m => m.CSV) (<a href="javascript:void(0)" id="whatscsv"> <i class="icon-info-sign icon-orange"></i> What's CSV? </a>)</div>
+		             <div class="controls"> @Html.TextBoxFor(m => m.CSV)@Html.ValidationMessageFor(m => m.CSV) (<a href="#popupCSV" data-rel="popup" id="whatscsv"> <i class="icon-info-sign icon-orange"></i> What's CSV? </a>)</div>
 		            </div>				  
 			  </div>
 			  <div class="tab-pane" id="cash">
@@ -375,3 +363,14 @@
         <input type="submit" class="btn btn-primary btn-big pull-right" value="Submit" />
         </div>
     }</div>
+
+
+
+<div data-role="popup" id="popupCSV" class="ui-content">
+	<p><strong>Visa - MasterCard -  Discover</strong></p>
+    <p>On Visa, MasterCard and Discover cards, the CVS Code is a 3 digit number located on the back of the card such as shown below:</p>
+    <img src='../../Content/Images/EchoCvCardBig.gif' />
+    <p><strong>American Express</strong></p>
+    <p>On American Express cards, the CVS Code is a 4 digit number located on the front of the card such as shown below:</p>
+    <img src='../../Content/Images/EchoCvAmexCardBig.gif' />
+</div>

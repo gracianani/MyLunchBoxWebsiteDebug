@@ -7,26 +7,32 @@
 
 <div data-role="content">
     <h2>MyOrders</h2>
-    <div class="lightBox">
         @if (Model.Count() == 0)
         {
             <h2> You haven't order anything yet, @Html.ActionLink("create one Now", "ChooseRestaurant", "CustomBentoBox")</h2>
         }
         else
         {
+            <div data-role="navbar">
+	            <ul>
+		            <li><a href="javascript:void(0)" class="ui-btn-active ui-state-persist">Today's Order</a></li>
+		            <li><a href="javascript:void(0)"> Previous Orders</a></li>
+	            </ul>
+            </div><!-- /navbar -->
             foreach (var order in Model)
             {
+                
                 <div data-role="collapsible" data-collapsed="false" data-theme="a" data-content-theme="a">
                    <h3>Order# : @order.OrderId <br />
                        Order Received At : @order.OrderReceivedAt.ToString("MMM dd, yyyy hh:mm") <br />
                        @if (!string.IsNullOrEmpty(@order.TxnId))
-                        {
+                       {
                             <span class="label label-success">Credit Card Paid：$@(order.Gross - order.Savings) </span>
-                        }
-                        else if (order.Gross > order.Savings)
-                        {
+                       }
+                       else if (order.Gross > order.Savings)
+                       {
                             <span class="label label-warning">Cash ：<big>$@(order.Gross - order.Savings)</big> </span>
-                        }
+                       }
                         @if (@order.Savings > 0)
                         {
                             <span class="label label-info">Points Paid : $@order.Savings</span>
@@ -66,6 +72,5 @@
                 </div>
             }
         }
-    </div>
 </div>
 
