@@ -7,7 +7,7 @@
 
 <div data-role="panel" id="dishSummary">
         <!-- panel content goes here -->
-       <a href="#dishSummary" data-rel="close">Close panel</a>
+       
 	<ul id="lunchbox" data-mode="columntoggle" class="table-stroke">
 
     @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
@@ -36,6 +36,7 @@
         }
     }
     </ul>
+    <a href="#dishSummary" data-role="button" data-rel="close">Close panel</a>
 </div><!-- /panel -->
 
 <div data-role="content">
@@ -69,7 +70,7 @@
                 {
                     var dishes = Model.AvailableDishes[dishType];
                     
-                    <li  data-role="list-divider" data-theme="b">
+                    <li  data-role="list-divider" data-theme="d">
                     @Extension.ExtensionMethods.GetDescription(dishType)
                     <span class="ui-li-count"><span id="dishCount-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">0</span> / @Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType)</span></li>
                     foreach (var dish in dishes)
@@ -95,7 +96,7 @@
     }
 </div><!--/content-->
 
-<div data-role="footer" data-position="fixed">
+<div data-role="footer">
 	<div data-role="navbar" data-iconpos="top">
 		<ul>
             <li id="lunchboxSummary"><a href="#dishSummary" data-theme="b" data-icon="grid"><big id="lunchboxPrice" data-price='@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("N2")'>$@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("N2")</big> <small>view summary</small></a></li>
