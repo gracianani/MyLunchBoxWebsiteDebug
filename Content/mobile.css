@@ -220,17 +220,56 @@ background-image: linear-gradient( #fef3de /*{a-bup-background-start}*/, #e5dcc9
 	margin:0 0 5px;
 }
 #shoppingCartItems ul {
-	margin-top:0;
+	margin:0;
 	padding-left:0;
 }
 #shoppingCartItems li {
 	list-style:none;
 	vertical-align:middle;
+	margin-bottom:.2em;
 }
 #shoppingCartItems li img {
 	vertical-align:middle;
 }
 #shoppingCartItems .ui-input-text {
 	margin-top:0;
+	width:2em;
 	padding-right:.5em;
+}
+.cart-boxType {
+	font-family:Georgia, "Times New Roman", Times, serif;
+	color:#ab3306;
+	font-style:italic;
+}
+th {
+	color: #6a594e;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-weight:normal;
+	text-shadow: 1px 1px 0 rgba(255,255,255,0.6);
+	font-style: italic;
+}
+#shoppingCartItems {
+	border-collapse:collapse;
+}
+#shoppingCartItems th,#shoppingCartItems td {
+	text-align:left;
+	vertical-align:top;
+	padding:.5em;
+}
+#shoppingCartItems th {
+	font-weight:normal;
+}
+#shoppingCartItems tr {
+	border-top: 1px solid #dcdbd3;
+}
+
+.lightBox {
+	background: url(Images/texture-white.jpg);
+	border-radius: 10px;
+	padding:.5em;
+	margin-bottom: 1em;
+}
+.cart-totalPrice, .cart-subtotalPrice {
+	color: #c84c0b;
+	font-size: 1.2em;
 }

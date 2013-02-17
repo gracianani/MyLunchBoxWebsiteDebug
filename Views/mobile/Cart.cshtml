@@ -79,15 +79,15 @@
             <a class="current">Dishes</a> &raquo;</li>
             <li><a>CheckOut</a></li>
     </ul>
+    <h3>My Shopping Cart</h3>
     <fieldset>
-        <legend><h2>My Shopping Cart</h2></legend>
         <div style="display:none;">
         	@Html.HiddenFor(model => model.ShoppingCartId)
             @Html.LabelFor(model => model.UserId)
             @Html.EditorFor(model => model.UserId)
             @Html.ValidationMessageFor(model => model.UserId)
         </div>
-        <table id="shoppingCartItems" data-role="table" data-mode="columntoggle" >
+        <table id="shoppingCartItems" class="lightBox" data-mode="columntoggle" data-role="table">
             @if (Model.ShoppingCartItems.Count == 0)
             {
                 <tr><td><img src="../Content/Images/emptybox.png" /></td>
@@ -96,25 +96,20 @@
             else {
             	<thead>
             	<tr>
-            	<th></th>
             	<th>Details</th>
-            	<th>Unit Price</th>
-            	<th width="6em">Quantity</th>
+            	<th data-priority="1">Unit Price</th>
+            	<th>Quantity</th>
             	<th>Total Price</th>
-            	<th></th>
+                <th></th>
             	</tr>
                 </thead>
                 <tbody>
                 @foreach (var shoppingCartItem in Model.ShoppingCartItems)
                 {
                     <tr data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId'>
-                        <td>
-                            <a class="removeItem delete-link" href="javascript:void(0)" data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId'>delete</a>
-                        </td>
-                        <td>
+                        <td >
                         	@if(@shoppingCartItem.ItemTypeId == (int)MyLunchBox.Models.ItemType.CustomBentoBox) {
-                                <p class="cart-boxName">@shoppingCartItem.CustomBentoBox.CustomBentoBoxName</p>
-                                <p class="cart-boxType">@shoppingCartItem.CustomBentoBox.BentoBox.BentoBoxName </p>
+                                <p class="cart-boxType">@shoppingCartItem.CustomBentoBox.BentoBox.BentoBoxName @Html.ActionLink("edit", "Create", "CustomBentoBox",  new { customBentoBoxId = @shoppingCartItem.ItemId }, new {@class="edit-link",@data_role="button",@data_mini="true",@data_icon="edit",@data_inline="true",@data_iconPos="notext"} )</p>
                             }
                             else {
                                 <p>@shoppingCartItem.Description</p>    
@@ -130,6 +125,7 @@
                                     </span> </li>
                                 }
                                 </ul>
+                                
                             }
                             
                         </td>
@@ -143,20 +139,17 @@
                         $@shoppingCartItem.LineItemCost
                         </td>
                         <td>
-                        	<i class="icon-pencil icon-brown"></i> 
-                            @Html.ActionLink("edit", "Create", "CustomBentoBox",  new { customBentoBoxId = @shoppingCartItem.ItemId }, new {@class="edit-link"} )
-                        </td> 
+                        <a class="removeItem delete-link" data-role="button" data-icon="delete" href="javascript:void(0)" data-itemId='@shoppingCartItem.ItemId' data-mini="true" data-inline="true" data-iconPos="notext">Delete</a>
+                        </td>
                     
                         </tr>
                 }
                 </tbody>
                 <tfoot>
-                <tr><td colspan="5">Shipping</td><td>@Model.Shipping</td></tr>
-                            <tr><td colspan="5" class="cart-subtotal"><div class="pull-right">Subtotal</div></td><td class="cart-subtotalPrice big"> $@Model.Gross</td><td></td></tr>
+                <tr><td></td><td></td><td>Shipping</td><td>@Model.Shipping</td><td></td></tr>
+                <tr><td></td><td></td><td class="cart-subtotal"><div class="pull-right">Subtotal</div></td><td class="cart-subtotalPrice big"> $@Model.Gross</td><td></td></tr>
                </tfoot>
-                
-                        
-                        <tr><td colspan="5" class="cart-subtotal"><div class="pull-right">Subtotal</div></td><td class="cart-subtotalPrice big"> $@Model.Gross</td><td></td></tr>
+               
             }
 		
         </table>
@@ -175,4 +168,3 @@ new { @class = "btn btn-primary pull-right btn-big btn-submit"})
 }
 </div>
 </div>
-
