@@ -63,17 +63,22 @@
         });
     }
 </script>
-
+<div data-role="content">
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
-    <ul id="steps" class="container clearfix">
-        <li class="step-past"><i class="ic-number">1</i> choose a restaurant</li>
-        <li class="step-past"><i class="ic-number">2</i> Choose a lunchbox</li>
-        <li class="step-past"><i class="ic-number">3</i> fill my lunchbox</li>
-        <li class="step-current"><i class="ic-number">4</i> check out</li>
+    <ul class="createBentoProgress">
+            <li>
+            <span class="ui-icon ui-icon-check">&nbsp;</span>
+            <a class="prev" href="/CustomBentoBox/ChooseRestaurant/">Restaurant</a>  &raquo; </li>
+            <li>
+            <span class="ui-icon ui-icon-check">&nbsp;</span>
+            <a class="prev">LunchBox</a> &raquo; </li>
+            <li>
+            <span class="ui-icon ui-icon-edit">&nbsp;</span>
+            <a class="current">Dishes</a> &raquo;</li>
+            <li><a>CheckOut</a></li>
     </ul>
-    <div class="lightBox">
     <fieldset>
         <legend><h2>My Shopping Cart</h2></legend>
         <div style="display:none;">
@@ -82,38 +87,38 @@
             @Html.EditorFor(model => model.UserId)
             @Html.ValidationMessageFor(model => model.UserId)
         </div>
-        <table id="shoppingCartItems" class="table">
+        <table id="shoppingCartItems" data-role="table" data-mode="columntoggle" >
             @if (Model.ShoppingCartItems.Count == 0)
             {
                 <tr><td><img src="../Content/Images/emptybox.png" /></td>
                 <td><div style="padding-top:50px;">Your Cart is empty! Go @Html.ActionLink("create a lunchbox", "ChooseRestaurant", "CustomBentoBox", new Object{}, new { @class = "em"} ) now!</div></td></tr>
             }
             else {
+            	<thead>
             	<tr>
             	<th></th>
-            	<th>Lunchbox</th>
             	<th>Details</th>
             	<th>Unit Price</th>
-            	<th>Quantity</th>
+            	<th width="6em">Quantity</th>
             	<th>Total Price</th>
             	<th></th>
             	</tr>
-                foreach (var shoppingCartItem in Model.ShoppingCartItems)
+                </thead>
+                <tbody>
+                @foreach (var shoppingCartItem in Model.ShoppingCartItems)
                 {
                     <tr data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId'>
                         <td>
-                            <a class="removeItem delete-link" href="javascript:void(0)" data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId'><i class="icon-trash icon-brown"></i> delete</a>
+                            <a class="removeItem delete-link" href="javascript:void(0)" data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId'>delete</a>
                         </td>
                         <td>
-                            @if(@shoppingCartItem.ItemTypeId == (int)MyLunchBox.Models.ItemType.CustomBentoBox) {
+                        	@if(@shoppingCartItem.ItemTypeId == (int)MyLunchBox.Models.ItemType.CustomBentoBox) {
                                 <p class="cart-boxName">@shoppingCartItem.CustomBentoBox.CustomBentoBoxName</p>
                                 <p class="cart-boxType">@shoppingCartItem.CustomBentoBox.BentoBox.BentoBoxName </p>
                             }
                             else {
                                 <p>@shoppingCartItem.Description</p>    
                             }
-                        </td> 
-                        <td>
                             @if( shoppingCartItem.ItemTypeId == (int)MyLunchBox.Models.ItemType.CustomBentoBox) {
                                 <ul class="cart-dishList">
                                 @foreach(var customItem in shoppingCartItem.CustomBentoBox.CustomBentoBoxItems) {
@@ -132,7 +137,7 @@
 	                     $@shoppingCartItem.UnitPrice
                         </td>
                         <td>
-	                      <input value="@shoppingCartItem.Quantity" type="number" class="input-mini cart-quantity" data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId' />
+	                      <input value="@shoppingCartItem.Quantity" type="number" class="cart-quantity" data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId' />
                         </td>
                         <td class="cart-totalPrice">
                         $@shoppingCartItem.LineItemCost
@@ -144,15 +149,18 @@
                     
                         </tr>
                 }
+                </tbody>
+                <tfoot>
                             <tr><td colspan="5" class="cart-subtotal"><div class="pull-right">Subtotal</div></td><td class="cart-subtotalPrice big"> $@Model.Gross</td><td></td></tr>
+               </tfoot>
+                
             }
-
+		
         </table>
 
        
     </fieldset>
     
-    </div>
 }
 
 <div class="clearfix">
@@ -162,5 +170,6 @@ new { @class = "btn pull-left"})
     @Html.ActionLink("Checkout »", "Checkout", "Mobile", new object { },
 new { @class = "btn btn-primary pull-right btn-big btn-submit"})
 }
+</div>
 </div>
 

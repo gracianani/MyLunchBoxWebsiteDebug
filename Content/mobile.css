@@ -198,6 +198,7 @@ background-image: linear-gradient( #fef3de /*{a-bup-background-start}*/, #e5dcc9
 #lunchbox {
 	margin-left:0;
 	padding-left:0;
+	margin-top:0;
 }
 #lunchbox li {
 	list-style:none;
@@ -214,4 +215,22 @@ background-image: linear-gradient( #fef3de /*{a-bup-background-start}*/, #e5dcc9
 }
 .lunchbox-filledPrice {
 	color:#5c7e04;
+}
+#shoppingCartItems p {
+	margin:0 0 5px;
+}
+#shoppingCartItems ul {
+	margin-top:0;
+	padding-left:0;
+}
+#shoppingCartItems li {
+	list-style:none;
+	vertical-align:middle;
+}
+#shoppingCartItems li img {
+	vertical-align:middle;
+}
+#shoppingCartItems .ui-input-text {
+	margin-top:0;
+	padding-right:.5em;
 }
