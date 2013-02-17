@@ -13,28 +13,31 @@
     @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
     {
     <li class="courseTyepTd">@Extension.ExtensionMethods.GetDescription(dishType)</li>
-    	var count = 0;
+        var count = 0;
         foreach (var customBentoBoxItem in @Model.CurrentCustomBentoBox.CustomBentoBoxItems.Where(i => i.Dish.DishTypeId == (int)dishType))
         {
-        count += 1;
+            count += 1;
         <li class="lunchbox-filledItem lunchbox-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)" data-id="@customBentoBoxItem.DishId" data-customBentoBoxId='@customBentoBoxItem.CustomBentoBoxId'>
         <a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true">Delete</a> <img src="../../@customBentoBoxItem.Dish.DishImageUrl"> @customBentoBoxItem.Dish.DishName 
                                 @if (customBentoBoxItem.Dish.DishTypeId == (int)MyLunchBox.Models.DishType.Drink)
                                 {
                                     <span class="lunchbox-filledNum">X <input type="text" value="1" class="input-mini"/><text>=</text> <span class="lunchbox-filledPrice">$@customBentoBoxItem.Dish.DishIncrementalPrice</span></span>
-                                } else if (@customBentoBoxItem.Dish.DishIncrementalPrice > 0 ) {
+                                }
+                                else if (@customBentoBoxItem.Dish.DishIncrementalPrice > 0)
+                                {
                                 	<span class="lunchbox-filledPrice">+ $@customBentoBoxItem.Dish.DishIncrementalPrice</span>
                                 }
           </li> 
-          }
-          while (count < Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType))
-          {
-               count = count + 1;
+        }
+        while (count < Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType))
+        {
+            count = count + 1;
                <li class="lunchbox-emptyItem lunchbox-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">Empty</li>
-          }
-     }
-</ul>
+        }
+    }
+    </ul>
 </div><!-- /panel -->
+
 <div data-role="content">
     <ul class="createBentoProgress">
             <li>
@@ -49,11 +52,9 @@
             <li><a>CheckOut</a></li>
     </ul>
 	<h3>Fill Your Lunchbox</h3>
+    @using (Html.BeginForm("AddToCart", "Mobile", FormMethod.Post, new { id = "lunchBox" }))
+    {
 
-
-
-@using (Html.BeginForm("AddToCart", "Mobile", FormMethod.Post, new { id="lunchBox" } ))
-{
     @Html.ValidationSummary(true)
     <input id="customBentoBoxId" type="hidden" name="customBentoBoxId" value="@Model.CurrentCustomBentoBox.CustomBentoBoxId" />
             <input id="recipe" type="hidden" name="recipe" value="@Model.CurrentCustomBentoBox.EncodedRecipe"/>
@@ -91,17 +92,18 @@
                     }
                 }
              </ul>    
-}
-</div>
-<div><!--/content-->
+    }
+</div><!--/content-->
+
 <div data-role="footer" data-position="fixed">
 	<div data-role="navbar" data-iconpos="top">
 		<ul>
             <li id="lunchboxSummary"><a href="#dishSummary" data-theme="b" data-icon="grid"><big id="lunchboxPrice" data-price='@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("N2")'>$@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("N2")</big> <small>view summary</small></a></li>
-			<li><a href="a.html" data-theme="b" data-icon="arrow-r">Add To Cart</a></li>
+			<li><a id="btnAddToCart" href="javascript:void(0)" data-theme="b" data-icon = "arror-r">Add To Cart</a> </li>
 		</ul>
 	</div><!-- /navbar -->
 </div> 
+
 <!-- /footer -->
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
@@ -123,13 +125,14 @@
             $("#allDishes > li.active").removeClass("active");
             $("#allDishes > li").filter('.' + activateClass).addClass("active");
         });
-		
-
-        $("#btnAddToCart").click(function () {
-            // isBentoBoxErrorFree({ "success": function () { $("#lunchBox").submit(); } });
-            $("#lunchBox").submit(); 
-        });
+		$("#btnAddToCart").click(function () {
+		    // isBentoBoxErrorFree({ "success": function () { $("#lunchBox").submit(); } });
+		    $("#lunchBox").submit();
+	    });
+        
 		*/
+
+		
     });
 	function onCourseClicked(){
 		if ( $(this).hasClass('selected')){
