@@ -17,7 +17,7 @@
         foreach (var customBentoBoxItem in @Model.CurrentCustomBentoBox.CustomBentoBoxItems.Where(i => i.Dish.DishTypeId == (int)dishType))
         {
             count += 1;
-        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" data-icon="check" data-theme="d">
+        <li class="lunchbox-filledItem lunchbox-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)" data-id="@customBentoBoxItem.DishId" data-customBentoBoxId='@customBentoBoxItem.CustomBentoBoxId'>
         <a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true">Delete</a> <img src="../../@customBentoBoxItem.Dish.DishImageUrl"> @customBentoBoxItem.Dish.DishName 
                                 @if (customBentoBoxItem.Dish.DishTypeId == (int)MyLunchBox.Models.DishType.Drink)
                                 {
@@ -69,14 +69,14 @@
                 {
                     var dishes = Model.AvailableDishes[dishType];
                     
-                    <li  data-role="list-divider" data-theme="d">
+                    <li  data-role="list-divider" data-theme="b">
                     @Extension.ExtensionMethods.GetDescription(dishType)
                     <span class="ui-li-count"><span id="dishCount-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">0</span> / @Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType)</span></li>
                     foreach (var dish in dishes)
                     {
                         if (dish.DishStatusId == (int)MyLunchBox.Models.DishStatusLevel.Available)
                         {
-                        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" data-icon="check">
+                        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" data-icon="check" data-theme="d">
                         <a href="javascript:void(0)">
                         <img src="../../@dish.DishImageUrl" />
                         <h4 class="dishName">@dish.DishName </h4>
