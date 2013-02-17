@@ -1,6 +1,11 @@
-﻿@{
+﻿@model MyLunchBox.Models.Order
+@{
     ViewBag.Title = "CheckoutComplete";
-    Layout = "~/Views/Shared/_MobileMaster.cshtml";
+    Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
 }
 
 <h2>CheckoutComplete</h2>
+<p>Thanks for your order! <br />Your order number is: <em>@Model.OrderId</em></p>
+
+<p><a class="btn btn-primary btn-big" href="/Member/MyLunchBoxes">View Orders</a> </p>
+<p><a class="btn btn-big" href="/Member/MyRewards"><i class="icon-gift icon-white"></i> Buy Some Reward Points</a></p>

@@ -133,7 +133,7 @@
         $("#UniversityId").change(function () {
             $.get("/Member/GetDeliveryLocations", { "universityId": $(this).val() }, function (data) {
                 console.log("...");
-                $("#UniversityDeliveryId").html(data)
+                $("#UniversityDeliveryId").html(data).trigger("refresh")
             });
         });
     });
