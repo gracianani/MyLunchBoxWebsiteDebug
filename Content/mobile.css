@@ -134,6 +134,7 @@ h3 {
 	width:30px;
 	height:30px;
 	border-radius:6px;
+	vertical-align:middle;
 }
 #warningMsg.alert-block{
 	border-radius:10px;
@@ -179,4 +180,30 @@ h3 {
 }
 #warningMsg p {
 	margin:0.5em 0;
+}
+.lunchbox-filledItem .ui-btn {
+	vertical-align:middle;
+}
+.lunchbox-filledItem {
+	vertical-align:middle;
+}
+#lunchbox {
+	margin-left:0;
+	padding-left:0;
+}
+#lunchbox li {
+	list-style:none;
+	margin-left:0;
+	margin-bottom:5px;
+}
+.lunchbox-emptyItem.lunchbox-Drink {
+	display:none;
+}
+.input-mini {
+	width:2em;
+	line-height:1.5em;
+	border-radius:5px;
+}
+.lunchbox-filledPrice {
+	color:#5c7e04;
 }
