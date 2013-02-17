@@ -7,7 +7,7 @@
 
 <div data-role="panel" id="dishSummary">
         <!-- panel content goes here -->
-       <a href="#dishSummary" data-rel="close">Close panel</a>
+       
 	<ul id="lunchbox" data-mode="columntoggle" class="table-stroke">
 
     @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
@@ -37,6 +37,7 @@
         }
     }
     </ul>
+    <a data-role="button" data-inline="true" href="#dishSummary" data-rel="close">Close panel</a>
 </div><!-- /panel -->
 
 <div data-role="content">
@@ -70,14 +71,14 @@
                 {
                     var dishes = Model.AvailableDishes[dishType];
                     
-                    <li  data-role="list-divider" data-theme="a">
+                    <li  data-role="list-divider" data-theme="d">
                     @Extension.ExtensionMethods.GetDescription(dishType)
                     <span class="ui-li-count"><span id="dishCount-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">0</span> / @Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType)</span></li>
                     foreach (var dish in dishes)
                     {
                         if (dish.DishStatusId == (int)MyLunchBox.Models.DishStatusLevel.Available)
                         {
-                        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" data-icon="check">
+                        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" data-icon="check" data-theme="d">
                         <a href="javascript:void(0)">
                         <img src="../../@dish.DishImageUrl" />
                         <h4 class="dishName">@dish.DishName </h4>
@@ -117,21 +118,15 @@
 		$("#warningMsg").popup( {positionTo:"window",corners:true,shadow:true});
 		
 		$("#lunchbox").on('tap',".lunchbox-filledItem a",onDeleteDishClicked);
-        //$(".lunchboxBody").on('click', '.icon-remove', onRemoveFromBoxClicked);
-        //$(".lunchboxBody").on('change', '.lunchbox-filledNum input', onChangeDishNum);
+        $("#lunchbox").on('change', '.lunchbox-filledNum input', onChangeDishNum);
 
-        /*
-		$("#dishTypeSelector a").click(function () {
-            var activateClass = $(this).attr("data-activeClass");
-            $("#allDishes > li.active").removeClass("active");
-            $("#allDishes > li").filter('.' + activateClass).addClass("active");
-        });
+        
 		$("#btnAddToCart").click(function () {
 		    // isBentoBoxErrorFree({ "success": function () { $("#lunchBox").submit(); } });
 		    $("#lunchBox").submit();
 	    });
         
-		*/
+		
 
 		
     });

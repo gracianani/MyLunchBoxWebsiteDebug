@@ -94,20 +94,29 @@ h3 {
 	display:inline-block;
 }
 .course .ui-icon-check {
+	display:none;
 }
 .course.selected .ui-icon-check {
-	background-color:#5c7e04;
+	background-color:#c84c0b;
+	display:block;
 }
 .course.selected h4 {
-	color:#5c7e04;
+	color:#c84c0b;
 }
 .selected {
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #ddd /*{a-bup-background-start}*/), to( #efefef /*{a-bup-background-end}*/));
-	background-image: -webkit-linear-gradient( #ddd /*{a-bup-background-start}*/, #efefef /*{a-bup-background-end}*/);
-	background-image: -moz-linear-gradient( #ddd /*{a-bup-background-start}*/, #efefef /*{a-bup-background-end}*/);
-	background-image: -ms-linear-gradient( #ddd /*{a-bup-background-start}*/, #efefef /*{a-bup-background-end}*/);
-	background-image: -o-linear-gradient( #ddd /*{a-bup-background-start}*/, #efefef /*{a-bup-background-end}*/);
-	background-image: linear-gradient( #ddd /*{a-bup-background-start}*/, #efefef /*{a-bup-background-end}*/);
+background-image: -webkit-gradient(linear, left top, left bottom, from( #fef3de /*{a-bup-background-start}*/), to( #e5dcc9 /*{a-bup-background-end}*/));
+background-image: -webkit-linear-gradient( #fef3de /*{a-bup-background-start}*/, #e5dcc9 /*{a-bup-background-end}*/);
+background-image: -moz-linear-gradient( #fef3de /*{a-bup-background-start}*/, #e5dcc9 /*{a-bup-background-end}*/);
+background-image: -ms-linear-gradient( #fef3de /*{a-bup-background-start}*/, #e5dcc9 /*{a-bup-background-end}*/);
+background-image: -o-linear-gradient( #fef3de /*{a-bup-background-start}*/, #e5dcc9 /*{a-bup-background-end}*/);
+background-image: linear-gradient( #fef3de /*{a-bup-background-start}*/, #e5dcc9 /*{a-bup-background-end}*/);
+}
+.selected:active,.selected:focus {
+	
+
+}
+.selected:active h4,.selected:focus h4{
+	color:#FFF;
 }
 .ui-listview .ui-bar-a {
 	background:url(Images/texture-orange.png);
@@ -118,7 +127,6 @@ h3 {
 	font-family:Georgia, "Times New Roman", Times, serif;
 	color:#ab3306;
 	font-style:italic;
-	border-bottom: 1px solid rgba(0, 0, 0, .3);
 }
 .table-stroke thead th {
   border-bottom: 1px solid rgba(0, 0, 0, .5);
