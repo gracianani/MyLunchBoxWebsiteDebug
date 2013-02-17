@@ -201,6 +201,7 @@
                         <td>$ @cartItem.LineItemCost</td>
                         </tr>
                     }
+                  <tr><td colspan="2"></td><td><strong>Delivery Fee</strong></td><td class="cart-subtotalPrice">$ @Html.DisplayText("shipping") @Html.Hidden("shipping")</td></tr>
                   <tr><td colspan="2"></td><td><strong>Total Amount</strong></td><td class="cart-subtotalPrice">$ @Html.DisplayText("gross") @Html.Hidden("gross")</td></tr>
                   
                   <tr class="rewardPointLine">
@@ -213,8 +214,8 @@
                   </td>
                   <td>
                    @Html.TextBoxFor(m => m.rewardPoints, new Dictionary<string, object> { { "type", "hidden" }, { "class", "input-mini" }, { "data-max", ViewBag.totalRewardPoints } }) 
-                  <input id="isUseRewardPoints" type="checkbox" checked="checked" />
-                  </td><td class="cart-subtotalPrice"> - $<span id="Savings">@Html.DisplayTextFor(m => m.Savings)</span> </td>
+                  <input id="isUseRewardPoints" name="isUseRewardPoints" type="checkbox" checked="checked" />
+                  </td><td class="cart-subtotalPrice"> - $<span id="Savings">@Html.DisplayTextFor(m => m.Savings)</span></td>
                   </tr>
                   
                   <tr><td colspan="2"></td><td><strong>Actual Amount</strong></td><td id="actualAmountTd" class="cart-subtotalPrice big">$<span id="FinalAmount">@Html.DisplayTextFor(m => m.FinalAmount)</span></td></tr>

@@ -144,7 +144,8 @@
                     
                         </tr>
                 }
-                            <tr><td colspan="5" class="cart-subtotal"><div class="pull-right">Subtotal</div></td><td class="cart-subtotalPrice big"> $@Model.Gross</td><td></td></tr>
+                        @Model.Shipping
+                        <tr><td colspan="5" class="cart-subtotal"><div class="pull-right">Subtotal</div></td><td class="cart-subtotalPrice big"> $@Model.Gross</td><td></td></tr>
             }
 
         </table>
