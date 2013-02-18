@@ -100,7 +100,6 @@
             	<tr>
             	<th>Lunchbox</th>
             	<th data-priority="1">Unit Price</th>
-            	<th>Quantity</th>
             	<th>Total Price</th>
                 <th></th>
             	</tr>
@@ -135,10 +134,8 @@
 	                     $@shoppingCartItem.UnitPrice
                         </td>
                         <td>
-	                      <input value="@shoppingCartItem.Quantity" type="number" class="cart-quantity" data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId' />
-                        </td>
-                        <td class="cart-totalPrice">
-                        $@shoppingCartItem.LineItemCost
+                        <p class="cart-totalPrice">$@shoppingCartItem.LineItemCost</p>
+                        <small>Quantity:</small><input value="@shoppingCartItem.Quantity" type="number" class="cart-quantity" data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId' />
                         </td>
                         <td>
                         <a class="removeItem delete-link" data-role="button" data-icon="delete" href="javascript:void(0)" data-itemId='@shoppingCartItem.ItemId' data-mini="true" data-inline="true" data-iconPos="notext">Delete</a>
@@ -148,8 +145,8 @@
                 }
                 </tbody>
                 <tfoot>
-                <tr><td></td><td></td><td>Shipping</td><td>@Model.Shipping</td><td></td></tr>
-                <tr><td></td><td></td><td class="cart-subtotal"><div class="pull-right">Subtotal</div></td><td class="cart-subtotalPrice big"> $@Model.Gross</td><td></td></tr>
+                <tr><td></td><td>Shipping</td><td>@Model.Shipping</td><td></td></tr>
+                <tr><td></td><td class="cart-subtotal"><div class="pull-right">Subtotal</div></td><td class="cart-subtotalPrice big"> $@Model.Gross</td><td></td></tr>
                </tfoot>
                
             }
