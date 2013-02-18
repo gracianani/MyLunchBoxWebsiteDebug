@@ -283,10 +283,11 @@ th {
 	font-size:1.4em;
 }
 
-.ui-collapsible-heading-collapsed table
+.ui-collapsible-heading table
 {
     font-style:normal;
     font-weight:normal;
+    font-size:12px;
 }
 #checkoutSummary 
 {

@@ -16,21 +16,21 @@
 
         $('#isUseRewardPoints').change(setRewardPointsNum);
         $('#rewardPoints').change(calculateActualAmount);
-
-        $("input[type='radio']").on("change", function (event, ui) {
-            if ($(this).val() == 'cash') {
-                $("#creditCard").slideUp(function () {
-                    $('#billingInfo').slideUp(
+        $("#cash").hide();
+        $("#ddl-paymentType").on("change", function (event, ui) {
+            if ($(this).val() == 'creditCard') {
+                $("#creditCard").show(function () {
+                    $('#billingInfo').show(
                         function () {
-                            $("#cash").slideDown();
+                            $("#cash").hide();
                         }
                     );
                 })
                 $("#PaymentType").val('2');
             } else {
-                $("#cash").slideUp(function () {
-                    $("#creditCard").slideDown(function () {
-                        $('#billingInfo').slideDown();
+                $("#creditCard").hide(function () {
+                    $("#cash").show(function () {
+                        $('#billingInfo').hide();
                     });
                 });
                 $("#PaymentType").val('1');
@@ -176,7 +176,7 @@
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 <div data-role="content">
 <h2>Address and Payment</h2>
-<div id="request_form" class="lightBox form-horizontal ">
+
     
     @using (Html.BeginForm())
     {
@@ -191,10 +191,9 @@
             <input type="hidden" id="canUseRewardPoints" value="@shoppingCart.CanUserRewardPoint" />
             <input type="hidden" id="needDeliveryInfo" value="@shoppingCart.NeedDeliveryInfo" />
             @{ 
-                <table data-role="table" class="ui-responsive" >
+                <table >
                 <thead>
                     <tr>
-                    <th data-priority="1">Lunchbox</th>
                     <th data-priority="2">Detail</th>
                     <th data-priority="3">Quantity</th>
                     <th data-priority="4">Price</th>
@@ -204,7 +203,6 @@
                     @foreach (var cartItem in shoppingCart.ShoppingCartItems)
                     {
                         <tr>
-                        <td>Lunchbox</td>
                         <td>@cartItem.Description</td>
                         <td>@cartItem.Quantity</td>
                         <td>$ @cartItem.LineItemCost</td>
@@ -215,8 +213,12 @@
                 
             }
             </li>
+            
+        </ul>
+        
+        <ul data-role="listview" data-inset="true">
             <li>
-                <table data-role="table" style="display:block" class="ui-responsive" id="checkoutSummary" >
+                <table id="checkoutSummary" >
                 <thead>
                     <tr></tr>
                 </thead>
@@ -228,12 +230,12 @@
                 </table>
             </li>
         </ul>
-        
         <div data-role="collapsible" class="deliveryInfo">
         	<legend>Delivery Info
                 @{ var deliveryLocation = (MyLunchBox.Models.University_Delivery)ViewData["deliveryLocation"];
                 <table>
-                    <tr><td>University</td><td>@deliveryLocation.University.UniversityName</td></tr>
+                    <tr><td>Name</td><td>@Html.DisplayFor(m => m.ReceiverFirstName) @Html.DisplayFor(m => m.ReceiverLastName)</td></tr>
+                    <tr><td>Phone</td><td>@Html.DisplayFor(m => m.ReceiverPhoneNumber)</td></tr>
                     <tr><td>DeliveryLocation</td><td>@deliveryLocation.Location.BusinessName</td></tr>
                     <tr><td>DeliveryTime</td><td>@DateTime.Parse(ViewData["deliveryTime"].ToString()).ToString("MMM dd, yyyy hh:mm tt")</td></tr>
                 </table>
@@ -264,30 +266,28 @@
                 </table>
             </legend>
             @Html.HiddenFor(m => m.PaymentType)
-            <fieldset data-role="controlgroup" data-type="horizontal" >
-                <input type="radio" name="payment-type" id="payment-type-creditCard" value="creditCard" checked="checked" />
-     	        <label for="payment-type-creditCard">Credit Card</label>
-     	        <input type="radio" name="payment-type" id="payment-type-cash" value="cash"  />
-     	        <label for="payment-type-cash">Cash</label>
-            </fieldset>
-			<div>
+            <label for="ddl-paymentType" > Please Select Payment Type</label>
+            <select id="ddl-paymentType" name="ddl-paymentType">
+                <option value="creditCard"> creditCard </option>
+                <option value="cash"> cash </option>
+            </select>
+			<div id="pnl-paymetType">
 
-			  <div id="creditCard">
-		            <div data-role="fieldcontain" >
-		                <label for="creditCardType"  class="select">Card Type</label>
+			  <div id="creditCard"  data-inset="true" class="lightbox">
+                    <fieldset>
+                        <label for="creditCardType"  class="select">Card Type</label>
 		                <select name="creditCardType">
 		                    <option value="VISA" selected="selected">Visa</option>
 		                    <option value="MASTERCARD">MasterCard</option>
 		                    <option value="DISCOVER">Discover</option>
 		                    <option value="AMEX">Amex</option>
 		                </select>
-                    </div>
-                    <div data-role="fieldcontain"  >
-                        <label for="cardNumber">Card Number</label>
+                    </fieldset>
+                    <fieldset >
+                        <label >Card Number</label>
                         @Html.TextBoxFor(m => m.cardNumber)@Html.ValidationMessageFor(m => m.cardNumber)
-		            </div>
-                    
-		            <fieldset data-role="controlgroup" data-type="horizontal">
+                    </fieldset>
+                    <fieldset data-role="controlgroup" data-type="horizontal">
 		            <legend class="control-label">Card Expiration Date</legend>
 		            <select name="cardExpMonth" class="span1">
 		                <option value="1">01</option>
@@ -312,12 +312,14 @@
 		                <option value="2018">2018</option>
 		            </select>
 		            </fieldset>
-		            <div class="control-group">
-		            <label class="control-label">CSV</label>
-		             <div class="controls"> @Html.TextBoxFor(m => m.CSV)@Html.ValidationMessageFor(m => m.CSV) (<a href="#popupCSV" data-rel="popup" id="whatscsv"> <i class="icon-info-sign icon-orange"></i> What's CSV? </a>)</div>
-		            </div>				  
+		            <fieldset>
+		            <label class="control-label">CSV</label> (<a href="#popupCSV" data-rel="popup" id="whatscsv"> 
+                     <i class="icon-info-sign icon-orange"></i> What's CSV? </a>)
+		             <div class="controls"> @Html.TextBoxFor(m => m.CSV)@Html.ValidationMessageFor(m => m.CSV)</div>
+		            </fieldset>		
+		            		  
 			  </div>
-			  <div id="cash">
+			  <div id="cash" style="display:none" class="lightbox">
                 <ul>
                     <li>Cash on delivery (COD) payment</li>
                     <li> You have chosen the cash on delivery method</li>
@@ -333,7 +335,12 @@
 			</div>
 
             <div data-role="collapsible" id="billingInfo">
-            <legend>Billing Info</legend>
+            <legend>Billing Info
+                <table>
+                    <tr><td> @Html.DisplayFor(m => m.billingFirstName) @Html.DisplayFor(m => m.billingLastName) </td></tr>
+                    <tr><td> @Html.DisplayFor(m => m.billingAddress1) @Html.DisplayFor(m => m.billingAddress2), @Html.DisplayFor(m => m.billingCity), @Html.DisplayFor(m => m.billingState), @Html.DisplayFor(m => m.billingZipCode) </td></tr>
+                </table>
+            </legend>
             <div class="control-group">
             <label for="billingFirstName" class="control-label">First Name</label>
             <div class="controls">
@@ -372,7 +379,7 @@
         <div class="clearfix">
         <input type="submit" class="btn btn-primary btn-big pull-right" value="Submit" />
         </div>
-    }</div>
+    }
 
 </div>
 

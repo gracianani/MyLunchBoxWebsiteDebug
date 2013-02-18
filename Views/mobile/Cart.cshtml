@@ -27,7 +27,7 @@
         		    console.log(tr.html());
         		    var totalPrice = Math.round(unitPrice * qty * 100) / 100;
         		    tr.find('.cart-totalPrice').html('$' + totalPrice);
-
+        		    setDeliveryFee(data.shipping);
         		    setSubtotalPrice(data.gross);
 
         		});
@@ -48,7 +48,9 @@
     function setSubtotalPrice(price) {
         $('.cart-subtotalPrice').html('$' + price);
     }
-
+    function setDeliveryFee(price) {
+        $(".cart-deliveryFee").html('$' + price);
+    }
     function bindRemove() {
         $(".removeItem").tap(function () {
             var itemId = $(this).attr("data-itemId");
@@ -57,6 +59,7 @@
                 $.post("/ShoppingCart/RemoveItem/", { "itemId": itemId, "itemTypeId": itemTypeId },
                     function (data) {
                         setSubtotalPrice(data.gross);
+                        setDeliveryFee(data.shipping);
                         window.location.reload();
                     });
             }
@@ -70,7 +73,7 @@
     <ul class="createBentoProgress">
             <li>
             <span class="ui-icon ui-icon-check">&nbsp;</span>
-            <a class="prev" href="/CustomBentoBox/ChooseRestaurant/">Restaurant</a>  &raquo; </li>
+            <a class="prev" href="/Mobile/ChooseRestaurant/">Restaurant</a>  &raquo; </li>
             <li>
             <span class="ui-icon ui-icon-check">&nbsp;</span>
             <a class="prev">LunchBox</a> &raquo; </li>
@@ -93,7 +96,7 @@
             @if (Model.ShoppingCartItems.Count == 0)
             {
                 <tr><td><img src="../Content/Images/emptybox.png" /></td>
-                <td><div style="padding-top:50px;">Your Cart is empty! Go @Html.ActionLink("create a lunchbox", "ChooseRestaurant", "CustomBentoBox", new Object{}, new { @class = "em"} ) now!</div></td></tr>
+                <td><div style="padding-top:50px;">Your Cart is empty! Go @Html.ActionLink("create a lunchbox", "ChooseRestaurant", "Mobile", new Object { }, new { @class = "em" }) now!</div></td></tr>
             }
             else {
             	<thead>
@@ -145,7 +148,7 @@
                 }
                 </tbody>
                 <tfoot>
-                <tr><td class="cart-subtotal">Delivery Fee</td><td></td><td class="cart-totalPrice">$@Model.Shipping</td><td></td></tr>
+                <tr><td class="cart-subtotal">Delivery Fee</td><td></td><td class="cart-deliveryFee">$@Model.Shipping</td><td></td></tr>
                 <tr><td class="cart-subtotal">Subtotal</td><td></td><td class="cart-subtotalPrice"> $@Model.Gross</td><td></td></tr>
                </tfoot>
                
@@ -166,7 +169,7 @@ new { @data_role="button",@data_icon="arrow-l",@data_iconPos="left"})
 	</div>
     <div class="ui-block-b">
     @Html.ActionLink("Checkout", "Checkout", "Mobile", new object { },
-new { @data_role="button",@data_icon="arrow-r",@data_iconPos="right",@data_theme="b"})
+new { @data_role="button",@data_icon="arrow-r",@data_iconPos="right",@data_theme="b", @data_ajax="false"})
 	</div>
 }
 </div>
