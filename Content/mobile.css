@@ -273,3 +273,17 @@ th {
 	color: #c84c0b;
 	font-size: 1.2em;
 }
+.ui-collapsible-heading-collapsed table
+{
+    font-style:normal;
+    font-weight:normal;
+}
+#checkoutSummary 
+{
+    display:block;
+}
+#checkoutSummary th
+{
+    width:90%;
+    text-align:right;
+}

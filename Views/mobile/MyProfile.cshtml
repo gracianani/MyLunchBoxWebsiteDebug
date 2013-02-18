@@ -9,69 +9,64 @@
 
 @using (Html.BeginForm())
     {
-    <fieldset>
-    <legend>Basic Info</legend>
-    <div class="control-group">
-	    <label class="control-label" for="email">Email:</label>
-	    <div class="controls controlsText">
-	    	@User.Identity.Name
+	    <div data-role="collapsible" id="basicInfo">
+	        <legend>Basic Info
+                <table>
+                    <tr><td>Email :</td><td>@User.Identity.Name</td></tr>
+                    <tr><td>First Name:</td><td id="tdFirstName">@Html.DisplayFor(m=>m.FirstName)</td></tr>
+                    <tr><td>Last Name:</td><td id="tdLastName">@Html.DisplayFor(m=>m.LastName)</td></tr>
+                    <tr><td>Phone Number:</td><td id="tdPhoneNumber">@Html.DisplayFor(m=>m.PhoneNumber)</td></tr>
+                </table>
+            </legend>
+            <label class="control-label" for="firstName">First Name:</label>
+	        <div class="controls">
+                @Html.EditorFor(m => m.FirstName, new { @class = "text-box single-line" })
+	        </div>
+            <label class="control-label" for="lastName">Last Name:</label>
+	        <div class="controls">
+	    	    @Html.EditorFor(m => m.LastName, new { @class = "text-box single-line" })
+	        </div>
+            <label class="control-label" for="phone">Phone:</label>
+	        <div class="controls">
+	    	    @Html.EditorFor(m => m.PhoneNumber, new { @class = "text-box single-line" })
+                @Html.ValidationMessageFor(m => m.PhoneNumber)
+	        </div>
 	    </div>
-    </div>
-    
-    <div class="control-group">
-	    <label class="control-label" for="firstName">First Name:</label>
-	    <div class="controls">
-            @Html.EditorFor(m => m.FirstName, new { @class = "text-box single-line" })
+	    
+        <div data-role="collapsible" id="deliveryInfo" >
+	        <legend>Delivery Info
+                <table>
+                    <tr><td>University</td><td id="tdUniversityName"> @Html.DisplayFor(m=>m.UniversityName) </td></tr>
+                    <tr><td>DeliveryLocation</td><td id="tdUniversityDeliveryName">@Html.DisplayFor(m=>m.UniversityDeliveryName) </td></tr>
+                </table>
+            </legend>
+	        <div class="control-group">
+	            <label class="control-label" for="UniversityId">University:</label>
+	            <div class="controls">
+	    	        @Html.DropDownListFor(m => m.UniversityId, @Model.Universities)
+	            </div>
+            </div>
+            <div class="control-group">
+	            <label class="control-label" for="UniversityDeliveryId">Location and Time:</label>
+	            <div class="controls">
+	    	        @Html.DropDownListFor(m => m.UniversityDeliveryId, @Model.DeliveryLocations)
+	            </div>
+            </div>
 	    </div>
-    </div>
-    
-    <div class="control-group">
-	    <label class="control-label" for="lastName">Last Name:</label>
-	    <div class="controls">
-	    	@Html.EditorFor(m => m.LastName, new { @class = "text-box single-line" })
-	    </div>
-    </div>
-    
-    <div class="control-group">
-	    <label class="control-label" for="phone">Phone:</label>
-	    <div class="controls">
-	    	@Html.EditorFor(m => m.PhoneNumber, new { @class = "text-box single-line" })
-            @Html.ValidationMessageFor(m=>m.PhoneNumber)
-	    </div>
-    </div>
-    
-    </fieldset>
-    <legend>Delivery Info</legend>
-    <div class="control-group">
-	    <label class="control-label" for="UniversityId">University:</label>
-	    <div class="controls">
-	    	@Html.DropDownListFor(m => m.UniversityId, @Model.Universities)
-	    </div>
-    </div>
-    <div class="control-group">
-	    <label class="control-label" for="UniversityDeliveryId">Location and Time:</label>
-	    <div class="controls">
-	    	@Html.DropDownListFor(m => m.UniversityDeliveryId, @Model.DeliveryLocations)
-	    </div>
-    </div>
-    <fieldset style="display:none">
-    <legend>Contact Info</legend>
-
-    <div class="control-group">
-	    <label class="control-label" for="qq">QQ:</label>
-	    <div class="controls">
-	    	<input name="qq" id="qq" type="text" value="" />
-	    </div>
-    </div>
-    <div class="control-group">
-	    <label class="control-label" for="msn">MSN:</label>
-	    <div class="controls">
-	    	<input name="msn" id="msn" type="text" value="" />
-	    </div>
-    </div>    
-    </fieldset>
-    <fieldset id="billingInfo" style="display: block;">
-            <legend>Address</legend>
+	
+        <div data-role="collapsible" id="addressInfo" >
+        
+            <legend>Address
+                <table>
+                    <tr><td id="tdAddressName">@Html.DisplayFor(m=>m.LocationFirstName) @Html.DisplayFor(m=>m.LocationLastName)
+                    </td></tr>
+                    <tr><td id="tdAddressDetails">
+                        @Html.DisplayFor(m=>m.Address1) @Html.DisplayFor(m=>m.Address2), @Html.DisplayFor(m=>m.City),
+                        @Html.DisplayFor(m=>m.State), @Html.DisplayFor(m=>m.ZipCode)  
+                    </td></tr>
+                </table>
+            </legend>
+            
             <div class="control-group">
             <label for="billingFirstName" class="control-label">First Name</label>
             <div class="controls">@Html.EditorFor(m => m.LocationFirstName, new { @class = "text-box single-line" })
@@ -87,27 +82,28 @@
             </div>
             <div class="control-group">
             <label for="billingAddress2" class="control-label">Address Line2</label>
-            <div class="controls">@Html.EditorFor(m=>m.Address2, new {@class="text-box single-line"}) </div>
+            <div class="controls">@Html.EditorFor(m => m.Address2, new { @class = "text-box single-line" }) </div>
             </div>
             <div class="control-group">
             <label for="billingCity" class="control-label">City</label>
-            <div class="controls">@Html.EditorFor(m=>m.City, new {@class="text-box single-line"})</div>
+            <div class="controls">@Html.EditorFor(m => m.City, new { @class = "text-box single-line" })</div>
             </div>
             <div class="control-group">
             <label for="billingState" class="control-label">State</label>
-            <div class="controls">@Html.DropDownListFor(m=>m.State, @Model.States)</div>
+            <div class="controls">@Html.DropDownListFor(m => m.State, @Model.States)</div>
             </div>
             <div class="control-group">
             <label for="billingZipCode" class="control-label">ZipCode</label>
             <div class="controls">
-                @Html.EditorFor(m=>m.ZipCode, new {@class="text-box single-line"})
-                @Html.ValidationMessageFor(m=>m.ZipCode)
+                @Html.EditorFor(m => m.ZipCode, new { @class = "text-box single-line" })
+                @Html.ValidationMessageFor(m => m.ZipCode)
             </div>
             </div>
-     </fieldset>
-    <div class="clearfix">
-        <input type="submit" class="btn btn-primary btn-big pull-right" value="Save Changes" />
-    </div>
+        </div>
+    
+        <div class="clearfix">
+            <input type="submit" class="btn btn-primary btn-big pull-right" value="Save Changes" />
+        </div>
     }
     </div>
 
@@ -130,5 +126,28 @@
                 }
             });
         });
+
+        $("#basicInfo").bind("collapse",
+             function (event, ui) {
+                 $("#tdFirstName").html($("#FirstName").val())
+                 $("#tdLastName").html($("#LastName").val())
+                 $("#tdPhoneNumber").html($("#PhoneNumber").val())
+             }
+        );
+
+        $("#deliveryInfo").bind("collapse",
+             function (event, ui) {
+                 $("#tdUniversityName").html($("#UniversityId option:selected").text())
+                 $("#tdUniversityDeliveryName").html($("#UniversityDeliveryId option:selected").text())
+             }
+        );
+
+        $("#addressInfo").bind("collapse",
+             function (event, ui) {
+                 $("#tdAddressName").html($("#LocationFirstName").val() + " " + $("#LocationLastName").val())
+                 $("#tdAddressDetails").html($("#Address1").val() + " " + $("#Address2").val() + ", " + $("#City").val() + ", "
+                    + $("#State option:selected").text() + ", " + $("#ZipCode").val());
+             }
+        );
     });
 </script>
