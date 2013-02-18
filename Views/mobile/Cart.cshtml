@@ -7,7 +7,7 @@
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 <script type="text/javascript">
-    $(function () {
+    $(document).bind('pageinit',function(){
         bindRemove();
 
         $(".cart-quantity").change(function () {
@@ -24,7 +24,7 @@
         		function (data) {
         		    var tr = $("tr[data-itemId='" + itemId + "']");
         		    var unitPrice = parseFloat(tr.find('.cart-unitPrice').attr('data-price'));
-
+					console.log(tr.html());
         		    var totalPrice = Math.round(unitPrice * qty * 100) / 100;
         		    tr.find('.cart-totalPrice').html('$' + totalPrice);
 
@@ -34,7 +34,7 @@
 
         });
 
-        $('.btn-submit').click(function (e) {
+        $('.btn-submit').tap(function (e) {
             e.preventDefault();
             $(this).attr('disabled', 'true');
 
@@ -50,7 +50,7 @@
     }
 
     function bindRemove() {
-        $(".removeItem").click(function () {
+        $(".removeItem").tap(function () {
             var itemId = $(this).attr("data-itemId");
             var itemTypeId = $(this).attr('data-itemTypeId');
             if (itemId != '') {
@@ -110,7 +110,7 @@
                     <tr data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId'>
                         <td >
                         	@if(@shoppingCartItem.ItemTypeId == (int)MyLunchBox.Models.ItemType.CustomBentoBox) {
-                                <p class="cart-boxType">@shoppingCartItem.CustomBentoBox.BentoBox.BentoBoxName @Html.ActionLink("edit", "Create", "CustomBentoBox",  new { customBentoBoxId = @shoppingCartItem.ItemId }, new {@class="edit-link",@data_role="button",@data_mini="true",@data_icon="edit",@data_inline="true",@data_iconPos="notext"} )</p>
+                                <p class="cart-boxType">@shoppingCartItem.CustomBentoBox.BentoBox.BentoBoxName @Html.ActionLink("edit", "Create", "Mobile",  new { customBentoBoxId = @shoppingCartItem.ItemId }, new {@class="edit-link",@data_role="button",@data_mini="true",@data_icon="edit",@data_inline="true",@data_iconPos="notext",@data_ajax="false"} )</p>
                             }
                             else {
                                 <p>@shoppingCartItem.Description</p>    
@@ -130,23 +130,23 @@
                             }
                             
                         </td>
-                        <td class="cart-unitPrice" data-price="@shoppingCartItem.LineItemCost">
+                        <td class="cart-unitPrice" data-price="@shoppingCartItem.UnitPrice">
 	                     $@shoppingCartItem.UnitPrice
                         </td>
                         <td>
-                        <p class="cart-totalPrice">$@shoppingCartItem.LineItemCost</p>
+                        <p class="cart-totalPrice" data-price="@shoppingCartItem.LineItemCost">$@shoppingCartItem.LineItemCost</p>
                         <small>Quantity:</small><input value="@shoppingCartItem.Quantity" type="number" class="cart-quantity" data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId' />
                         </td>
                         <td>
-                        <a class="removeItem delete-link" data-role="button" data-icon="delete" href="javascript:void(0)" data-itemId='@shoppingCartItem.ItemId' data-mini="true" data-inline="true" data-iconPos="notext">Delete</a>
+                        <a class="removeItem delete-link" data-role="button" data-icon="delete" href="javascript:void(0)" data-itemId='@shoppingCartItem.ItemId' data-itemTypeId='@shoppingCartItem.ItemTypeId' data-mini="true" data-inline="true" data-iconPos="notext">Delete</a>
                         </td>
                     
                         </tr>
                 }
                 </tbody>
                 <tfoot>
-                <tr><td></td><td>Shipping</td><td>@Model.Shipping</td><td></td></tr>
-                <tr><td></td><td class="cart-subtotal"><div class="pull-right">Subtotal</div></td><td class="cart-subtotalPrice big"> $@Model.Gross</td><td></td></tr>
+                <tr><td class="cart-subtotal">Delivery Fee</td><td></td><td class="cart-totalPrice">$@Model.Shipping</td><td></td></tr>
+                <tr><td class="cart-subtotal">Subtotal</td><td></td><td class="cart-subtotalPrice"> $@Model.Gross</td><td></td></tr>
                </tfoot>
                
             }

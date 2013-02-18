@@ -272,3 +272,12 @@ th {
 .cart-totalPrice, .cart-subtotalPrice {
 	color: #c84c0b;
 }
+.cart-subtotal {
+	color: #6a594e;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	text-shadow: 1px 1px 0 rgba(255,255,255,0.6);
+	font-style: italic;
+}
+.cart-subtotalPrice {
+	font-size:1.4em;
+}
