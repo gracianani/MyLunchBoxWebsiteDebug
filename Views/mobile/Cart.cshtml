@@ -75,9 +75,11 @@
             <span class="ui-icon ui-icon-check">&nbsp;</span>
             <a class="prev">LunchBox</a> &raquo; </li>
             <li>
+            <span class="ui-icon ui-icon-check">&nbsp;</span>
+            <a class="prev">Dishes</a> &raquo;</li>
+            <li>
             <span class="ui-icon ui-icon-edit">&nbsp;</span>
-            <a class="current">Dishes</a> &raquo;</li>
-            <li><a>CheckOut</a></li>
+            <a  class="current">CheckOut</a></li>
     </ul>
     <h3>My Shopping Cart</h3>
     <fieldset>
@@ -96,7 +98,7 @@
             else {
             	<thead>
             	<tr>
-            	<th>Details</th>
+            	<th>Lunchbox</th>
             	<th data-priority="1">Unit Price</th>
             	<th>Quantity</th>
             	<th>Total Price</th>
@@ -159,12 +161,16 @@
     
 }
 
-<div class="clearfix">
+<div class="ui-grid-a">
 @if (Model.ShoppingCartItems.Count > 0) {
+	<div class="ui-block-a">
     @Html.ActionLink("Continue Shopping", "ChooseRestaurant", "Mobile",new object { },
-new { @class = "btn pull-left"})
-    @Html.ActionLink("Checkout »", "Checkout", "Mobile", new object { },
-new { @class = "btn btn-primary pull-right btn-big btn-submit"})
+new { @data_role="button",@data_icon="arrow-l",@data_iconPos="left"})
+	</div>
+    <div class="ui-block-b">
+    @Html.ActionLink("Checkout", "Checkout", "Mobile", new object { },
+new { @data_role="button",@data_icon="arrow-r",@data_iconPos="right",@data_theme="b"})
+	</div>
 }
 </div>
 </div>
