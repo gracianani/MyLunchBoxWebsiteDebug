@@ -5,20 +5,22 @@
     Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
 }
 
+
 <div data-role="content">
     <h2>MyOrders</h2>
-        @if (Model.Count() == 0)
+        
+            <div data-role="navbar">
+	            <ul>
+		            <li><a href="javascript:void(0)" data-dateFrom='@DateTime.Now.Date.ToShortDateString()' class="getOrders ui-btn-active">Today's Orders</a></li>
+		            <li><a href="javascript:void(0)" data-dateFrom='@DateTime.Now.Date.AddDays(-30).ToShortDateString()' data-dateTo='@DateTime.Now.Date.AddDays(1).ToShortDateString()' class="getOrders" > Previous Orders </a></li>
+	            </ul>
+            </div><!-- /navbar -->
+            @if (Model.Count() == 0)
         {
             <h2> You haven't order anything yet, @Html.ActionLink("create one Now", "ChooseRestaurant", "CustomBentoBox")</h2>
         }
         else
         {
-            <div data-role="navbar">
-	            <ul>
-		            <li><a href="javascript:void(0)" class="ui-btn-active ui-state-persist">Today's Order</a></li>
-		            <li><a href="javascript:void(0)"> Previous Orders</a></li>
-	            </ul>
-            </div><!-- /navbar -->
             foreach (var order in Model)
             {
                 
@@ -73,4 +75,12 @@
             }
         }
 </div>
-
+<script>
+    $(function () {
+        $('a.getOrders').click(
+            function () {
+                window.location = '/Mobile/MyOrders?datefrom=' + $(this).attr('data-dateFrom');
+            }
+        );
+    });
+</script>

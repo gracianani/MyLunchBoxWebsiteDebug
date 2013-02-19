@@ -10,180 +10,21 @@
     var shoppingCart = (MyLunchBox.Models.ShoppingCart)ViewData["cart"]; 
 }
 
-
-<script type="text/javascript">
-    $(function () {
-
-        $('#isUseRewardPoints').change(setRewardPointsNum);
-        $('#rewardPoints').change(calculateActualAmount);
-        $("#cash").hide();
-        $("#ddl-paymentType").on("change", function (event, ui) {
-            if ($(this).val() == 'creditCard') {
-                $("#creditCard").show(function () {
-                    $('#billingInfo').show(
-                        function () {
-                            $("#cash").hide();
-                        }
-                    );
-                })
-                $("#PaymentType").val('2');
-            } else {
-                $("#creditCard").hide(function () {
-                    $("#cash").show(function () {
-                        $('#billingInfo').hide();
-                    });
-                });
-                $("#PaymentType").val('1');
-            }
-        });
-
-        $.validator.addMethod("billinginforequired", function (value) {
-            if ($("#PaymentType").val() == '1') {
-                return (value != null && value != '' && typeof (value) != 'undefined');
-            }
-            return true;
-        });
-        $.validator.unobtrusive.adapters.addBool("billinginforequired");
-        $.validator.addMethod("deliveryinforequired", function (value) {
-            console.log(value);
-            if ($('#needDeliveryInfo').val() == 'True') {
-                return (value != null && value != '' && typeof (value) != 'undefined');
-            }
-            return true;
-        });
-        $.validator.unobtrusive.adapters.addBool("deliveryinforequired");
-        initActualAmount();
-        if ($('#needDeliveryInfo').val() == 'True') {
-            $('.deliveryInfo').show();
-        }
-        else {
-            $('.deliveryInfo').hide();
-        }
-
-        $(':submit').click(function () {
-            $(this).attr('disabled', 'true');
-            if ($('form').validate().form()) {
-                $('<div style="position:fixed;left:0;top:0;padding-top:20%;height:80%;width:100%;background-color:rgba(0,0,0,0.6);color:#FFF;z-index:999;text-align:center;display:none"><img src="../../Content/Images/ajax-loader.gif" style="vertical-align:top" /> Processing...</div>').appendTo($('.page')).fadeIn();
-
-                $('form').submit();
-            } else {
-                $(this).removeAttr('disabled');
-            }
-        });
-
-        checkUniversity('UCLA', 'PUWL');
-
-
-
-    });
-    function getExchangeRate() {
-        return 100;
-    }
-    function initActualAmount() {
-        if ($("#canUseRewardPoints").val() == "True") {
-            initRewardPointsCheckbox(true)
-        } else {
-            $("#PaymentType").val('1');
-            $('#paymentTab').find('li:has(a[href=#cash])').hide();
-            initRewardPointsCheckbox(false);
-        }
-
-    }
-    function initRewardPointsCheckbox(adminSetting) {
-        var exchangeRate = getExchangeRate();
-        var rewardPoints = parseInt($('#rewardPoints').attr("data-max"));
-        var orderAmount = Math.round(exchangeRate * parseFloat($('#gross').val()));
-        if (adminSetting && (rewardPoints > orderAmount)) {
-            $('#isUseRewardPoints').attr('checked', 'checked');
-            $(".rewardPointLine").show();
-        } else {
-            $('#isUseRewardPoints').removeAttr('checked');
-            $(".rewardPointLine").hide();
-        }
-        setRewardPointsNum();
-    }
-
-    function setRewardPointsNum(e) {
-
-        var exchangeRate = getExchangeRate();
-        var rewardPoints = parseInt($('#rewardPoints').attr("data-max"));
-
-        if ($('#isUseRewardPoints').is(':checked')) {
-
-            var orderAmount = Math.round(exchangeRate * parseFloat($('#gross').val()));
-            var usedPoints = Math.min(orderAmount, rewardPoints);
-
-            $('#rewardPoints').val(usedPoints);
-            $('#orderAmountPoints').html(usedPoints);
-            $('#remainPoints').html('' + (rewardPoints - usedPoints));
-        } else {
-            $('#rewardPoints').val(0);
-            $('#orderAmountPoints').html('0');
-            $('#remainPoints').html(rewardPoints);
-        }
-        calculateActualAmount();
-    }
-    function calculateActualAmount() {
-        var exchangeRate = getExchangeRate();
-        var rewardPoints = parseInt($('#rewardPoints').val());
-        var max = parseInt($('#rewardPoints').attr("data-max"));
-        var gross = parseFloat($('#gross').val());
-        max = Math.min(Math.round(gross * exchangeRate), max);
-        if (rewardPoints > max) {
-            $('#rewardPoints').val(max);
-            rewardPoints = max;
-        }
-        else if (rewardPoints < 0 || rewardPoints == NaN) {
-            $('#rewardPoints').val(0);
-            rewardPoints = 0;
-        }
-        var actualAmount = gross - rewardPoints / exchangeRate;
-        $('#Savings').html((rewardPoints / exchangeRate).toFixed(2));
-
-        if (actualAmount < 0.009) {
-            $('#billingInfo, #paymentInfo').hide();
-            $("#PaymentType").val('3');
-        } else {
-            $('#paymentInfo').show();
-            if (!$('#cash').hasClass('active')) {
-                $('#billingInfo').show();
-                $("#PaymentType").val('1');
-            }
-            else {
-                $("#PaymentType").val('2');
-            }
-        }
-        showActualAmount(actualAmount);
-    }
-    function showActualAmount(amount) {
-        amount = (Math.round(amount * 100) / 100).toFixed(2);
-        $('#FinalAmount').html(amount);
-    }
-    function checkUniversity(orderUniversity, profileUniversity) {
-
-        if (!(orderUniversity == profileUniversity)) {
-
-            if (confirm("Your order location(" + orderUniversity + ") is different with your profile location(" + profileUniversity + ")\nAre you sure to check out?")) {
-                $('#orderUniversity').html('<em style="font-size:18px">' + $('#orderUniversity').html() + '</em>');
-                console.log($('#orderUniversity'));
-            } else {
-                window.location.href = "/ShoppingCart/Edit/";
-            }
-        }
-    }
-</script>
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+
 <div data-role="content">
 <h2>Address and Payment</h2>
 
     
     @using (Html.BeginForm())
     {
-        if (!string.IsNullOrEmpty(validationSummary))
+        if (!string.IsNullOrEmpty(validationSummary) )
         {
+            @Html.ValidationSummary(true)
             <ul class="alert alert-block alert-error" >
-                <li>@validationSummary</li>
+                <li> @validationSummary</li>
             </ul>
         }
         <ul data-role="listview" data-inset="true">
@@ -216,20 +57,6 @@
             
         </ul>
         
-        <ul data-role="listview" data-inset="true">
-            <li>
-                <table id="checkoutSummary" >
-                <thead>
-                    <tr></tr>
-                </thead>
-                <tbody>
-                    <tr><th >Item Subtotal</th><td> @shoppingCart.ItemSubtotal</td></tr>
-                    <tr><th >Delivery Fee</th><td> @shoppingCart.Shipping</td></tr>
-                    <tr><th >Gross</th><td> @shoppingCart.Gross</td></tr>
-                </tbody> 
-                </table>
-            </li>
-        </ul>
         <div data-role="collapsible" class="deliveryInfo">
         	<legend>Delivery Info
                 @{ var deliveryLocation = (MyLunchBox.Models.University_Delivery)ViewData["deliveryLocation"];
@@ -257,6 +84,7 @@
             </div>
             </div>
         </div>
+        
         
         <div data-role="collapsible">
             <legend>
@@ -376,6 +204,57 @@
             </div>
             </div> 
         </div>
+        
+        <ul data-role="listview" data-inset="true">
+            <li>
+                <table>
+                  <tr class="rewardPointLine">
+                  <td colspan="2">
+                  <div class="pull-right" style="line-height:32px;">
+                  You've <em>@Html.Display("totalRewardPoints")</em> award points, make payment with your points?
+                  <br />
+                  (Order Amount:<span id="orderAmountPoints">0</span>  | Remain: <span id="remainPoints">0</span> )
+                  </div>
+                  </td>
+                  <td>
+                   @Html.TextBoxFor(m => m.rewardPoints, new Dictionary<string, object> { { "type", "hidden" }, { "class", "input-mini" }, { "data-max", ViewBag.totalRewardPoints } }) 
+                  <label><input id="isUseRewardPoints" type="checkbox" name="isUseRewardPoints" /> Use Reward Points</label>
+                  
+                  </td><td class="cart-subtotalPrice"> </td>
+                  </tr>
+                  <tr class="notEnoughRewardPointLine">
+                  
+                  <td colspan="2">
+                  <div class="pull-right" style="line-height:32px;">
+                  You've <em>@Html.Display("totalRewardPoints")</em> award points, not enough to pay the bill. 
+                  </div>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  </tr>
+                </table>
+            </li>
+        </ul>
+        
+        <ul data-role="listview" data-inset="true">
+            <li>
+                <table id="checkoutSummary" >
+                <thead>
+                    <tr></tr>
+                </thead>
+                <tbody>
+                    <tr><th >Item Subtotal</th><td>+</td><td> @shoppingCart.ItemSubtotal</td></tr>
+                    <tr><th >Delivery Fee</th><td>+</td><td> @shoppingCart.Shipping</td></tr>
+                    <tr><th >Gross</th><td>+</td><td> @shoppingCart.Gross @Html.Hidden("gross")</td></tr>
+                    <tr><th> Total Saving</th><td>-</td><td> $<span id="Savings">@Html.DisplayTextFor(m => m.Savings)</span></td></tr>
+                    <tr><th >Gross</th> <td></td><td> <span id="FinalAmount">@Html.DisplayTextFor(m => m.FinalAmount)</span></td></tr>
+                </tbody> 
+                </table>
+            </li>
+        </ul>
+        
         <div class="clearfix">
         <input type="submit" class="btn btn-primary btn-big pull-right" value="Submit" />
         </div>
@@ -391,3 +270,174 @@
     <p>On American Express cards, the CVS Code is a 4 digit number located on the front of the card such as shown below:</p>
     <img src='../../Content/Images/EchoCvAmexCardBig.gif' />
 </div>
+
+
+<script type="text/javascript">
+    $(function () {
+
+        $('#isUseRewardPoints').change(setRewardPointsNum);
+        $('#rewardPoints').change(calculateActualAmount);
+        $("#cash").hide();
+        $("#ddl-paymentType").on("change", function (event, ui) {
+            if ($(this).val() == 'creditCard') {
+                $("#creditCard").show(function () {
+                    $('#billingInfo').show(
+                        function () {
+                            $("#cash").hide();
+                        }
+                    );
+                })
+                $("#PaymentType").val('1');
+            } else {
+                $("#creditCard").hide(function () {
+                    $("#cash").show(function () {
+                        $('#billingInfo').hide();
+                    });
+                });
+                $("#PaymentType").val('2');
+            }
+        });
+
+        $.validator.addMethod("billinginforequired", function (value) {
+            if ($("#PaymentType").val() == '1') {
+                return (value != null && value != '' && typeof (value) != 'undefined');
+            }
+            return true;
+        });
+        $.validator.unobtrusive.adapters.addBool("billinginforequired");
+        $.validator.addMethod("deliveryinforequired", function (value) {
+            console.log(value);
+            if ($('#needDeliveryInfo').val() == 'True') {
+                return (value != null && value != '' && typeof (value) != 'undefined');
+            }
+            return true;
+        });
+        $.validator.unobtrusive.adapters.addBool("deliveryinforequired");
+        initActualAmount();
+        if ($('#needDeliveryInfo').val() == 'True') {
+            $('.deliveryInfo').show();
+        }
+        else {
+            $('.deliveryInfo').hide();
+        }
+
+        $(':submit').click(function () {
+            $(this).attr('disabled', 'true');
+            if ($('form').validate().form()) {
+                $('<div style="position:fixed;left:0;top:0;padding-top:20%;height:80%;width:100%;background-color:rgba(0,0,0,0.6);color:#FFF;z-index:999;text-align:center;display:none"><img src="../../Content/Images/ajax-loader.gif" style="vertical-align:top" /> Processing...</div>').appendTo($('.page')).fadeIn();
+
+                $('form').submit();
+            } else {
+                $(this).removeAttr('disabled');
+            }
+        });
+
+        checkUniversity('UCLA', 'PUWL');
+
+
+
+    });
+    function getExchangeRate() {
+        return 100;
+    }
+    function initActualAmount() {
+        if ($("#canUseRewardPoints").val() == "True") {
+            initRewardPointsCheckbox(true)
+        } else {
+            $("#PaymentType").val('1');
+            $('#paymentTab').find('li:has(a[href=#cash])').hide();
+            initRewardPointsCheckbox(false);
+        }
+
+    }
+    function initRewardPointsCheckbox(adminSetting) {
+        var exchangeRate = getExchangeRate();
+        var rewardPoints = parseInt($('#rewardPoints').attr("data-max"));
+        var orderAmount = Math.round(exchangeRate * parseFloat($('#gross').val()));
+        if (adminSetting && (rewardPoints > orderAmount)) {
+            $('#isUseRewardPoints').attr('checked', 'checked');
+            $(".rewardPointLine").show();
+            $('.notEnoughRewardPointLine').hide();
+        } else {
+            $('#isUseRewardPoints').removeAttr('checked');
+            $(".rewardPointLine").hide();
+            $('#rewardPoints').val(0);
+            if (adminSetting && !isRewardPointsEnough) {
+                $('.notEnoughRewardPointLine').show();
+            }
+            else {
+                $('.notEnoughRewardPointLine').hide();
+            }
+        }
+        setRewardPointsNum();
+    }
+
+    function setRewardPointsNum(e) {
+
+        var exchangeRate = getExchangeRate();
+        var rewardPoints = parseInt($('#rewardPoints').attr("data-max"));
+
+        if ($('#isUseRewardPoints').is(':checked')) {
+
+            var orderAmount = Math.round(exchangeRate * parseFloat($('#gross').val()));
+            var usedPoints = Math.min(orderAmount, rewardPoints);
+
+            $('#rewardPoints').val(usedPoints);
+            $('#orderAmountPoints').html(usedPoints);
+            $('#remainPoints').html('' + (rewardPoints - usedPoints));
+        } else {
+            $('#rewardPoints').val(0);
+            $('#orderAmountPoints').html('0');
+            $('#remainPoints').html(rewardPoints);
+        }
+        calculateActualAmount();
+    }
+    function calculateActualAmount() {
+        var exchangeRate = getExchangeRate();
+        var rewardPoints = parseInt($('#rewardPoints').val());
+        var max = parseInt($('#rewardPoints').attr("data-max"));
+        var gross = parseFloat($('#gross').val());
+        max = Math.min(Math.round(gross * exchangeRate), max);
+        if (rewardPoints > max) {
+            $('#rewardPoints').val(max);
+            rewardPoints = max;
+        }
+        else if (rewardPoints < 0 || rewardPoints == NaN) {
+            $('#rewardPoints').val(0);
+            rewardPoints = 0;
+        }
+        var actualAmount = gross - rewardPoints / exchangeRate;
+        $('#Savings').html((rewardPoints / exchangeRate).toFixed(2));
+
+        if (actualAmount < 0.009) {
+            $('#billingInfo, #paymentInfo').hide();
+            $("#PaymentType").val('3');
+        } else {
+            $('#paymentInfo').show();
+            if (!$('#cash').hasClass('active')) {
+                $('#billingInfo').show();
+                $("#PaymentType").val('1');
+            }
+            else {
+                $("#PaymentType").val('2');
+            }
+        }
+        showActualAmount(actualAmount);
+    }
+    function showActualAmount(amount) {
+        amount = (Math.round(amount * 100) / 100).toFixed(2);
+        $('#FinalAmount').html(amount);
+    }
+    function checkUniversity(orderUniversity, profileUniversity) {
+
+        if (!(orderUniversity == profileUniversity)) {
+
+            if (confirm("Your order location(" + orderUniversity + ") is different with your profile location(" + profileUniversity + ")\nAre you sure to check out?")) {
+                $('#orderUniversity').html('<em style="font-size:18px">' + $('#orderUniversity').html() + '</em>');
+                console.log($('#orderUniversity'));
+            } else {
+                window.location.href = "/ShoppingCart/Edit/";
+            }
+        }
+    }
+</script>
