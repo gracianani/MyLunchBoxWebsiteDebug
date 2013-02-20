@@ -39,7 +39,6 @@
                         {
                             <span class="label label-info">Points Paid : $@order.Savings</span>
                         }
-                        <a data-role="btn" href="/ShoppingCart/Edit?orderId=@order.OrderId"><i class="icon-plus icon-orange"></i>Reorder </a>
                         </h3>
                         <p class="orderRestaurant"> 
                             @order.ShortDescription
@@ -50,8 +49,6 @@
                                 <li>
                                  <span class="orderItems-desc">@orderItem.Item.ItemDescription</span>  
                                  <span class="orderItems-qty">x @orderItem.Quantity</span>
-                                
-                                  (<a href='@orderItem.EditUrl'> edit </a>)
                                 </li>
                             }
                         </ul>
