@@ -292,7 +292,17 @@
         else {
             $('.deliveryInfo').hide();
         }
- 
+
+        $(':submit').click(function () {
+            $(this).attr('disabled', 'true');
+            if ($('form').validate().form()) {
+                $('<div style="position:fixed;left:0;top:0;padding-top:20%;height:80%;width:100%;background-color:rgba(0,0,0,0.6);color:#FFF;z-index:999;text-align:center;display:none"><img src="../../Content/Images/ajax-loader.gif" style="vertical-align:top" /> Processing...</div>').appendTo($('.page')).fadeIn();
+
+                $('form').submit();
+            } else {
+                $(this).removeAttr('disabled');
+            }
+        });
 
         $("#deliveryInfo").bind("collapse",
              function (event, ui) {
