@@ -92,7 +92,7 @@
             @Html.EditorFor(model => model.UserId)
             @Html.ValidationMessageFor(model => model.UserId)
         </div>
-        <table id="shoppingCartItems" class="lightBox" data-mode="columntoggle" data-role="table">
+        <table id="shoppingCartItems" class="lightBox table" data-mode="columntoggle" data-role="table">
             @if (Model.ShoppingCartItems.Count == 0)
             {
                 <tr><td><img src="../Content/Images/emptybox.png" /></td>

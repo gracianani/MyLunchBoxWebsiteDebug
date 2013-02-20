@@ -15,7 +15,7 @@
 
 
 <div data-role="content">
-<h2>Address and Payment</h2>
+<h3>Address and Payment</h3>
 
     
     @using (Html.BeginForm())
@@ -27,12 +27,11 @@
                 <li> @validationSummary</li>
             </ul>
         }
-        <ul data-role="listview" data-inset="true">
-            <li>
+        <div class="lightBox">
             <input type="hidden" id="canUseRewardPoints" value="@shoppingCart.CanUserRewardPoint" />
             <input type="hidden" id="needDeliveryInfo" value="@shoppingCart.NeedDeliveryInfo" />
             @{ 
-                <table >
+                <table class="table" >
                 <thead>
                     <tr>
                     <th data-priority="2">Detail</th>
@@ -46,91 +45,70 @@
                         <tr>
                         <td>@cartItem.Description</td>
                         <td>@cartItem.Quantity</td>
-                        <td>$ @cartItem.LineItemCost</td>
+                        <td class="cart-totalPrice">$ @cartItem.LineItemCost</td>
                         </tr>
                     }
                     </tbody>
                 </table>
                 
             }
-            </li>
-            
-        </ul>
-        
-        <div data-role="collapsible" class="deliveryInfo" id="deliveryInfo">
-        	<legend>Delivery Info
+        </div>
+         <div class="lightBox">
+                <div class="rewardPointLine">
+                  You've <em>@Html.Display("totalRewardPoints")</em> award points<br />
+                  @Html.TextBoxFor(m => m.rewardPoints, new Dictionary<string, object> { { "type", "hidden" }, { "class", "input-mini" }, { "data-max", ViewBag.totalRewardPoints } }) 
+                  <label data-theme="b"><input  data-theme="b" id="isUseRewardPoints" type="checkbox" name="isUseRewardPoints" /> Make payment with your points</label>
+                  <small class="gray">( Order Amount:<span id="orderAmountPoints">0</span>  | Remain: <span id="remainPoints">0</span> )</small>
+                   
+                  
+                  <span class="cart-subtotalPrice"> </span>
+                  </div>
+                  <div class="notEnoughRewardPointLine">
+                  You've <em>@Html.Display("totalRewardPoints")</em> award points, not enough to pay the bill. 
+                  </div>
+        </div>
+        <div data-role="collapsible" class="deliveryInfo" id="deliveryInfo" data-theme="d">
+        	<legend><h3>Delivery Info</h3>
                 @{ var deliveryLocation = (MyLunchBox.Models.University_Delivery)ViewData["deliveryLocation"];
                 <table>
-                    <tr><td >Name</td><td id="tdReceiverName">@Html.DisplayFor(m => m.ReceiverFirstName) @Html.DisplayFor(m => m.ReceiverLastName)</td></tr>
-                    <tr><td >Phone</td><td id="tdReceiverPhoneNumber">@Html.DisplayFor(m => m.ReceiverPhoneNumber)</td></tr>
-                    <tr><td>DeliveryLocation</td><td>@deliveryLocation.Location.BusinessName</td></tr>
-                    <tr><td>DeliveryTime</td><td>@DateTime.Parse(ViewData["deliveryTime"].ToString()).ToString("MMM dd, yyyy hh:mm tt")</td></tr>
+                    <tr><th >Name</th><td id="tdReceiverName">@Html.DisplayFor(m => m.ReceiverFirstName) @Html.DisplayFor(m => m.ReceiverLastName)</td></tr>
+                    <tr><th >Phone</th><td id="tdReceiverPhoneNumber">@Html.DisplayFor(m => m.ReceiverPhoneNumber)</td></tr>
+                    <tr><th>DeliveryLocation</th><td>@deliveryLocation.Location.BusinessName</td></tr>
+                    <tr><th>DeliveryTime</th><td>@DateTime.Parse(ViewData["deliveryTime"].ToString()).ToString("MMM dd, yyyy hh:mm tt")</td></tr>
                 </table>
                 }
             </legend>
-            <div>
-            <div class="control-group">
-            <label for="shippingFirstName"  class="control-label">First Name</label>
-            <div class="controls">@Html.TextBoxFor(m => m.ReceiverFirstName)@Html.ValidationMessageFor(m => m.ReceiverFirstName)</div>
+            <div class="lightBox">
+            <div data-role="fieldcontain">
+            <label for="shippingFirstName" class="ui-input-text">First Name</label>
+            @Html.TextBoxFor(m => m.ReceiverFirstName)@Html.ValidationMessageFor(m => m.ReceiverFirstName)
             </div>
-            <div class="control-group">
-            <label for="shippingLastName" class="control-label">Last Name</label>
-            <div class="controls">@Html.TextBoxFor(m => m.ReceiverLastName)@Html.ValidationMessageFor(m => m.ReceiverLastName)</div>
-            
+            <div  data-role="fieldcontain">
+            <label for="shippingLastName" class="ui-input-text">Last Name</label>
+            @Html.TextBoxFor(m => m.ReceiverLastName)@Html.ValidationMessageFor(m => m.ReceiverLastName)
             </div>
-            <div class="control-group">
-            <label for="shippingPhone" class="control-label">Phone</label>
-            <div class="controls">@Html.TextBoxFor(m => m.ReceiverPhoneNumber)</div>
+            <div  data-role="fieldcontain">
+            <label for="shippingPhone"  class="ui-input-text">Phone</label>
+           @Html.TextBoxFor(m => m.ReceiverPhoneNumber)
             </div>
             </div>
         </div>
         
-        <ul data-role="listview" data-inset="true">
-            <li>
-                <table>
-                  <tr class="rewardPointLine">
-                  <td colspan="2">
-                  <div class="pull-right" style="line-height:32px;">
-                  You've <em>@Html.Display("totalRewardPoints")</em> award points, make payment with your points?
-                  <br />
-                  (Order Amount:<span id="orderAmountPoints">0</span>  | Remain: <span id="remainPoints">0</span> )
-                  </div>
-                  </td>
-                  <td>
-                   @Html.TextBoxFor(m => m.rewardPoints, new Dictionary<string, object> { { "type", "hidden" }, { "class", "input-mini" }, { "data-max", ViewBag.totalRewardPoints } }) 
-                  <label><input id="isUseRewardPoints" type="checkbox" name="isUseRewardPoints" /> Use Reward Points</label>
-                  
-                  </td><td class="cart-subtotalPrice"> </td>
-                  </tr>
-                  <tr class="notEnoughRewardPointLine">
-                  
-                  <td colspan="2">
-                  <div class="pull-right" style="line-height:32px;">
-                  You've <em>@Html.Display("totalRewardPoints")</em> award points, not enough to pay the bill. 
-                  </div>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                  </td>
-                  </tr>
-                </table>
-            </li>
-        </ul>
+       
         <div id="paymentInfo">
             <hr />
             @Html.HiddenFor(m => m.PaymentType)
             <label for="ddl-paymentType" > Please Select Payment Type</label>
-            <select id="ddl-paymentType" name="ddl-paymentType">
-                <option value="creditCard"> creditCard </option>
-                <option value="cash"> cash </option>
+            <select id="ddl-paymentType" name="ddl-paymentType" data-theme="d">
+                <option value="creditCard"> CreditCard </option>
+                <option value="cash"> Cash </option>
             </select>
 			<div id="pnl-paymetType">
 
 			  <div id="creditCard"  data-inset="true" class="lightbox">
                     <fieldset>
                         <label for="creditCardType"  class="select">Card Type</label>
-		                <select name="creditCardType">
+		                <select name="creditCardType"  data-theme="d">
 		                    <option value="VISA" selected="selected">Visa</option>
 		                    <option value="MASTERCARD">MasterCard</option>
 		                    <option value="DISCOVER">Discover</option>
@@ -143,7 +121,7 @@
                     </fieldset>
                     <fieldset data-role="controlgroup" data-type="horizontal">
 		            <legend class="control-label">Card Expiration Date</legend>
-		            <select name="cardExpMonth" class="span1">
+		            <select name="cardExpMonth"  data-theme="d">
 		                <option value="1">01</option>
 		                <option value="2">02</option>
 		                <option value="3">03</option>
@@ -157,7 +135,7 @@
 		                <option value="11">11</option>
 		                <option value="12">12</option>
 		            </select>
-		            <select name="cardExpYear" style="width:156px">
+		            <select name="cardExpYear" data-theme="d">
 		                <option value="2013">2013</option>
 		                <option value="2014">2014</option>
 		                <option value="2015">2015</option>
@@ -167,13 +145,12 @@
 		            </select>
 		            </fieldset>
 		            <fieldset>
-		            <label class="control-label">CSV</label> (<a href="#popupCSV" data-rel="popup" id="whatscsv"> 
-                     <i class="icon-info-sign icon-orange"></i> What's CSV? </a>)
+		            <label class="control-label">CSV</label> (<a href="#popupCSV" id="whatscsv">What's CSV? </a>)
 		             <div class="controls"> @Html.TextBoxFor(m => m.CSV)@Html.ValidationMessageFor(m => m.CSV)</div>
 		            </fieldset>		
 		            		  
 			  </div>
-			  <div id="cash" style="display:none" class="lightbox">
+			  <div id="cash" style="display:none" class="lightBox">
                 <ul>
                     <li>Cash on delivery (COD) payment</li>
                     <li> You have chosen the cash on delivery method</li>
@@ -188,8 +165,8 @@
 			  </div>
 			</div>
 
-            <div data-role="collapsible" id="billingInfo">
-            <legend>Billing Info
+            <div data-role="collapsible" id="billingInfo" data-theme="d">
+            <legend><h3>Billing Info</h3>
                 <table>
                     <tr><td> @Html.DisplayFor(m => m.billingFirstName) @Html.DisplayFor(m => m.billingLastName) </td></tr>
                     <tr><td> @Html.DisplayFor(m => m.billingAddress1) @Html.DisplayFor(m => m.billingAddress2), @Html.DisplayFor(m => m.billingCity), @Html.DisplayFor(m => m.billingState), @Html.DisplayFor(m => m.billingZipCode) </td></tr>
@@ -233,42 +210,42 @@
         
         
         
-        <ul data-role="listview" data-inset="true">
+        <ul data-role="listview" data-inset="true" data-theme="d">
             <li>
                 <table id="checkoutSummary" >
                 <thead>
                     <tr></tr>
                 </thead>
                 <tbody>
-                    <tr><th >Item Subtotal</th><td>+</td><td> @shoppingCart.ItemSubtotal</td></tr>
-                    <tr><th >Delivery Fee</th><td>+</td><td> @shoppingCart.Shipping</td></tr>
-                    <tr><th >Gross</th><td>+</td><td> @shoppingCart.Gross @Html.Hidden("gross")</td></tr>
-                    <tr><th> Total Saving</th><td>-</td><td> $<span id="Savings">@Html.DisplayTextFor(m => m.Savings)</span></td></tr>
-                    <tr><th >Final</th> <td></td><td> <span id="FinalAmount">@Html.DisplayTextFor(m => m.FinalAmount)</span></td></tr>
+                    <tr><th >Item Subtotal</th><td class="cart-totalPrice">+</td><td class="cart-totalPrice"> $@shoppingCart.ItemSubtotal</td></tr>
+                    <tr><th >Delivery Fee</th><td class="cart-totalPrice">+</td><td class="cart-totalPrice"> $@shoppingCart.Shipping</td></tr>
+                    <tr><th >Gross</th><td class="cart-totalPrice">+</td><td class="cart-totalPrice"> $@shoppingCart.Gross @Html.Hidden("gross")</td></tr>
+                    <tr><th> Total Saving</th><td class="cart-savingPrice">-</td><td class="cart-savingPrice">$<span id="Savings">@Html.DisplayTextFor(m => m.Savings)</span></td></tr>
+                    <tr><th >Final</th><td></td><td class="cart-totalPrice"> $<span id="FinalAmount">@Html.DisplayTextFor(m => m.FinalAmount)</span></td></tr>
                 </tbody> 
                 </table>
             </li>
         </ul>
         
-        <div class="clearfix">
-        <input type="submit" class="btn btn-primary btn-big pull-right" value="Submit" />
+        <div>
+        <input type="submit" data-theme="b" value="Submit" />
         </div>
     }
 
 </div>
-
-<div data-role="popup" id="popupCSV" class="ui-content">
+<div data-role="panel" id="popupCSV">
 	<p><strong>Visa - MasterCard -  Discover</strong></p>
     <p>On Visa, MasterCard and Discover cards, the CVS Code is a 3 digit number located on the back of the card such as shown below:</p>
     <img src='../../Content/Images/EchoCvCardBig.gif' />
     <p><strong>American Express</strong></p>
     <p>On American Express cards, the CVS Code is a 4 digit number located on the front of the card such as shown below:</p>
     <img src='../../Content/Images/EchoCvAmexCardBig.gif' />
+    <a href="#dishSummary" data-role="button" data-rel="close" data-theme="b" data-icon="delete">Close panel</a>
 </div>
 
 
 <script type="text/javascript">
-    $(function () {
+    $(document).bind('pageinit', function () {
 
         $('#isUseRewardPoints').change(setRewardPointsNum);
         $('#rewardPoints').change(calculateActualAmount);
@@ -315,17 +292,7 @@
         else {
             $('.deliveryInfo').hide();
         }
-
-        $(':submit').click(function () {
-            $(this).attr('disabled', 'true');
-            if ($('form').validate().form()) {
-                $('<div style="position:fixed;left:0;top:0;padding-top:20%;height:80%;width:100%;background-color:rgba(0,0,0,0.6);color:#FFF;z-index:999;text-align:center;display:none"><img src="../../Content/Images/ajax-loader.gif" style="vertical-align:top" /> Processing...</div>').appendTo($('.page')).fadeIn();
-
-                $('form').submit();
-            } else {
-                $(this).removeAttr('disabled');
-            }
-        });
+ 
 
         $("#deliveryInfo").bind("collapse",
              function (event, ui) {

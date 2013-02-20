@@ -248,18 +248,19 @@ th {
 	text-shadow: 1px 1px 0 rgba(255,255,255,0.6);
 	font-style: italic;
 }
-#shoppingCartItems {
+.table {
 	border-collapse:collapse;
+	width:100%;
 }
-#shoppingCartItems th,#shoppingCartItems td {
+.table th,.table td {
 	text-align:left;
 	vertical-align:top;
 	padding:.5em;
 }
-#shoppingCartItems th {
+.table th {
 	font-weight:normal;
 }
-#shoppingCartItems tr {
+.table tr {
 	border-top: 1px solid #dcdbd3;
 }
 
@@ -297,4 +298,37 @@ th {
 {
     width:90%;
     text-align:right;
+}
+label.ui-input-text{
+	background:none;
+	color: #6a594e;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-weight:normal;
+	text-shadow: 1px 1px 0 rgba(255,255,255,0.6);
+	font-style: italic;
+}
+.ui-collapsible h3 {
+	margin:5px 0;
+}
+em {
+	color: #c84c0b;
+	font-size: 1.2em;	
+}
+#checkoutSummary td {
+	font-weight:normal;
+}
+#FinalAmount {
+	font-size:1.4em;
+	font-style:italic;
+}
+.cart-savingPrice {
+	color:#5c7e04 ;
+}
+.ui-panel-inner img {
+	max-width:90%;
+}
+.field-validation-error {
+	color:#c84c0b;
+	font-size:1.2em;
+	font-weight:bold;
 }
