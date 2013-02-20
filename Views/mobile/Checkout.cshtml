@@ -57,12 +57,12 @@
             
         </ul>
         
-        <div data-role="collapsible" class="deliveryInfo">
+        <div data-role="collapsible" class="deliveryInfo" id="deliveryInfo">
         	<legend>Delivery Info
                 @{ var deliveryLocation = (MyLunchBox.Models.University_Delivery)ViewData["deliveryLocation"];
                 <table>
-                    <tr><td>Name</td><td>@Html.DisplayFor(m => m.ReceiverFirstName) @Html.DisplayFor(m => m.ReceiverLastName)</td></tr>
-                    <tr><td>Phone</td><td>@Html.DisplayFor(m => m.ReceiverPhoneNumber)</td></tr>
+                    <tr><td >Name</td><td id="tdReceiverName">@Html.DisplayFor(m => m.ReceiverFirstName) @Html.DisplayFor(m => m.ReceiverLastName)</td></tr>
+                    <tr><td >Phone</td><td id="tdReceiverPhoneNumber">@Html.DisplayFor(m => m.ReceiverPhoneNumber)</td></tr>
                     <tr><td>DeliveryLocation</td><td>@deliveryLocation.Location.BusinessName</td></tr>
                     <tr><td>DeliveryTime</td><td>@DateTime.Parse(ViewData["deliveryTime"].ToString()).ToString("MMM dd, yyyy hh:mm tt")</td></tr>
                 </table>
@@ -85,14 +85,40 @@
             </div>
         </div>
         
-        
-        <div data-role="collapsible">
-            <legend>
-                Payment
+        <ul data-role="listview" data-inset="true">
+            <li>
                 <table>
-                    <tr><td>Payment Type</td><td>credit card</td></tr>
+                  <tr class="rewardPointLine">
+                  <td colspan="2">
+                  <div class="pull-right" style="line-height:32px;">
+                  You've <em>@Html.Display("totalRewardPoints")</em> award points, make payment with your points?
+                  <br />
+                  (Order Amount:<span id="orderAmountPoints">0</span>  | Remain: <span id="remainPoints">0</span> )
+                  </div>
+                  </td>
+                  <td>
+                   @Html.TextBoxFor(m => m.rewardPoints, new Dictionary<string, object> { { "type", "hidden" }, { "class", "input-mini" }, { "data-max", ViewBag.totalRewardPoints } }) 
+                  <label><input id="isUseRewardPoints" type="checkbox" name="isUseRewardPoints" /> Use Reward Points</label>
+                  
+                  </td><td class="cart-subtotalPrice"> </td>
+                  </tr>
+                  <tr class="notEnoughRewardPointLine">
+                  
+                  <td colspan="2">
+                  <div class="pull-right" style="line-height:32px;">
+                  You've <em>@Html.Display("totalRewardPoints")</em> award points, not enough to pay the bill. 
+                  </div>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  </tr>
                 </table>
-            </legend>
+            </li>
+        </ul>
+        <div id="paymentInfo">
+            <hr />
             @Html.HiddenFor(m => m.PaymentType)
             <label for="ddl-paymentType" > Please Select Payment Type</label>
             <select id="ddl-paymentType" name="ddl-paymentType">
@@ -170,73 +196,42 @@
                 </table>
             </legend>
             <div class="control-group">
-            <label for="billingFirstName" class="control-label">First Name</label>
+            <label>First Name</label>
             <div class="controls">
             @Html.TextBoxFor(m => m.billingFirstName)
             @Html.ValidationMessageFor(m => m.billingFirstName)
             </div>
             </div>
             <div class="control-group">
-            <label for="billingLastName" class="control-label">Last Name</label>
+            <label >Last Name</label>
             <div class="controls">@Html.TextBoxFor(m => m.billingLastName)@Html.ValidationMessageFor(m => m.billingLastName)</div>
             </div>
             <div class="control-group">
-            <label for="billingAddress1" class="control-label">Address Line1</label>
+            <label >Address Line1</label>
             <div class="controls">@Html.TextBoxFor(m => m.billingAddress1)@Html.ValidationMessageFor(m => m.billingAddress1)</div>
             </div>
             <div class="control-group">
-            <label for="billingAddress2" class="control-label">Address Line2</label>
+            <label>Address Line2</label>
             <div class="controls">@Html.TextBoxFor(m => m.billingAddress2)@Html.ValidationMessageFor(m => m.billingAddress2)</div>
             </div>
             <div class="control-group">
-            <label for="billingCity" class="control-label">City</label>
+            <label>City</label>
             <div class="controls">@Html.TextBoxFor(m => m.billingCity)@Html.ValidationMessageFor(m => m.billingCity)</div>
             </div>
             <div class="control-group">
-            <label for="billingState" class="control-label">State</label>
+            <label >State</label>
             <div class="controls">
             @Html.DropDownListFor(m => m.billingState, @MyLunchBox.Models.StatesRepository.Instance.StatesListWithSelectedItem(@Model.billingState))
             </div>
             </div>
             <div class="control-group">
-            <label for="billingZipCode" class="control-label">ZipCode</label>
+            <label>ZipCode</label>
             <div class="controls">@Html.TextBoxFor(m => m.billingZipCode)@Html.ValidationMessageFor(m => m.billingZipCode)</div>
             </div>
             </div> 
         </div>
         
-        <ul data-role="listview" data-inset="true">
-            <li>
-                <table>
-                  <tr class="rewardPointLine">
-                  <td colspan="2">
-                  <div class="pull-right" style="line-height:32px;">
-                  You've <em>@Html.Display("totalRewardPoints")</em> award points, make payment with your points?
-                  <br />
-                  (Order Amount:<span id="orderAmountPoints">0</span>  | Remain: <span id="remainPoints">0</span> )
-                  </div>
-                  </td>
-                  <td>
-                   @Html.TextBoxFor(m => m.rewardPoints, new Dictionary<string, object> { { "type", "hidden" }, { "class", "input-mini" }, { "data-max", ViewBag.totalRewardPoints } }) 
-                  <label><input id="isUseRewardPoints" type="checkbox" name="isUseRewardPoints" /> Use Reward Points</label>
-                  
-                  </td><td class="cart-subtotalPrice"> </td>
-                  </tr>
-                  <tr class="notEnoughRewardPointLine">
-                  
-                  <td colspan="2">
-                  <div class="pull-right" style="line-height:32px;">
-                  You've <em>@Html.Display("totalRewardPoints")</em> award points, not enough to pay the bill. 
-                  </div>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                  </td>
-                  </tr>
-                </table>
-            </li>
-        </ul>
+        
         
         <ul data-role="listview" data-inset="true">
             <li>
@@ -249,7 +244,7 @@
                     <tr><th >Delivery Fee</th><td>+</td><td> @shoppingCart.Shipping</td></tr>
                     <tr><th >Gross</th><td>+</td><td> @shoppingCart.Gross @Html.Hidden("gross")</td></tr>
                     <tr><th> Total Saving</th><td>-</td><td> $<span id="Savings">@Html.DisplayTextFor(m => m.Savings)</span></td></tr>
-                    <tr><th >Gross</th> <td></td><td> <span id="FinalAmount">@Html.DisplayTextFor(m => m.FinalAmount)</span></td></tr>
+                    <tr><th >Final</th> <td></td><td> <span id="FinalAmount">@Html.DisplayTextFor(m => m.FinalAmount)</span></td></tr>
                 </tbody> 
                 </table>
             </li>
@@ -332,6 +327,20 @@
             }
         });
 
+        $("#deliveryInfo").bind("collapse",
+             function (event, ui) {
+                 $("#tdReceiverName").html($("#ReceiverFirstName").val() + " " + $("#ReceiverLastName").val())
+                 $("#tdReceiverPhoneNumber").html($("#ReceiverPhoneNumber").val())
+             }
+        );
+
+        $("#billingInfo").bind("collapse",
+             function (event, ui) {
+                 $("#tdUniversityName").html($("#UniversityId option:selected").text())
+                 $("#tdUniversityDeliveryName").html($("#UniversityDeliveryId option:selected").text())
+             }
+        );
+
         checkUniversity('UCLA', 'PUWL');
 
 
@@ -341,25 +350,27 @@
         return 100;
     }
     function initActualAmount() {
+        var isRewardPointsEnough = $("#isRewardPointEnough").val() == "True";
         if ($("#canUseRewardPoints").val() == "True") {
-            initRewardPointsCheckbox(true)
+            initRewardPointsCheckbox(true, isRewardPointsEnough);
         } else {
             $("#PaymentType").val('1');
+            initRewardPointsCheckbox(false, isRewardPointsEnough);
             $('#paymentTab').find('li:has(a[href=#cash])').hide();
-            initRewardPointsCheckbox(false);
+            
         }
 
     }
-    function initRewardPointsCheckbox(adminSetting) {
+    function initRewardPointsCheckbox(adminSetting, isRewardPointsEnough) {
         var exchangeRate = getExchangeRate();
         var rewardPoints = parseInt($('#rewardPoints').attr("data-max"));
         var orderAmount = Math.round(exchangeRate * parseFloat($('#gross').val()));
         if (adminSetting && (rewardPoints > orderAmount)) {
-            $('#isUseRewardPoints').attr('checked', 'checked');
+            $('#isUseRewardPoints').attr('checked', true).checkboxradio("refresh"); ;
             $(".rewardPointLine").show();
             $('.notEnoughRewardPointLine').hide();
         } else {
-            $('#isUseRewardPoints').removeAttr('checked');
+            $('#isUseRewardPoints').removeAttr('checked').checkboxradio("refresh"); ;
             $(".rewardPointLine").hide();
             $('#rewardPoints').val(0);
             if (adminSetting && !isRewardPointsEnough) {
@@ -395,20 +406,9 @@
     function calculateActualAmount() {
         var exchangeRate = getExchangeRate();
         var rewardPoints = parseInt($('#rewardPoints').val());
-        var max = parseInt($('#rewardPoints').attr("data-max"));
         var gross = parseFloat($('#gross').val());
-        max = Math.min(Math.round(gross * exchangeRate), max);
-        if (rewardPoints > max) {
-            $('#rewardPoints').val(max);
-            rewardPoints = max;
-        }
-        else if (rewardPoints < 0 || rewardPoints == NaN) {
-            $('#rewardPoints').val(0);
-            rewardPoints = 0;
-        }
         var actualAmount = gross - rewardPoints / exchangeRate;
         $('#Savings').html((rewardPoints / exchangeRate).toFixed(2));
-
         if (actualAmount < 0.009) {
             $('#billingInfo, #paymentInfo').hide();
             $("#PaymentType").val('3');
@@ -436,7 +436,7 @@
                 $('#orderUniversity').html('<em style="font-size:18px">' + $('#orderUniversity').html() + '</em>');
                 console.log($('#orderUniversity'));
             } else {
-                window.location.href = "/ShoppingCart/Edit/";
+                window.location.href = "/Mobile/Cart/";
             }
         }
     }
