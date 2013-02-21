@@ -7,23 +7,23 @@
 
 
 <div data-role="content">
+<div class="lightButton">
 <ul class="createBentoProgress">
 		<li>
         <span class="ui-icon ui-icon-check">&nbsp;</span>
-        <a class="prev" href="/CustomBentoBox/ChooseRestaurant/">Restaurant</a>  &raquo; </li>
+        <a class="prev" href="/mobile/ChooseRestaurant/" data-ajax="false">Restaurant</a>  &raquo; </li>
 		<li>
         <span class="ui-icon ui-icon-edit">&nbsp;</span>
         <a  class="current">LunchBox</a> &raquo; </li>
         <li><a>Dishes</a> &raquo;</li>
         <li><a>CheckOut</a></li>
 </ul>
-
-    <h3>Choose a BentoBox</h3>
+</div>
     <ul id="lunchboxList" data-role="listview">
         @foreach (var bentoBox in Model)
         {
             <li>
-            @Html.ActionLink(@bentoBox.BentoBoxName, "Create", new { bentoBoxId = bentoBox.BentoBoxId}) 
+            @Html.ActionLink(@bentoBox.BentoBoxName, "Create", new { bentoBoxId = bentoBox.BentoBoxId},new {data_ajax="false"}) 
             <div class="ui-li-count">$@bentoBox.UnitPrice</div>
             
             </li>

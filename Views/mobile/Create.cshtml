@@ -2,10 +2,10 @@
 
 @{
     ViewBag.Title = "Fill Your Lunchbox";
-    Layout = "~/Views/Shared/_MobileMaster.cshtml";
+    Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
 }
 
-<div data-role="panel" id="dishSummary">
+<div data-role="panel" id="dishSummary" data-position-fixed="true">
         <!-- panel content goes here -->
        
 	<ul id="lunchbox" data-mode="columntoggle" class="table-stroke">
@@ -40,19 +40,20 @@
 </div><!-- /panel -->
 
 <div data-role="content">
+<div class="lightButton">
     <ul class="createBentoProgress">
             <li>
             <span class="ui-icon ui-icon-check">&nbsp;</span>
-            <a class="prev" href="/Mobile/ChooseRestaurant/">Restaurant</a>&raquo;</li>
+            <a class="prev" href="/mobile/ChooseRestaurant/">Restaurant</a>&raquo;</li>
             <li>
             <span class="ui-icon ui-icon-check">&nbsp;</span>
-            <a class="prev">LunchBox</a> &raquo;</li>
+            <a class="prev" data-rel="back">LunchBox</a> &raquo;</li>
             <li>
             <span class="ui-icon ui-icon-edit">&nbsp;</span>
             <a class="current">Dishes</a> &raquo;</li>
             <li><a>CheckOut</a></li>
     </ul>
-	<h3>Fill Your Lunchbox</h3>
+</div>
     @using (Html.BeginForm("AddToCart", "Mobile", FormMethod.Post, new { id = "lunchBox" }))
     {
 
@@ -71,8 +72,8 @@
                     var dishes = Model.AvailableDishes[dishType];
                     
                     <li  data-role="list-divider" data-theme="d">
-                    @Extension.ExtensionMethods.GetDescription(dishType)
-                    <span class="ui-li-count"><span id="dishCount-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">0</span> / @Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType)</span></li>
+                    Tap to Select @Extension.ExtensionMethods.GetDescription(dishType)
+                    <span class="ui-li-count orangeCount"><span id="dishCount-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">0</span> / @Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType)</span></li>
                     foreach (var dish in dishes)
                     {
                         if (dish.DishStatusId == (int)MyLunchBox.Models.DishStatusLevel.Available)
@@ -80,7 +81,7 @@
                         <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" data-icon="check" data-theme="d">
                         <a href="javascript:void(0)">
                         <img src="../../@dish.DishImageUrl" />
-                        <h4 class="dishName">@dish.DishName </h4>
+                        <h3 class="dishName">@dish.DishName </h3>
                         
 
                         @if (dish.DishIncrementalPrice > 0)

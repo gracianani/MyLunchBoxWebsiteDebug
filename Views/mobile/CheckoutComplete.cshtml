@@ -5,8 +5,9 @@
 }
 
 <div data-role="content">
-<h3>Thanks for your order!</h3>
-<p>Your order number is: <em>@Model.OrderId</em><br /></p>
-<p><img src="../../Content/Images/sucimg.png"></p>
+<h3 style="text-align:center">Thanks for your order!</h3>
+<p style="text-align:center">Your order number is: <em>@Model.OrderId</em><br /></p>
+<p style="text-align:center"><img src="../../Content/Images/sucimg.png"></p>
 <a data-role="button" data-mini="true" data-ajax="false" href="/Mobile/MyOrders">View Orders</a>
 </div>
+@Html.Partial("_MobileMemberFooterPartial")

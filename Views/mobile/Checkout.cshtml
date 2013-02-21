@@ -1,7 +1,7 @@
 ﻿@model MyLunchBox.Models.Order
 @{
     ViewBag.Title = "Checkout";
-    Layout = "~/Views/Shared/_MobileMaster.cshtml";
+    Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
     var validationSummary = "";
     if (ViewData["Errors"] != null)
     {
@@ -15,8 +15,6 @@
 
 
 <div data-role="content">
-<h3>Address and Payment</h3>
-
     
     @using (Html.BeginForm())
     {
@@ -67,7 +65,7 @@
                   You've <em>@Html.Display("totalRewardPoints")</em> award points, not enough to pay the bill. 
                   </div>
         </div>
-        <div data-role="collapsible" class="deliveryInfo" id="deliveryInfo" data-theme="d">
+        <div data-role="collapsible" class="deliveryInfo" id="deliveryInfo">
         	<legend><h3>Delivery Info</h3>
                 @{ var deliveryLocation = (MyLunchBox.Models.University_Delivery)ViewData["deliveryLocation"];
                 <table>
@@ -165,7 +163,7 @@
 			  </div>
 			</div>
 
-            <div data-role="collapsible" id="billingInfo" data-theme="d">
+            <div data-role="collapsible" id="billingInfo">
             <legend><h3>Billing Info</h3>
                 <table>
                     <tr><td> @Html.DisplayFor(m => m.billingFirstName) @Html.DisplayFor(m => m.billingLastName) </td></tr>
@@ -211,7 +209,7 @@
         
         
         <ul data-role="listview" data-inset="true" data-theme="d">
-            <li>
+            <li class="lightButton">
                 <table id="checkoutSummary" >
                 <thead>
                     <tr></tr>
