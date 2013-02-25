@@ -1,17 +1,16 @@
 ﻿@model MyLunchBox.Models.RegisterModel
            
 @{
-    ViewBag.Title = "Registor";
-    Layout = "~/Views/Shared/_MobileMaster.cshtml";
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
 }
 
 <div data-role="content">
-<h2>Registor</h2>
 @using (Html.BeginForm()) {
     if ( Html.ValidationSummary(true) != null)
     {
-        <ul id="warningMsg" class="alert alert-block alert-error" style="list-style:none">
-         <li>@Html.ValidationSummary(false, "Account creation was unsuccessful. Please correct the errors and try again.")</li>        
+        <ul id="warningMsg" class="alert alert-block alert-error">
+         @Html.ValidationSummary(false, "Account creation was unsuccessful. Please correct the errors and try again.")        
         </ul>
     }
 	    <div class="control-group">
@@ -82,15 +81,16 @@
             </div>
     </div>
            <div class="form-actions">
-                <input type="submit" value="Register" class="btn btn-primary" /> 
+                <input type="submit" value="Register" data-theme="b" /> 
                  <span style="display:inline-block;padding-left:10px">@Html.ActionLink("Already have an account? Log In", "Index")</span>
                 
             </div>
            
 }
 </div>
+@Html.Partial("_MobileFooterPartial")
 <script>
-    $(function () {
+    $(document).bind('pageinit',function(){
         $("#UniversityId").change(function () {
             $.get("/Account/GetDeliveryLocations", { "universityId": $(this).val() }, function (data) {
                 $("#UniversityDeliveryId").parents(".ui-select").find("select").html(data).selectmenu('refresh');

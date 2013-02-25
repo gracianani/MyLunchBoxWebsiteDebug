@@ -15,9 +15,10 @@
     <input type="submit" value="Next" data-role="button" data-ajax="false" data-theme="b" data-icon="arrow-r" data-iconpos = "right"/>
 }
 </div>
+@Html.Partial("_MobileMemberFooterPartial")
 
 <script >
-    $(function () {
+    $(document).bind('pageinit',function(){
         $("#universityId").change(function () {
             $.mobile.showPageLoadingMsg()
             $.get("/Mobile/GetDeliveryLocations", { "universityId": $(this).val() }, function (data) {

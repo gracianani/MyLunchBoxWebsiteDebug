@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
 }
 <div data-role="content">
+<div class="lightButton">
 	<ul class="createBentoProgress">
 		<li>
         <span class="ui-icon ui-icon-edit">&nbsp;</span>
@@ -12,40 +13,42 @@
         <li><a>Dishes</a>&raquo;</li>
         <li><a>CheckOut</a></li>
 	</ul>
-<h3>Please Choose a Restaurant</h3>
+</div>
 	<ul data-role="listview">
             @foreach (var restaurant in Model)
             {
                 if ( (restaurant.RestaurantStatus == MyLunchBox.Models.RestaurantStatusLevel.Opening))
                 {
-                <li>
-                	<a href="/mobile/ChooseBentoBox?restaurantId=@restaurant.RestaurantId">
-                    	@if ( string.IsNullOrEmpty(restaurant.RestaurantImageUrl) ) {
-                        <img src="/Content/Images/Restaurants/restaurantDefault.png" />
-                        } else {
-                        <img src="@restaurant.RestaurantImageUrl" />
-                        }
-                        <h4>@restaurant.RestaurantName</h4>
-		                <p class="restaurant-time">@restaurant.RestaurantHoursString <span>|</span> Monday - Friday</p>
-                        <p>@restaurant.RestaurantShortDescription</p>
-                    </a>
-                 </li>
-                }
-                else
-                {
-                	<li data-theme="d">
+                <li class="restaurantOpen">
+                	<a href="/mobile/ChooseBentoBox?restaurantId=@restaurant.RestaurantId" data-ajax="false">
                     	@if ( string.IsNullOrEmpty(restaurant.RestaurantImageUrl) ) {
                         <img src="/Content/Images/Restaurants/restaurantDefault.png" />
                         } else {
                         <img src="@restaurant.RestaurantImageUrl" />
                         }
                         <h3>@restaurant.RestaurantName</h3>
-		                <p class="restaurant-time">@restaurant.RestaurantHoursString <span>|</span> Monday - Friday</p>
+		                <p class="restaurant-time">@restaurant.RestaurantHoursString <br /> Monday - Friday</p>
                         <p>@restaurant.RestaurantShortDescription</p>
-                        <p>@restaurant.RestaurantStatus.ToString()</p>
+                    </a>
+                 </li>
+                }
+                else
+                {
+                	<li class="restaurantClosed">
+                    	@if ( string.IsNullOrEmpty(restaurant.RestaurantImageUrl) ) {
+                        <img src="/Content/Images/Restaurants/restaurantDefault.png" />
+                        } else {
+                        <img src="@restaurant.RestaurantImageUrl" />
+                        }
+                        <h4>@restaurant.RestaurantName</h4>
+		                <p class="restaurant-time">@restaurant.RestaurantHoursString <br /> Monday - Friday</p>
+                        <p>@restaurant.RestaurantShortDescription</p>
+                        <p class="ui-li-count">@restaurant.RestaurantStatus.ToString()</p>
                     </li>
                 }
                 
             }
             </ul>
+            
 </div>
+@Html.Partial("_MobileMemberFooterPartial")
