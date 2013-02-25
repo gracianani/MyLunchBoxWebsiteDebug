@@ -223,9 +223,17 @@
                 </table>
             </li>
         </ul>
-        
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+            @Html.ActionLink("Continue Shopping", "ChooseRestaurant", "Mobile",new object { },
+        new { @data_role="button",@data_icon="arrow-l",@data_iconPos="left"})
+            </div>
+            <div class="ui-block-b">
+            <input type="submit" data-theme="b" data-ajax="false" data-icon="arrow-r" data-iconPos="right" value="Submit" />
+            </div>
+        </div>        
         <div>
-        <input type="submit" data-theme="b" data-ajax="false" value="Submit" />
+        
         </div>
     }
 
@@ -249,7 +257,6 @@
         $('#rewardPoints').change(calculateActualAmount);
         $("#cash").hide();
         $("#ddl-paymentType").on("change", function (event, ui) {
-			console.log('here');
             if ($(this).val() == 'creditCard') {
                 $("#creditCard").show(function () {
                     $('#billingInfo').show(

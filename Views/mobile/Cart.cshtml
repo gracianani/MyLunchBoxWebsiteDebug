@@ -35,12 +35,11 @@
         });
 
         $('.btn-submit').tap(function (e) {
-            e.preventDefault();
+			e.preventDefault();
+			if ( !$(this).attr('disabled') ) {
             $(this).attr('disabled', 'true');
-
-            $('<div style="position:fixed;left:0;top:0;padding-top:20%;height:80%;width:100%;background-color:rgba(0,0,0,0.6);color:#FFF;z-index:999;text-align:center;display:none"><img src="../../Content/Images/ajax-loader.gif" style="vertical-align:top" /> Processing...</div>').appendTo($('.page')).fadeIn();
-
             window.location.href = $(this).attr('href');
+			}
 
         });
     });
@@ -87,20 +86,6 @@
                 @Html.Partial("_MobileMemberFooterPartial")
             }
             else {
-            <ul class="createBentoProgress">
-                    <li>
-                    <span class="ui-icon ui-icon-check">&nbsp;</span>
-                    <a class="prev" href="/mobile/ChooseRestaurant/">Restaurant</a>  &raquo; </li>
-                    <li>
-                    <span class="ui-icon ui-icon-check">&nbsp;</span>
-                    <a class="prev">LunchBox</a> &raquo; </li>
-                    <li>
-                    <span class="ui-icon ui-icon-check">&nbsp;</span>
-                    <a class="prev"  data-rel="back">Dishes</a> &raquo;</li>
-                    <li>
-                    <span class="ui-icon ui-icon-edit">&nbsp;</span>
-                    <a  class="current">CheckOut</a></li>
-            </ul>
             <table id="shoppingCartItems" class="lightBox table" data-mode="columntoggle" data-role="table">
             	<thead>
             	<tr>
@@ -178,3 +163,4 @@ new { @data_role="button",@data_icon="arrow-r",@data_iconPos="right",@data_theme
 </div>
 </div>
 
+@Html.Partial("_MobileFooterPartial")

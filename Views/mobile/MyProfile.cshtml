@@ -1,12 +1,13 @@
 ﻿@model MyLunchBox.Models.UserDetailsViewModel
 @{
-    ViewBag.Title = "MyProfile";
+    ViewBag.Title = "Settings";
     Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
 }
 
 <div data-role="content">
 @using (Html.BeginForm())
     {
+    	<a href="/Account/LogOff" data-role="button" data-icon="forward" data-iconpos="right" data-ajax="false">Log Out</a>
 	    <div data-role="collapsible" id="basicInfo" data-content-theme="d">
 	        <legend>Basic Info
                 <table>
@@ -99,8 +100,11 @@
             </div>
         </div>
       <input type="submit" data-theme="b" value="Save Changes" />
+      
+      
     }
     </div>
+    @Html.Partial("_MobileFooterPartial")
 
 <script >
     $(document).bind('pageinit',function(){
