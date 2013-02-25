@@ -38,15 +38,9 @@
     </ul>
     <a href="#dishSummary" data-role="button" data-rel="close" data-theme="b" data-icon="delete">Close panel</a>
 </div><!-- /panel -->
-
+<ul id="warningMsg" style="position:fixed;top:0;right:0;z-index:1000">
+</ul>
 <div data-role="content">
-		@if (Html.ValidationSummary(true) != null )
-        {
-            <ul id="warningMsg" class="alert alert-block alert-error">
-                @Html.ValidationSummary(true);
-            </ul>
-        }
-
 <div class="lightButton">
     <ul class="createBentoProgress">
             <li>
@@ -66,10 +60,6 @@
     <input id="customBentoBoxId" type="hidden" name="customBentoBoxId" value="@Model.CurrentCustomBentoBox.CustomBentoBoxId" />
             <input id="recipe" type="hidden" name="recipe" value="@Model.CurrentCustomBentoBox.EncodedRecipe"/>
             <input id="customBentoBoxName" type="hidden" name="customBentoBoxName" value="My Lunchbox" />
-
-    
-	<div id="warningMsg">
-    </div>
             
             <ul data-role="listview">
                 @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
@@ -120,13 +110,16 @@
         // Document.ready -> link up remove event handler
         $(".course").tap(onCourseClicked);
 		
-		$("#warningMsg").popup( {positionTo:"window",corners:true,shadow:true});
+		//$("#warningMsg").popup( {positionTo:"window",corners:true,shadow:true});
 		
 		$("#lunchbox").on('tap',".lunchbox-filledItem a",onDeleteDishClicked);
 		$("#lunchbox").on('change', '.lunchbox-filledNum input', onChangeDishNum);
 
 		$("#btnAddToCart").click(function () {
 		    isBentoBoxErrorFree({ "success": function () { $("#lunchBox").submit(); } });
+		});
+		$(document).tap(function(){
+			$('#warningMsg').hide();
 		});
 		
     });
@@ -306,10 +299,10 @@
             warningMsg.append("<p>" + item + "</p>");
         });
         if (title == undefined && warningMsgs.length < 1) {
-           warningMsg.alert('close');
+           warningMsg.hide();
         } else {
-           warningMsg.popup( "open");
-        }
+           warningMsg.show().focus();
+		}
     }
     function setWarningMsgType(type) {
         $("#warningMsg").attr('class', 'alert alert-block').addClass('alert-' + type);

@@ -417,6 +417,9 @@ width:290px;
 	margin-bottom:0;
 	box-shadow:0 3px 5px #777;
 }
+.orangeCount.others {
+	display:none;
+}
 
 /* iPhone 4 ----------- */
 @media
