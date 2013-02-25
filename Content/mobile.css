@@ -54,16 +54,16 @@
 }
 .createBentoProgress li .current {
 	background:url(Images/texture-darkgreen.jpg);
-	-moz-box-shadow:2px 2px 0 #495013 inset;
-	-webkit-box-shadow:2px 2px 0 #495013 inset;
-	box-shadow:2px 2px 0 #495013 inset;
+	-moz-box-shadow:0 0 10px #2e3f03 inset;
+	-webkit-box-shadow:0 0 10px #2e3f03 inset;
+	box-shadow:0 0 10px #2e3f03 inset;
 	
 }
 .createBentoProgress li .prev {
 	background:url(Images/texture-orange.png);
-	-moz-box-shadow:2px 2px 0 #6e2804;
-	-webkit-box-shadow:2px 2px 0 #6e2804;
-	box-shadow:2px 2px 0 #6e2804;
+	-moz-box-shadow:0 0 5px #6e2804 inset;
+	-webkit-box-shadow:0 0 5px #6e2804 inset;
+	box-shadow:0 0 5px #6e2804 inset;
 	color:#fff1d5!important;
 	text-shadow:2px 1px 0 #813005;
 	font-style:italic;
@@ -355,6 +355,11 @@ width:290px;
 	background:url(Images/texture-white2.jpg);
 	border:1px solid #a69782 /*{a-bup-border}*/;
 }
+.lightButton.inside {
+	margin:15px 0;
+	padding:15px 10px;
+	border-radius:5px;
+}
 .ui-listview-inset .lightButton {
 	margin:0;
 }
@@ -380,6 +385,23 @@ width:290px;
 .cart-dishCount:before {
 	content:'x';
 }
+.ui-header .ui-btn {
+	height:100%;
+	margin-top:-6px;
+	margin-left:-6px;
+	margin-right:-6px;
+	border-top-width:0;
+	border-bottom-width:0;
+	padding:0 10px;
+	box-shadow:none;
+}
+.ui-header .ui-btn .ui-btn-inner {
+	border-top:none;
+	padding-top:7px;
+}
+.ui-header .ui-btn .ui-icon {
+}
+
 /* iPhone 4 ----------- */
 @media
 only screen and (-webkit-min-device-pixel-ratio : 1.5) and (max-width : 320px),

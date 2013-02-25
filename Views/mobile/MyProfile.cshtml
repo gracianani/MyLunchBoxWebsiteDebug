@@ -5,17 +5,15 @@
 }
 
 <div data-role="content">
-<h2>MyProfile</h2>
-
 @using (Html.BeginForm())
     {
-	    <div data-role="collapsible" id="basicInfo">
+	    <div data-role="collapsible" id="basicInfo" data-content-theme="d">
 	        <legend>Basic Info
                 <table>
-                    <tr><td>Email :</td><td>@User.Identity.Name</td></tr>
-                    <tr><td>First Name:</td><td id="tdFirstName">@Html.DisplayFor(m=>m.FirstName)</td></tr>
-                    <tr><td>Last Name:</td><td id="tdLastName">@Html.DisplayFor(m=>m.LastName)</td></tr>
-                    <tr><td>Phone Number:</td><td id="tdPhoneNumber">@Html.DisplayFor(m=>m.PhoneNumber)</td></tr>
+                    <tr><th>Email :</th><td>@User.Identity.Name</td></tr>
+                    <tr><th>First Name:</th><td id="tdFirstName">@Html.DisplayFor(m=>m.FirstName)</td></tr>
+                    <tr><th>Last Name:</th><td id="tdLastName">@Html.DisplayFor(m=>m.LastName)</td></tr>
+                    <tr><th>Phone Number:</th><td id="tdPhoneNumber">@Html.DisplayFor(m=>m.PhoneNumber)</td></tr>
                 </table>
             </legend>
             <label class="control-label" for="firstName">First Name:</label>
@@ -33,11 +31,11 @@
 	        </div>
 	    </div>
 	    
-        <div data-role="collapsible" id="deliveryInfo" >
+        <div data-role="collapsible" id="deliveryInfo" data-content-theme="d">
 	        <legend>Delivery Info
                 <table>
-                    <tr><td>University</td><td id="tdUniversityName"> @Html.DisplayFor(m=>m.UniversityName) </td></tr>
-                    <tr><td>DeliveryLocation</td><td id="tdUniversityDeliveryName">@Html.DisplayFor(m=>m.UniversityDeliveryName) </td></tr>
+                    <tr><th>University</th><td id="tdUniversityName"> @Html.DisplayFor(m=>m.UniversityName) </td></tr>
+                    <tr><th>DeliveryLocation</th><td id="tdUniversityDeliveryName">@Html.DisplayFor(m=>m.UniversityDeliveryName) </td></tr>
                 </table>
             </legend>
 	        <div class="control-group">
@@ -54,7 +52,7 @@
             </div>
 	    </div>
 	
-        <div data-role="collapsible" id="addressInfo" >
+        <div data-role="collapsible" id="addressInfo" data-content-theme="d">
         
             <legend>Address
                 <table>
@@ -100,15 +98,12 @@
             </div>
             </div>
         </div>
-    
-        <div class="clearfix">
-            <input type="submit" class="btn btn-primary btn-big pull-right" value="Save Changes" />
-        </div>
+      <input type="submit" data-theme="b" value="Save Changes" />
     }
     </div>
 
 <script >
-    $(function () {
+    $(document).bind('pageinit',function(){
         $("#UniversityId").change(function () {
             $.mobile.showPageLoadingMsg()
             $.get("/Mobile/GetDeliveryLocations", { "universityId": $(this).val() }, function (data) {

@@ -7,8 +7,6 @@
 
 
 <div data-role="content">
-    <h2>MyOrders</h2>
-        
             <div data-role="navbar">
 	            <ul>
 		            <li><a href="javascript:void(0)" data-dateFrom='@DateTime.Now.Date.ToShortDateString()' class="getOrders ui-btn-active">Today's Orders</a></li>
@@ -17,38 +15,44 @@
             </div><!-- /navbar -->
             @if (Model.Count() == 0)
         {
-            <h2> You haven't order anything yet, @Html.ActionLink("create one Now", "ChooseRestaurant", "CustomBentoBox")</h2>
+            <div class="lightButton inside"> <h3>You haven't order anything yet</h3>
+            <p> @Html.ActionLink("Create One Now", "SelectUniversity", "mobile",new {@data_ajax="false"})</p></div>
         }
         else
         {
             foreach (var order in Model)
             {
                 
-                <div data-role="collapsible" data-collapsed="false" data-theme="a" data-content-theme="a">
-                   <h3>Order# : @order.OrderId <br />
-                       Order Received At : @order.OrderReceivedAt.ToString("MMM dd, yyyy hh:mm") <br />
+                <div data-role="collapsible" data-collapsed="false" data-theme="d" data-content-theme="d">
+                   <h3>
+                   <table>
+                   <tr><th>Order# :</th><td><em><big>@order.OrderId</big></em></td></tr>
+                   <tr><th>Order Received At :</th><td>@order.OrderReceivedAt.ToString("MMM dd, yyyy hh:mm")</td></tr>
+                   
                        @if (!string.IsNullOrEmpty(@order.TxnId))
                        {
-                            <span class="label label-success">Credit Card Paid：$@(order.Gross - order.Savings) </span>
+                           <tr><th>Credit Card Paid：</th><td><em>$@(order.Gross - order.Savings)</em></td></tr>
                        }
                        else if (order.Gross > order.Savings)
                        {
-                            <span class="label label-warning">Cash ：<big>$@(order.Gross - order.Savings)</big> </span>
+                            <tr><th>Cash ：</th><td><em>$@(order.Gross - order.Savings)</em></td></tr>
                        }
                         @if (@order.Savings > 0)
                         {
-                            <span class="label label-info">Points Paid : $@order.Savings</span>
+                            <tr><th>Points Paid :</th><td><em>$@order.Savings</em></td></tr>
                         }
+                    
+                    </table>
                         </h3>
-                        <p class="orderRestaurant"> 
+                        <p class="cart-boxType"> 
                             @order.ShortDescription
                         </p>
-                        <ul class="orderItems">
+                        <ul class="cart-dishList">
                             @foreach (var orderItem in order.OrderItems)
                             {
                                 <li>
                                  <span class="orderItems-desc">@orderItem.Item.ItemDescription</span>  
-                                 <span class="orderItems-qty">x @orderItem.Quantity</span>
+                                 <span class="cart-dishCount">@orderItem.Quantity</span>
                                 </li>
                             }
                         </ul>
@@ -56,15 +60,30 @@
 
                         @if (order.NeedDeliveryInfo != null)
                         {
-                            @order.ReceiverFirstName <text></text> @order.ReceiverLastName <br />
-                            <text>Phone :</text> @order.ReceiverPhoneNumber <br/>
-                            @order.DeliveryLocation.BusinessName <text></text>
-                            if (order.DeliveryLocation.University_Delivery.Count > 0)
+                        <table class="table">
+                        <tr>
+                        <tr>
+                        <th>Name:</th>
+                        <td>
+                            @order.ReceiverFirstName <text></text> @order.ReceiverLastName
+                        </td>
+                        </tr>
+                        
+                        <th>Phone:</th>
+                        <td>@order.ReceiverPhoneNumber</td>
+                        </tr>
+                        <tr>
+                        <th>Delivery Location:</th>
+                        <td>
+                            @order.DeliveryLocation.BusinessName 
+                            @if (order.DeliveryLocation.University_Delivery.Count > 0)
                             {
                                 @order.DeliveryLocation.University_Delivery.First().DeliveryTime.ToString("hh:mm tt")
                             }
-                            <br />
-                            @order.OrderReceivedAt.ToString("MMM dd, yyyy") 
+        
+                          </td>
+                          </tr>
+                         </table>
                         }
                         
                         
@@ -73,7 +92,7 @@
         }
 </div>
 <script>
-    $(function () {
+    $(document).bind('pageinit',function(){
         $('a.getOrders').click(
             function () {
                 window.location = '/Mobile/MyOrders?datefrom=' + $(this).attr('data-dateFrom');

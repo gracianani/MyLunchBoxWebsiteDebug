@@ -6,7 +6,7 @@
 }
 
 <div data-role="content">
-<h2>Registor</h2>
+<h2>Register</h2>
 @using (Html.BeginForm()) {
     if ( Html.ValidationSummary(true) != null)
     {
@@ -90,7 +90,7 @@
 }
 </div>
 <script>
-    $(function () {
+    $(document).bind('pageinit',function(){
         $("#UniversityId").change(function () {
             $.get("/Account/GetDeliveryLocations", { "universityId": $(this).val() }, function (data) {
                 $("#UniversityDeliveryId").parents(".ui-select").find("select").html(data).selectmenu('refresh');

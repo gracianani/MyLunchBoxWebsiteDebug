@@ -18,7 +18,7 @@
 @Html.Partial("_MobileMemberFooterPartial")
 
 <script >
-    $(function () {
+    $(document).bind('pageinit',function(){
         $("#universityId").change(function () {
             $.mobile.showPageLoadingMsg()
             $.get("/Mobile/GetDeliveryLocations", { "universityId": $(this).val() }, function (data) {
