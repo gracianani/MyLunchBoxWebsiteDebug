@@ -2,10 +2,10 @@
 
 @{
     ViewBag.Title = "Fill Your Lunchbox";
-    Layout = "~/Views/Shared/_MobileMaster.cshtml";
+    Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
 }
 
-<div data-role="panel" id="dishSummary">
+<div data-role="panel" id="dishSummary" data-position-fixed="true">
         <!-- panel content goes here -->
        
 	<ul id="lunchbox" data-mode="columntoggle" class="table-stroke">
@@ -36,34 +36,30 @@
         }
     }
     </ul>
-    <a href="#dishSummary" data-role="button" data-rel="close">Close panel</a>
+    <a href="#dishSummary" data-role="button" data-rel="close" data-theme="b" data-icon="delete">Close panel</a>
 </div><!-- /panel -->
-
+<ul id="warningMsg" style="position:fixed;top:0;right:0;z-index:1000">
+</ul>
 <div data-role="content">
+<div class="lightButton">
     <ul class="createBentoProgress">
             <li>
             <span class="ui-icon ui-icon-check">&nbsp;</span>
-            <a class="prev" href="/Mobile/ChooseRestaurant/">Restaurant</a>&raquo;</li>
+            <a class="prev" href="/mobile/ChooseRestaurant/">Restaurant</a>&raquo;</li>
             <li>
             <span class="ui-icon ui-icon-check">&nbsp;</span>
-            <a class="prev">LunchBox</a> &raquo;</li>
+            <a class="prev" data-rel="back">LunchBox</a> &raquo;</li>
             <li>
             <span class="ui-icon ui-icon-edit">&nbsp;</span>
             <a class="current">Dishes</a> &raquo;</li>
             <li><a>CheckOut</a></li>
     </ul>
-	<h3>Fill Your Lunchbox</h3>
+</div>
     @using (Html.BeginForm("AddToCart", "Mobile", FormMethod.Post, new { id = "lunchBox" }))
     {
-
-    @Html.ValidationSummary(true)
     <input id="customBentoBoxId" type="hidden" name="customBentoBoxId" value="@Model.CurrentCustomBentoBox.CustomBentoBoxId" />
             <input id="recipe" type="hidden" name="recipe" value="@Model.CurrentCustomBentoBox.EncodedRecipe"/>
             <input id="customBentoBoxName" type="hidden" name="customBentoBoxName" value="My Lunchbox" />
-
-    
-	<div id="warningMsg">
-    </div>
             
             <ul data-role="listview">
                 @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
@@ -71,16 +67,16 @@
                     var dishes = Model.AvailableDishes[dishType];
                     
                     <li  data-role="list-divider" data-theme="d">
-                    @Extension.ExtensionMethods.GetDescription(dishType)
-                    <span class="ui-li-count"><span id="dishCount-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">0</span> / @Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType)</span></li>
+                    Tap to Select @Extension.ExtensionMethods.GetDescription(dishType)
+                    <span class="ui-li-count orangeCount"><span id="dishCount-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">0</span> / @Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType)</span></li>
                     foreach (var dish in dishes)
                     {
                         if (dish.DishStatusId == (int)MyLunchBox.Models.DishStatusLevel.Available)
                         {
-                        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" data-icon="check" data-theme="d">
+                        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" data-icon="check">
                         <a href="javascript:void(0)">
                         <img src="../../@dish.DishImageUrl" />
-                        <h4 class="dishName">@dish.DishName </h4>
+                        <h3 class="dishName">@dish.DishName </h3>
                         
 
                         @if (dish.DishIncrementalPrice > 0)
@@ -114,13 +110,16 @@
         // Document.ready -> link up remove event handler
         $(".course").tap(onCourseClicked);
 		
-		$("#warningMsg").popup( {positionTo:"window",corners:true,shadow:true});
+		//$("#warningMsg").popup( {positionTo:"window",corners:true,shadow:true});
 		
 		$("#lunchbox").on('tap',".lunchbox-filledItem a",onDeleteDishClicked);
 		$("#lunchbox").on('change', '.lunchbox-filledNum input', onChangeDishNum);
 
 		$("#btnAddToCart").click(function () {
 		    isBentoBoxErrorFree({ "success": function () { $("#lunchBox").submit(); } });
+		});
+		$(document).tap(function(){
+			$('#warningMsg').hide();
 		});
 		
     });
@@ -300,10 +299,10 @@
             warningMsg.append("<p>" + item + "</p>");
         });
         if (title == undefined && warningMsgs.length < 1) {
-           warningMsg.alert('close');
+           warningMsg.hide();
         } else {
-           warningMsg.popup( "open");
-        }
+           warningMsg.show().focus();
+		}
     }
     function setWarningMsgType(type) {
         $("#warningMsg").attr('class', 'alert alert-block').addClass('alert-' + type);

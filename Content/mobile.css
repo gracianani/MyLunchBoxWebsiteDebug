@@ -28,8 +28,8 @@
 .createBentoProgress {
 	clear:both;
 	float:none;
-	height:60px;
-	margin:0 0 10px;
+	height:90px;
+	margin:0;
 	padding-left:0;
 }
 .createBentoProgress li{
@@ -54,16 +54,16 @@
 }
 .createBentoProgress li .current {
 	background:url(Images/texture-darkgreen.jpg);
-	-moz-box-shadow:2px 2px 0 #495013;
-	-webkit-box-shadow:2px 2px 0 #495013;
-	box-shadow:2px 2px 0 #495013;
+	-moz-box-shadow:0 0 10px #2e3f03 inset;
+	-webkit-box-shadow:0 0 10px #2e3f03 inset;
+	box-shadow:0 0 10px #2e3f03 inset;
 	
 }
 .createBentoProgress li .prev {
 	background:url(Images/texture-orange.png);
-	-moz-box-shadow:2px 2px 0 #6e2804;
-	-webkit-box-shadow:2px 2px 0 #6e2804;
-	box-shadow:2px 2px 0 #6e2804;
+	-moz-box-shadow:0 0 5px #6e2804 inset;
+	-webkit-box-shadow:0 0 5px #6e2804 inset;
+	box-shadow:0 0 5px #6e2804 inset;
 	color:#fff1d5!important;
 	text-shadow:2px 1px 0 #813005;
 	font-style:italic;
@@ -86,12 +86,23 @@ h3 {
 	background:url(Images/icons-18-white.png) -252px 50%;
 }
 .price {
-	background:#5c7e04;
+	background:#c84c0b;
 	border-radius:5px;
 	color:#FFF;
 	text-shadow:none;
 	padding:2px 5px;
 	display:inline-block;
+}
+.ui-btn-up-a {
+	background-image:url(Images/texture-white2.jpg);
+	box-shadow:0 0 10px #fff inset;
+}
+.ui-btn-active {
+	background-image:url(Images/texture-darkgreen.jpg);
+	box-shadow:none;
+}
+.ui-panel-animate.ui-panel-content-wrap > .ui-header {
+	position:relative;
 }
 .course .ui-icon-check {
 	display:none;
@@ -104,6 +115,7 @@ h3 {
 	color:#c84c0b;
 }
 .selected {
+	box-shadow:none;
 background-image: -webkit-gradient(linear, left top, left bottom, from( #fef3de /*{a-bup-background-start}*/), to( #e5dcc9 /*{a-bup-background-end}*/));
 background-image: -webkit-linear-gradient( #fef3de /*{a-bup-background-start}*/, #e5dcc9 /*{a-bup-background-end}*/);
 background-image: -moz-linear-gradient( #fef3de /*{a-bup-background-start}*/, #e5dcc9 /*{a-bup-background-end}*/);
@@ -248,18 +260,19 @@ th {
 	text-shadow: 1px 1px 0 rgba(255,255,255,0.6);
 	font-style: italic;
 }
-#shoppingCartItems {
+.table {
 	border-collapse:collapse;
+	width:100%;
 }
-#shoppingCartItems th,#shoppingCartItems td {
+.table th,.table td {
 	text-align:left;
 	vertical-align:top;
 	padding:.5em;
 }
-#shoppingCartItems th {
+.table th {
 	font-weight:normal;
 }
-#shoppingCartItems tr {
+.table tr {
 	border-top: 1px solid #dcdbd3;
 }
 
@@ -297,4 +310,125 @@ th {
 {
     width:90%;
     text-align:right;
+}
+label.ui-input-text{
+	background:none;
+	color: #6a594e;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-weight:normal;
+	text-shadow: 1px 1px 0 rgba(255,255,255,0.6);
+	font-style: italic;
+}
+.ui-collapsible h3 {
+	margin:5px 0;
+}
+em {
+	color: #c84c0b;
+	font-size: 1.2em;	
+}
+#checkoutSummary td {
+	font-weight:normal;
+}
+#FinalAmount {
+	font-size:1.4em;
+	font-style:italic;
+}
+.cart-savingPrice {
+	color:#5c7e04 ;
+}
+.ui-panel-inner img {
+	max-width:90%;
+}
+.field-validation-error {
+	color:#c84c0b;
+	font-size:1.2em;
+	font-weight:bold;
+}
+.restaurantClosed .ui-li-count {
+	background:#b60606;
+	border:1px solid #b60606;
+}
+.restaurantClosed .ui-li-heading {
+	color:#777;
+}
+.ui-listview>.ui-li {
+	border-bottom-width:0;
+}
+.ui-listview>.ui-li:last-child {
+	border-bottom-width:1px;
+}
+.createBentoProgress {
+margin:0 auto;
+width:290px;
+}
+.lightButton {
+	margin:-15px -15px 0;
+	padding:15px 0 10px;
+	background:url(Images/texture-white2.jpg);
+	border:1px solid #a69782 /*{a-bup-border}*/;
+}
+.lightButton.inside {
+	margin:15px 0;
+	padding:15px 10px;
+	border-radius:5px;
+}
+.ui-listview-inset .lightButton {
+	margin:0;
+}
+.ui-bar-a {
+	border-color:#a4410e;
+}
+.restaurantOpen .ui-icon-arrow-r {
+	background-color:#5c7e04;
+}
+.orangeCount {
+	background:#c84c0b;
+	border-color:#d8741d;
+}
+.cart-dishList li {
+	border-bottom:1px dotted #cec5ae;
+}
+.cart-dishList li:last-child {
+	border-bottom:none;
+}
+.cart-dishCount {
+	color:#7c6556;
+}
+.cart-dishCount:before {
+	content:'x';
+}
+.ui-header .ui-btn {
+	height:100%;
+	margin-top:-6px;
+	margin-left:-6px;
+	margin-right:-6px;
+	border-top-width:0;
+	border-bottom-width:0;
+	padding:0 10px;
+	box-shadow:none;
+}
+.ui-header .ui-btn .ui-btn-inner {
+	border-top:none;
+	padding-top:7px;
+}
+.ui-header .ui-btn .ui-icon {
+}
+.ui-content .ui-listview {
+	margin-bottom:0;
+	box-shadow:0 3px 5px #777;
+}
+.orangeCount.others {
+	display:none;
+}
+
+/* iPhone 4 ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5) and (max-width : 320px),
+only screen and (min-device-pixel-ratio : 1.5) and (max-width : 320px),
+only screen and (max-width : 320px)
+{
+/* Styles */
+.shoppingCartItemsImg {
+	  display:none;
+  }
 }
