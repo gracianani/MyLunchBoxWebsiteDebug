@@ -40,6 +40,13 @@
 </div><!-- /panel -->
 
 <div data-role="content">
+		@if (Html.ValidationSummary(true) != null )
+        {
+            <ul id="warningMsg" class="alert alert-block alert-error">
+                @Html.ValidationSummary(true);
+            </ul>
+        }
+
 <div class="lightButton">
     <ul class="createBentoProgress">
             <li>
@@ -56,8 +63,6 @@
 </div>
     @using (Html.BeginForm("AddToCart", "Mobile", FormMethod.Post, new { id = "lunchBox" }))
     {
-
-    @Html.ValidationSummary(true)
     <input id="customBentoBoxId" type="hidden" name="customBentoBoxId" value="@Model.CurrentCustomBentoBox.CustomBentoBoxId" />
             <input id="recipe" type="hidden" name="recipe" value="@Model.CurrentCustomBentoBox.EncodedRecipe"/>
             <input id="customBentoBoxName" type="hidden" name="customBentoBoxName" value="My Lunchbox" />
@@ -78,7 +83,7 @@
                     {
                         if (dish.DishStatusId == (int)MyLunchBox.Models.DishStatusLevel.Available)
                         {
-                        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" data-icon="check" data-theme="d">
+                        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" data-icon="check">
                         <a href="javascript:void(0)">
                         <img src="../../@dish.DishImageUrl" />
                         <h3 class="dishName">@dish.DishName </h3>

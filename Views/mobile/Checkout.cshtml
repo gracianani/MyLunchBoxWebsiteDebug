@@ -21,8 +21,8 @@
         if (!string.IsNullOrEmpty(validationSummary) )
         {
             @Html.ValidationSummary(true)
-            <ul class="alert alert-block alert-error" >
-                <li> @validationSummary</li>
+            <ul id="warningMsg" class="alert alert-block alert-error">
+                 @validationSummary
             </ul>
         }
         <div class="lightBox">
@@ -65,8 +65,8 @@
                   You've <em>@Html.Display("totalRewardPoints")</em> award points, not enough to pay the bill. 
                   </div>
         </div>
-        <div data-role="collapsible" class="deliveryInfo" id="deliveryInfo">
-        	<legend><h3>Delivery Info</h3>
+        <div data-role="collapsible" class="deliveryInfo" id="deliveryInfo"  data-content-theme="d">
+        	<legend><h3>Delivery Infomation</h3>
                 @{ var deliveryLocation = (MyLunchBox.Models.University_Delivery)ViewData["deliveryLocation"];
                 <table>
                     <tr><th >Name</th><td id="tdReceiverName">@Html.DisplayFor(m => m.ReceiverFirstName) @Html.DisplayFor(m => m.ReceiverLastName)</td></tr>
@@ -76,7 +76,7 @@
                 </table>
                 }
             </legend>
-            <div class="lightBox">
+            <div>
             <div data-role="fieldcontain">
             <label for="shippingFirstName" class="ui-input-text">First Name</label>
             @Html.TextBoxFor(m => m.ReceiverFirstName)@Html.ValidationMessageFor(m => m.ReceiverFirstName)
@@ -94,19 +94,18 @@
         
        
         <div id="paymentInfo">
-            <hr />
             @Html.HiddenFor(m => m.PaymentType)
-            <label for="ddl-paymentType" > Please Select Payment Type</label>
-            <select id="ddl-paymentType" name="ddl-paymentType" data-theme="d">
+            <label for="ddl-paymentType" ><h3>Please Select Payment Type</h3></label>
+            <select id="ddl-paymentType" name="ddl-paymentType">
                 <option value="creditCard"> CreditCard </option>
                 <option value="cash"> Cash </option>
             </select>
 			<div id="pnl-paymetType">
 
-			  <div id="creditCard"  data-inset="true" class="lightbox">
+			  <div id="creditCard"  data-inset="true">
                     <fieldset>
                         <label for="creditCardType"  class="select">Card Type</label>
-		                <select name="creditCardType"  data-theme="d">
+		                <select name="creditCardType">
 		                    <option value="VISA" selected="selected">Visa</option>
 		                    <option value="MASTERCARD">MasterCard</option>
 		                    <option value="DISCOVER">Discover</option>
@@ -119,7 +118,7 @@
                     </fieldset>
                     <fieldset data-role="controlgroup" data-type="horizontal">
 		            <legend class="control-label">Card Expiration Date</legend>
-		            <select name="cardExpMonth"  data-theme="d">
+		            <select name="cardExpMonth">
 		                <option value="1">01</option>
 		                <option value="2">02</option>
 		                <option value="3">03</option>
@@ -133,7 +132,7 @@
 		                <option value="11">11</option>
 		                <option value="12">12</option>
 		            </select>
-		            <select name="cardExpYear" data-theme="d">
+		            <select name="cardExpYear">
 		                <option value="2013">2013</option>
 		                <option value="2014">2014</option>
 		                <option value="2015">2015</option>
@@ -148,7 +147,7 @@
 		            </fieldset>		
 		            		  
 			  </div>
-			  <div id="cash" style="display:none" class="lightBox">
+			  <div id="cash" style="display:none">
                 <ul>
                     <li>Cash on delivery (COD) payment</li>
                     <li> You have chosen the cash on delivery method</li>
@@ -163,7 +162,7 @@
 			  </div>
 			</div>
 
-            <div data-role="collapsible" id="billingInfo">
+            <div data-role="collapsible" id="billingInfo" data-content-theme="d">
             <legend><h3>Billing Info</h3>
                 <table>
                     <tr><td> @Html.DisplayFor(m => m.billingFirstName) @Html.DisplayFor(m => m.billingLastName) </td></tr>
@@ -208,7 +207,7 @@
         
         
         
-        <ul data-role="listview" data-inset="true" data-theme="d">
+        <ul data-role="listview" data-inset="true">
             <li class="lightButton">
                 <table id="checkoutSummary" >
                 <thead>
@@ -226,7 +225,7 @@
         </ul>
         
         <div>
-        <input type="submit" data-theme="b" value="Submit" />
+        <input type="submit" data-theme="b" data-ajax="false" value="Submit" />
         </div>
     }
 
@@ -242,6 +241,7 @@
 </div>
 
 
+
 <script type="text/javascript">
     $(document).bind('pageinit', function () {
 
@@ -249,6 +249,7 @@
         $('#rewardPoints').change(calculateActualAmount);
         $("#cash").hide();
         $("#ddl-paymentType").on("change", function (event, ui) {
+			console.log('here');
             if ($(this).val() == 'creditCard') {
                 $("#creditCard").show(function () {
                     $('#billingInfo').show(
@@ -291,15 +292,15 @@
             $('.deliveryInfo').hide();
         }
 
-        $(':submit').click(function () {
+        $(':submit').tap(function () {
+			if ( !$(this).attr('disabled') ) {
             $(this).attr('disabled', 'true');
-            if ($('form').validate().form()) {
-                $('<div style="position:fixed;left:0;top:0;padding-top:20%;height:80%;width:100%;background-color:rgba(0,0,0,0.6);color:#FFF;z-index:999;text-align:center;display:none"><img src="../../Content/Images/ajax-loader.gif" style="vertical-align:top" /> Processing...</div>').appendTo($('.page')).fadeIn();
-
+            if ( $('form').validate().form()) {				
                 $('form').submit();
             } else {
                 $(this).removeAttr('disabled');
             }
+			}
         });
 
         $("#deliveryInfo").bind("collapse",
@@ -316,7 +317,7 @@
              }
         );
 
-        checkUniversity('UCLA', 'PUWL');
+        //checkUniversity('UCLA', 'PUWL');
 
 
 
