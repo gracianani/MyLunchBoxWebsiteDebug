@@ -161,16 +161,17 @@ a:hover,a:focus,a:active{
 	font-family: 'JournalRegular';
 	background:url(Images/logobg.png) no-repeat center center;
 	width: 137px;
-	height: 47px;
-	padding-top: 90px;
+	height: 38px;
+	padding-top: 99px;
 	display: block;
 	position: absolute;
 	top:-45px;
 	left:-15px;
 	color: #e8e4d5;
-	font-size: 22px;
+	font-size: 18px;
 	text-align: center;
 	cursor: pointer;
+	letter-spacing:4px;
 }
 #logo:hover {
 	color:#f3d76d;

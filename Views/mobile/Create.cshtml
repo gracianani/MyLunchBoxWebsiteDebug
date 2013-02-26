@@ -18,7 +18,7 @@
         {
             count += 1;
         <li class="lunchbox-filledItem lunchbox-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)" data-id="@customBentoBoxItem.DishId" data-customBentoBoxId='@customBentoBoxItem.CustomBentoBoxId'>
-        <a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true">Delete</a> <img src="../../@customBentoBoxItem.Dish.DishImageUrl"> @customBentoBoxItem.Dish.DishName 
+        <a data-role="button" data-icon="delete" data-iconpos="notext" data-mini="true" data-inline="true">Delete</a> <img src="../../@customBentoBoxItem.Dish.DishImageUrl" class="lunchbox-dishimg"> @customBentoBoxItem.Dish.DishName 
                                 @if (customBentoBoxItem.Dish.DishTypeId == (int)MyLunchBox.Models.DishType.Drink)
                                 {
                                     <span class="lunchbox-filledNum">X <input type="text" value="1" class="input-mini"/><text>=</text> <span class="lunchbox-filledPrice">$@customBentoBoxItem.Dish.DishIncrementalPrice</span></span>
