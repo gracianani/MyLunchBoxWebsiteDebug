@@ -7,7 +7,13 @@
     {
         validationSummary = ViewData["Errors"].ToString();
     }
-    var shoppingCart = (MyLunchBox.Models.ShoppingCart)ViewData["cart"]; 
+    var shoppingCart = (MyLunchBox.Models.ShoppingCart)ViewData["cart"];
+    var orderUniversity = MyLunchBox.Models.LocationHelper.GetSelectedUniversity(new HttpContextWrapper(HttpContext.Current)).UniversityName;
+    var profileUniversity = "";
+    if (((MyLunchBox.Utilities.MyLunchBoxMembershipUser)Membership.GetUser(HttpContext.Current.User.Identity.Name)).University != null)
+    {
+        profileUniversity = ((MyLunchBox.Utilities.MyLunchBoxMembershipUser)Membership.GetUser(HttpContext.Current.User.Identity.Name)).University.UniversityName;
+    }
 }
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
@@ -18,7 +24,9 @@
     
     @using (Html.BeginForm())
     {
-        if (!string.IsNullOrEmpty(validationSummary) )
+        <input type="hidden" id="orderUniversity" value="@orderUniversity" />
+        <input type="hidden" id="profileUniversity" value="@profileUniversity" />
+        if (!string.IsNullOrEmpty(validationSummary))
         {
             @Html.ValidationSummary(true)
             <ul id="warningMsg" class="alert alert-block alert-error">
@@ -225,8 +233,8 @@
         </ul>
         <div class="ui-grid-a">
             <div class="ui-block-a">
-            @Html.ActionLink("Continue Shopping", "ChooseRestaurant", "Mobile",new object { },
-        new { @data_role="button",@data_icon="arrow-l",@data_iconPos="left"})
+            @Html.ActionLink("Continue Shopping", "ChooseRestaurant", "Mobile", new object { },
+        new { @data_role = "button", @data_icon = "arrow-l", @data_iconPos = "left" })
             </div>
             <div class="ui-block-b">
             <input type="submit" data-theme="b" data-ajax="false" data-icon="arrow-r" data-iconPos="right" value="Submit" />
@@ -324,10 +332,7 @@
              }
         );
 
-        //checkUniversity('UCLA', 'PUWL');
-
-
-
+        checkUniversity($("#orderUniversity").val(), $("#profileUniversity").val());
     });
     function getExchangeRate() {
         return 100;
