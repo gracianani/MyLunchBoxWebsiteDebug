@@ -4,7 +4,7 @@
 .hicbg{
 	background:#c84c0b url(Images/texture-orange.png);
 }
-.ui-body-a, body.ui-overlay-a {
+.hicpage.ui-body-a,.hicpage>.ui-body-a {
 	background:url(Images/bodybg.jpg);
 }
 .ui-input-text {
