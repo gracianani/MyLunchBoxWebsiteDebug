@@ -1,4 +1,6 @@
 ﻿<div id="welcomeInfo">
+@Html.ActionLink("View Mobile Version", "ViewMobileSite", "Home", new { }, new {  })
+
 @if(Request.IsAuthenticated) {
     <text>
     Welcome <strong>@User.Identity.Name</strong>! 
