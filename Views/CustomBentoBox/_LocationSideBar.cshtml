@@ -9,7 +9,7 @@
                         .Select(i => new { i.UniversityDeliveryId, i.Location.LocationName, i.DeliveryTime, i.DeliverySurcharge })
                         .AsEnumerable().Select(i => new SelectListItem() { Text = string.Format("{0} {1:hh:mm tt} {2}", i.LocationName, i.DeliveryTime, i.DeliverySurcharge > 0.01m ? "$"+i.DeliverySurcharge.ToString()+"per box" : "FREE"), Value = i.UniversityDeliveryId.ToString() }).ToList();
     }
-   var universities = db.Universities.Select(i=>new {i.UniversityName, i.UniversityId}).AsEnumerable().Select(i=>new SelectListItem() { Text = i.UniversityName, Value = i.UniversityId.ToString()}).ToList();
+   var universities = db.Universities.Where(i=>i.IsAvailable == true).Select(i=>new {i.UniversityName, i.UniversityId}).AsEnumerable().Select(i=>new SelectListItem() { Text = i.UniversityName, Value = i.UniversityId.ToString()}).ToList();
 
 }
 <ul id="orderInfo" class="lightBox">
