@@ -7,13 +7,13 @@
 $(function(){
 	$('#rewardCardTypes').change(function() {
 		var selected = $(this).find('option:selected').val();
-		var discount = 'Sells for $20.00 - Save <em>5%</em>';
+		var discount = 'Sells for $20.00';
 		switch(selected) {
 			case '3':
-			discount = 'Sells for $50.00 - Save <em>10%</em>';
+			discount = 'Sells for $50.00 - Save <em>$2.00</em>';
 			break;
 			case '4':
-			discount = 'Sells for $100.00 - Save <em>$20.00</em> <big>!</big>';
+			discount = 'Sells for $100.00 - Save <em>$5.00</em> <big>!</big>';
 			break;
 		}
 		$('#rewardDiscount').html(discount);
