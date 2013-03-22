@@ -1,7 +1,7 @@
 ﻿@{
     var db = new MyLunchBox.Models.MyLunchBoxDevelopmentEntities();
     var selectedUniversity = MyLunchBox.Models.LocationHelper.GetSelectedUniversity(new HttpContextWrapper(HttpContext.Current));
-    var universities = db.Universities.Select(i=>new {i.UniversityName, i.UniversityId}).AsEnumerable().Select(i=>new SelectListItem() { Text = i.UniversityName, Value = i.UniversityId.ToString()}).ToList();
+    var universities = db.Universities.Where(i=>i.IsAvailable == true).Select(i=>new {i.UniversityName, i.UniversityId}).AsEnumerable().Select(i=>new SelectListItem() { Text = i.UniversityName, Value = i.UniversityId.ToString()}).ToList();
 }
 @if (selectedUniversity != null)
 { 
@@ -43,8 +43,6 @@ else {
         $.post("/Location/CurrentLocation/", postdata,
             function (data) {
                 if (data.SelectedUniversity != '') {
-                    //todo: change to $('#currentLocation').html($(data).html());
-					console.log(data.SelectedUniversity);
                     window.location.href = "/";
                 }
             });
