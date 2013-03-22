@@ -46,6 +46,7 @@
 	    <li>@Html.ActionLink("Manage DeliveryHours", "ManageDeliveryHours", "Admin")</li>
 	    <li>@Html.ActionLink("LuckyDraw", "LuckyDraw", "Admin")</li>
         <li>@Html.ActionLink("Manage Votes", "ManageVotes", "Admin")</li>
+        <li>@Html.ActionLink("Upload Images", "UploadFiles", "Admin")</li>
     </ul>
     </div>
     <div class="span9">
@@ -55,7 +56,8 @@
             <a class="close" data-dismiss="alert" href="#">x</a>@ViewBag.UpdateStatus
         </div> 
     }
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm(new { enctype = "multipart/form-data" }))
+    {
     
     <p class="clearfix">
     	@Html.ActionLink("Back to List", "ManageRestaurants", new object{}, new {@class="btn pull-left"})
@@ -173,7 +175,9 @@
         <div class="control-group">
         	<label class="control-label">Image File Name</label>
         	<div class="controls">
-	        	@Html.TextBox("newImageFileName", "")<div class="help-inline">请把图片上传到 Content/Images/Dishes 目录下</div>
+	        	@Html.TextBox("newImageFileName", "")
+                <input type="file" name="file" id="file" />
+                <div class="help-inline">请把图片上传到 Content/Images/Dishes 目录下</div>
         	</div>
         </div>
         <div class="control-group">
