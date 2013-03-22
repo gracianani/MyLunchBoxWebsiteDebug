@@ -1,4 +1,4 @@
-﻿@model MyLunchBox.Models.LuckySpinViewModel
+@model MyLunchBox.Models.LuckySpinViewModel
 
 @{
     ViewBag.Title = "Lucky Draw";
@@ -53,6 +53,7 @@ $(function(){
 	        <li>@Html.ActionLink("Manage DeliveryHours", "ManageDeliveryHours", "Admin")</li>
 	        <li class="active">@Html.ActionLink("LuckyDraw", "LuckyDraw", "Admin")</li>
             <li>@Html.ActionLink("Manage Votes", "ManageVotes", "Admin")</li>
+            <li>@Html.ActionLink("Upload Images", "UploadFiles", "Admin")</li>
         </ul>
     </div>
 
