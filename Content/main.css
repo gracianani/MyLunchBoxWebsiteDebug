@@ -751,11 +751,11 @@ a:hover,a:focus,a:active{
 	margin-left: 0;
 }
 .course {
-	
 	background:url(Images/texture-white2.jpg);
 	float: left;
 	display: inline-block;
 	width: 150px;
+	min-height: 205px;
 	padding:15px;
 	box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
 	margin: 10px;
