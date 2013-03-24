@@ -222,6 +222,7 @@ function checkUniversity(orderUniversity, profileUniversity) {
                         </tr>
                     }
                   <tr><td colspan="2"></td><td><strong>Delivery Fee</strong></td><td class="">$ @Html.DisplayText("shipping")</td></tr>
+                  <tr><td colspan="2"></td><td><strong>Tax</strong></td><td class="">$ @Html.DisplayTextFor(m=>m.Tax)</td></tr>
                   <tr><td colspan="2"></td><td><strong>Total Amount</strong></td><td class="cart-subtotalPrice">$ @Html.DisplayText("gross") @Html.Hidden("gross")</td></tr>
                   
                   <tr class="rewardPointLine">
