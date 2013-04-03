@@ -350,7 +350,7 @@ function checkUniversity(orderUniversity, profileUniversity) {
 		            <div class="control-group">
 		            <label class="control-label">CSV</label>
 		             <div class="controls"> @Html.TextBoxFor(m => m.CSV)@Html.ValidationMessageFor(m => m.CSV) (<a href="javascript:void(0)" id="whatscsv"> <i class="icon-info-sign icon-orange"></i> What's CSV? </a>)</div>
-		            </div>				  
+		            </div>			  
 			  </div>
 			  <div class="tab-pane" id="cash">
                 <ul>
@@ -366,7 +366,8 @@ function checkUniversity(orderUniversity, profileUniversity) {
 				  </ul>
 			  </div>
 			</div>
-
+            
+                    
         </fieldset>
         <fieldset id="billingInfo">
             <legend>Billing Info</legend>
@@ -406,6 +407,8 @@ function checkUniversity(orderUniversity, profileUniversity) {
         </fieldset>   
         
         <div class="clearfix">
-        <input type="submit" class="btn btn-primary btn-big pull-right" value="Submit" />
+        <input type="submit" class="btn btn-primary btn-big pull-right" value="Submit" /> 
+        <span id="siteseal" ><script type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=vGWW6vpwnVekfP5S3xg8ryth0JwnEXoO97CxPAjUgVjCh52Z1Cr2"></script></span>	
+        
         </div>
     }</div>

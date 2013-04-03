@@ -755,7 +755,7 @@ a:hover,a:focus,a:active{
 	float: left;
 	display: inline-block;
 	width: 150px;
-	min-height: 205px;
+	min-height: 230px;
 	padding:15px;
 	box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
 	margin: 10px;
@@ -1247,4 +1247,11 @@ background-color: #FCF8E3;
   .modal.fade.in {
 	  top:280px;
   }
+}
+
+#siteseal
+{
+    margin: 0 auto;
+    width: 140px;
+    display: block;
 }
