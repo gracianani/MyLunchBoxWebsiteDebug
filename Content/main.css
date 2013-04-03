@@ -179,7 +179,7 @@ a:hover,a:focus,a:active{
 }
 #welcomeInfo {
 	position: absolute;
-	left:110px;
+	left:80px;
 	top:-60px;
 	color: #E3E1D1;
 	line-height: 40px;
@@ -316,7 +316,7 @@ a:hover,a:focus,a:active{
 #footer-links a:hover {
 	color: #eec543;
 }
-.ic-fb,.ic-twitter,.ic-g {
+.ic-fb,.ic-twitter,.ic-g,.ic-renren {
 	background-color: rgba(255,255,255,0.2);
 	background-image: url(Images/share-icon-dark.png);
 	border-radius: 50%;
@@ -339,6 +339,12 @@ a:hover,a:focus,a:active{
 }
 .ic-g:hover {
 	background-color: #b82b0a;
+}
+.ic-renren {
+  background-position:8px -45px;
+}
+.ic-renren:hover {
+  background-color:#005eac;
 }
 /* ==========================================================================
    main
