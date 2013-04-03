@@ -16,6 +16,7 @@
 }
 <script type="text/javascript">
     $(function () {
+        initActualAmount();
 		$('#isUseRewardPoints').change(setRewardPointsNum);
         $('#rewardPoints').change(calculateActualAmount);
         $('a[data-toggle="tab"]').on('shown', function (e) {
@@ -50,7 +51,7 @@
             $('.deliveryInfo').hide();
         }
 		
-		initActualAmount();
+		
 		
 		$(':submit').click(function(){
 			$(this).attr('disabled','true');
@@ -76,6 +77,10 @@
 		});
 		
 		checkUniversity($("#orderUniversity").val(), $("#profileUniversity").val());
+		
+		//show request form after all process
+		$("#loading").hide();
+    	$("#request_form").show();
 
     });
 function getExchangeRate() {
@@ -86,9 +91,16 @@ function initActualAmount() {
     if ($("#canUseRewardPoints").val() == "True") {
         initRewardPointsCheckbox(true, isRewardPointsEnough)
     } else {
+    	//template disable reward point
+    	$("#request_form").html("很抱歉，reward point尚未开放。<br>近期即将开放，购买可享受更多折扣，敬请期待！");
+        return;
+        
         $("#PaymentType").val('1');
-        $('#paymentTab').find('li:has(a[href=#cash])').hide();
+        $('#paymentTab').find('li:has(a[href=#cash])').remove();
+        $('#cash').remove();
         initRewardPointsCheckbox(false, isRewardPointsEnough);
+        
+        
     }
 	
 }
@@ -188,7 +200,10 @@ function checkUniversity(orderUniversity, profileUniversity) {
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
 <h2>Address and Payment</h2>
-<div id="request_form" class="lightBox form-horizontal ">
+<div id="loading" class="lightBox">
+<p style="text-align:center">Processing...</p>
+</div>
+<div id="request_form" class="lightBox form-horizontal " style="display:none">
     
     @using (Html.BeginForm())
     {
