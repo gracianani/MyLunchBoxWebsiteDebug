@@ -16,7 +16,6 @@
 }
 <script type="text/javascript">
     $(function () {
-		
 		$('#isUseRewardPoints').change(setRewardPointsNum);
         $('#rewardPoints').change(calculateActualAmount);
         $('a[data-toggle="tab"]').on('shown', function (e) {
@@ -298,12 +297,12 @@ function checkUniversity(orderUniversity, profileUniversity) {
             <legend>Payment</legend>
             @Html.HiddenFor(m => m.PaymentType)
             <ul class="nav nav-pills" id="paymentTab" >
-				  <li class="active"><a href="#creditCard" data-toggle="tab">Credit Card</a></li>
-				  <li><a href="#cash" data-toggle="tab">Cash</a></li>
+				  <li style="display:none"><a href="#creditCard" data-toggle="tab">Credit Card</a></li>
+				  <li class="active"><a href="#cash" data-toggle="tab">Cash</a></li>
 			</ul>
 			<div class="tab-content">
 
-			  <div class="tab-pane active" id="creditCard">
+			  <div class="tab-pane" id="creditCard">
 
 		            <div class="control-group">
 		            <label class="control-label">Card Type</label>
@@ -352,7 +351,8 @@ function checkUniversity(orderUniversity, profileUniversity) {
 		             <div class="controls"> @Html.TextBoxFor(m => m.CSV)@Html.ValidationMessageFor(m => m.CSV) (<a href="javascript:void(0)" id="whatscsv"> <i class="icon-info-sign icon-orange"></i> What's CSV? </a>)</div>
 		            </div>			  
 			  </div>
-			  <div class="tab-pane" id="cash">
+			  <div class="tab-pane active" id="cash">
+			  	<p><em>Cash only for April.</em><br>网站目前只接受现金支付。信用卡和预存支付方式即将推出，更多折扣，更多优惠，敬请期待！</p>
                 <ul>
                     <li>Cash on delivery (COD) payment</li>
                     <li> You have chosen the cash on delivery method</li>
