@@ -105,12 +105,12 @@
             @Html.HiddenFor(m => m.PaymentType)
             <label for="ddl-paymentType" ><h3>Please Select Payment Type</h3></label>
             <select id="ddl-paymentType" name="ddl-paymentType">
-                <option value="creditCard"> CreditCard </option>
+         <!--       <option value="creditCard"> CreditCard </option> -->
                 <option value="cash"> Cash </option>
             </select>
 			<div id="pnl-paymetType">
 
-			  <div id="creditCard"  data-inset="true">
+			  <div id="creditCard"  data-inset="true"  style="display:none">
                     <fieldset>
                         <label for="creditCardType"  class="select">Card Type</label>
 		                <select name="creditCardType">
@@ -155,7 +155,7 @@
 		            </fieldset>		
 		            		  
 			  </div>
-			  <div id="cash" style="display:none">
+			  <div id="cash" class="active">
                 <ul>
                     <li>Cash on delivery (COD) payment</li>
                     <li> You have chosen the cash on delivery method</li>
@@ -263,7 +263,7 @@
 
         $('#isUseRewardPoints').change(setRewardPointsNum);
         $('#rewardPoints').change(calculateActualAmount);
-        $("#cash").hide();
+        $("#creditCard").hide(function () { $('#billingInfo').hide(); });
         $("#ddl-paymentType").on("change", function (event, ui) {
             if ($(this).val() == 'creditCard') {
                 $("#creditCard").show(function () {
@@ -294,7 +294,11 @@
         $.validator.addMethod("deliveryinforequired", function (value) {
             console.log(value);
             if ($('#needDeliveryInfo').val() == 'True') {
-                return (value != null && value != '' && typeof (value) != 'undefined');
+                var result = (value != null && value != '' && typeof (value) != 'undefined');
+                if (result == false) {
+                    $(".deliveryInfo").trigger("expand");	
+                }
+                return result;
             }
             return true;
         });
@@ -308,14 +312,14 @@
         }
 
         $(':submit').tap(function () {
-			if ( !$(this).attr('disabled') ) {
-            $(this).attr('disabled', 'true');
-            if ( $('form').validate().form()) {				
-                $('form').submit();
-            } else {
-                $(this).removeAttr('disabled');
+            if (!$(this).attr('disabled')) {
+                $(this).attr('disabled', 'true');
+                if ($('form').validate().form()) {
+                    $('form').submit();
+                } else {
+                    $(this).removeAttr('disabled');
+                }
             }
-			}
         });
 
         $("#deliveryInfo").bind("collapse",

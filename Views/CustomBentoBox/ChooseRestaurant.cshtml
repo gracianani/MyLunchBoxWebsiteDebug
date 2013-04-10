@@ -30,14 +30,15 @@
                         <p>@restaurant.RestaurantShortDescription</p>
                     </div>
                     <div class="restaurant-status pull-right">
-                
-                        @if (restaurant.RestaurantStatus == MyLunchBox.Models.RestaurantStatusLevel.Opening)
+                    
+                        @if ( (DateTime.Now.Hour < 10 || DateTime.Now.Hour >=14 ) && DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday && 
+                            restaurant.RestaurantStatus == MyLunchBox.Models.RestaurantStatusLevel.Opening)
                         {
                             <a href="/CustomBentoBox/ChooseBentoBox?restaurantId=@restaurant.RestaurantId"  class="btn btn-big btn-primary"> Select </a>
                         }
                         else
                         {
-                            @restaurant.RestaurantStatus.ToString()
+                            <text> Closed </text>
                         }
                     </div>
                     <div class="restaurant-actions">
